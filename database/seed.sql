@@ -1,0 +1,3 @@
+-- SocioClub: datos iniciales pendientes de implementación.
+-- Fuente futura: sección 3.3 del enunciado (8 actividades y al menos 15 socios).
+-- Incluir entonces al menos 2 MOROSOS y una actividad casi completa.

@@ -1,0 +1,2 @@
+-- SocioClub: esquema pendiente de la etapa de modelado.
+-- No crea tablas ni implementa el Anexo B todavía.

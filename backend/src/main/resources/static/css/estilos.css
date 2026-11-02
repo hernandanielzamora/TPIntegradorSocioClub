@@ -1,0 +1,3 @@
+body { font-family: system-ui, sans-serif; margin: 2rem auto; padding: 0 1rem; max-width: 64rem; color: #183c2e; background: #f5f7f3; }
+header, footer { padding: 1rem; background: #e1ebdf; }
+main { min-height: 55vh; }

@@ -1,0 +1,3 @@
+# Sin restricciones de rastreo para la plantilla inicial.
+User-agent: *
+Disallow:

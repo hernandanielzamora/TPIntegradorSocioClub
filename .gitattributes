@@ -1,0 +1,9 @@
+# Texto normalizado a LF para Windows y Linux.
+* text=auto eol=lf
+
+# Scripts de Windows y Maven Wrapper Unix.
+*.cmd text eol=crlf
+backend/mvnw text eol=lf
+
+# Documento binario original.
+*.pdf binary
