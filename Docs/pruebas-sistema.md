@@ -11,4 +11,4 @@ Plantilla de los seis escenarios exigidos por la Parte E. Ninguno se ejecutó; r
 | PS05 — RN4 | Socio MOROSO con edad válida, sin duplicado ni límite y actividad con cupo; intentar inscripción | Rechazo 409 con «Debe regularizar su cuota en secretaría»; consulta y baja siguen permitidas | Sin ejecutar | Pendiente | Pendiente |
 | PS06 — RN5 | Socio AL_DIA con 3 activas; intentar cuarta diferente con cupo y edad válida | Rechazo 409 con «Alcanzó el máximo de 3 actividades»; conserva 3 activas | Sin ejecutar | Pendiente | Pendiente |
 
-Al ejecutar, registrar fecha, responsable real, datos utilizados, resultado observado y evidencia. No confundir estas pruebas de sistema pendientes con las comprobaciones de compilación de la inicialización.
+Al ejecutar, registrar fecha, responsable real, datos utilizados, resultado observado y evidencia. No confundir estas pruebas de sistema pendientes con las comprobaciones de compilación de la inicialización
