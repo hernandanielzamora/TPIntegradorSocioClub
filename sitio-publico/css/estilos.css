@@ -1,11 +1,332 @@
-:root { font-family: system-ui, sans-serif; color: #183c2e; background: #f5f7f3; }
-body { margin: 0; }
-header, main, footer { padding: 1.5rem max(1rem, calc((100% - 64rem) / 2)); }
-header, footer { background: #e1ebdf; }
-header p { font-weight: bold; }
-nav { display: flex; flex-wrap: wrap; gap: 1rem; }
-a { color: #1c543d; }
-a[aria-current="page"] { font-weight: bold; text-decoration-thickness: .15em; }
-main { min-height: 55vh; }
-section, aside { max-width: 48rem; line-height: 1.6; }
-@media (max-width: 40rem) { nav { flex-direction: column; } }
+:root {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #183c2e;
+  background: #f5f7f3;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  line-height: 1.6;
+
+  --verde-oscuro: #183c2e;
+  --verde: #1c543d;
+  --verde-medio: #2e7051;
+  --verde-claro: #e1ebdf;
+  --fondo: #f5f7f3;
+  --blanco: #ffffff;
+  --texto-suave: #52665a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+a {
+  color: var(--verde);
+}
+
+a:focus-visible {
+  outline: 3px solid #d18b35;
+  outline-offset: 4px;
+}
+
+.contenedor {
+  width: min(100% - 2rem, 64rem);
+  margin-inline: auto;
+}
+
+/* Encabezado y navegación */
+
+.encabezado {
+  background: var(--blanco);
+  border-bottom: 1px solid #dce6dc;
+}
+
+.encabezado-contenido {
+  min-height: 5.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-block: 1rem;
+}
+
+.marca {
+  display: flex;
+  flex-direction: column;
+  color: var(--verde-oscuro);
+  text-decoration: none;
+  line-height: 1.3;
+}
+
+.marca-nombre {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.marca-destacado {
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.navegacion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navegacion a {
+  padding: 0.55rem 0.85rem;
+  border-radius: 0.5rem;
+  color: var(--verde-oscuro);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.navegacion a:hover {
+  background: var(--verde-claro);
+}
+
+.navegacion a[aria-current="page"] {
+  background: var(--verde-oscuro);
+  color: var(--blanco);
+}
+
+/* Portada principal */
+
+.portada {
+  padding-block: clamp(4rem, 10vw, 7rem);
+  background: linear-gradient(135deg, #e1ebdf 0%, #f0f5ed 65%, #d5e5d7 100%);
+}
+
+.portada-contenido {
+  max-width: 64rem;
+}
+
+.etiqueta {
+  margin: 0 0 0.75rem;
+  color: var(--verde-medio);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.portada h1 {
+  max-width: 48rem;
+  margin: 0;
+  color: var(--verde-oscuro);
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+}
+
+.portada-descripcion {
+  max-width: 42rem;
+  margin: 1.5rem 0 0;
+  color: var(--texto-suave);
+  font-size: 1.1rem;
+}
+
+.portada-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.boton {
+  display: inline-flex;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.25rem;
+  border: 2px solid var(--verde);
+  border-radius: 0.6rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.boton-principal {
+  background: var(--verde);
+  color: var(--blanco);
+}
+
+.boton-principal:hover {
+  background: var(--verde-oscuro);
+  border-color: var(--verde-oscuro);
+}
+
+.boton-secundario {
+  background: transparent;
+  color: var(--verde);
+}
+
+.boton-secundario:hover {
+  background: var(--blanco);
+}
+
+/* Secciones */
+
+.seccion-club,
+.seccion-accesos {
+  padding-block: clamp(3rem, 7vw, 5rem);
+}
+
+.seccion-encabezado {
+  margin-bottom: 1.5rem;
+}
+
+.seccion-encabezado h2 {
+  margin: 0;
+  color: var(--verde-oscuro);
+  font-size: clamp(1.7rem, 4vw, 2.3rem);
+  line-height: 1.2;
+}
+
+.tarjeta-club,
+.tarjeta-acceso {
+  padding: clamp(1.25rem, 4vw, 2rem);
+  border: 1px solid #dce6dc;
+  border-radius: 0.9rem;
+  background: var(--blanco);
+  box-shadow: 0 0.4rem 1.5rem rgb(24 60 46 / 5%);
+}
+
+.tarjeta-club {
+  max-width: 48rem;
+}
+
+.tarjeta-club h3,
+.tarjeta-acceso h3 {
+  margin-top: 0;
+  color: var(--verde-oscuro);
+  font-size: 1.25rem;
+}
+
+.tarjeta-club p,
+.tarjeta-acceso p {
+  color: var(--texto-suave);
+}
+
+.tarjeta-club p:last-child,
+.tarjeta-acceso p:last-of-type {
+  margin-bottom: 0;
+}
+
+/* Accesos a otras páginas */
+
+.seccion-accesos {
+  background: #edf3eb;
+}
+
+.accesos-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.tarjeta-acceso {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.tarjeta-acceso a {
+  margin-top: auto;
+  padding-top: 1rem;
+  font-weight: 700;
+  text-underline-offset: 0.2em;
+}
+
+.tarjeta-acceso a:hover {
+  color: var(--verde-oscuro);
+}
+
+/* Aviso */
+
+.aviso-sitio {
+  padding-block: 2rem;
+  background: var(--verde-claro);
+}
+
+.aviso-contenido h2 {
+  margin: 0 0 0.4rem;
+  color: var(--verde-oscuro);
+  font-size: 1.25rem;
+}
+
+.aviso-contenido p {
+  margin: 0;
+  color: var(--texto-suave);
+}
+
+/* Pie de página */
+
+.pie-pagina {
+  padding-block: 1.5rem;
+  background: var(--verde-oscuro);
+  color: var(--blanco);
+}
+
+.pie-contenido p {
+  margin: 0.25rem 0;
+}
+
+.pie-contenido p:first-child {
+  font-weight: 700;
+}
+
+.pie-contenido p:last-child {
+  color: #d4e2d8;
+  font-size: 0.9rem;
+}
+
+/* Adaptación para celulares y pantallas pequeñas */
+
+@media (max-width: 40rem) {
+  .encabezado-contenido {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .navegacion {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.25rem;
+  }
+
+  .navegacion a {
+    padding: 0.65rem 0.75rem;
+  }
+
+  .portada {
+    padding-block: 3.5rem;
+  }
+
+  .portada-acciones {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .boton {
+    width: 100%;
+  }
+
+  .accesos-grid {
+    grid-template-columns: 1fr;
+  }
+}
