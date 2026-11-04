@@ -3,15 +3,133 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Preinscripción | SocioClub</title>
+  <meta name="description" content="Formulario de preinscripción del Club Social y Deportivo Los Algarrobos.">
+  <title>Preinscripción | Club Social y Deportivo Los Algarrobos</title>
   <link rel="stylesheet" href="css/estilos.css">
   <script src="js/script.js" defer></script>
 </head>
 <body>
-  <header><p>Club Social y Deportivo Los Algarrobos</p>
-    <nav aria-label="Principal"><a href="index.html">Inicio</a> <a href="actividades.html">Actividades</a> <a href="preinscripcion.html" aria-current="page">Preinscripción</a></nav>
+  <header class="encabezado">
+    <div class="contenedor encabezado-contenido">
+      <a class="marca" href="index.html" aria-label="Club Social y Deportivo Los Algarrobos - Inicio">
+        <span class="marca-nombre">Club Social y Deportivo</span>
+        <span class="marca-destacado">Los Algarrobos</span>
+      </a>
+
+      <nav class="navegacion" aria-label="Navegación principal">
+        <a href="index.html">Inicio</a>
+        <a href="actividades.html">Actividades</a>
+        <a href="preinscripcion.html" aria-current="page">Preinscripción</a>
+      </nav>
+    </div>
   </header>
-  <main><h1>Preinscripción</h1><section><h2>Formulario en preparación</h2><p>La recepción de preinscripciones todavía no está habilitada.</p></section></main>
-  <footer><p>SocioClub · Trabajo Práctico Integrador · Universidad Siglo 21</p></footer>
+
+  <main>
+    <section class="seccion-preinscripcion" aria-labelledby="titulo-preinscripcion">
+      <div class="contenedor">
+        <div class="seccion-encabezado">
+          <p class="etiqueta">Club Social y Deportivo Los Algarrobos</p>
+          <h1 id="titulo-preinscripcion">Preinscripción</h1>
+          <p class="descripcion-preinscripcion">
+            Completá tus datos para preparar tu solicitud de preinscripción
+            a una actividad del club.
+          </p>
+        </div>
+
+        <div class="formulario-tarjeta">
+          <form class="formulario-preinscripcion">
+            <p class="aviso-formulario">
+              La recepción de preinscripciones todavía no está habilitada.
+              Este formulario es una interfaz de preparación y no envía ni
+              guarda información.
+            </p>
+
+            <div class="campo-formulario">
+              <label for="nombre">Nombre</label>
+              <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                autocomplete="given-name"
+                required
+                aria-describedby="error-nombre"
+              >
+              <small class="mensaje-error" id="error-nombre" aria-live="polite"></small>
+            </div>
+
+            <div class="campo-formulario">
+              <label for="apellido">Apellido</label>
+              <input
+                type="text"
+                id="apellido"
+                name="apellido"
+                autocomplete="family-name"
+                required
+                aria-describedby="error-apellido"
+              >
+              <small class="mensaje-error" id="error-apellido" aria-live="polite"></small>
+            </div>
+
+            <div class="campo-formulario">
+              <label for="dni">DNI</label>
+              <input
+                type="text"
+                id="dni"
+                name="dni"
+                inputmode="numeric"
+                pattern="[0-9]{7,8}"
+                maxlength="8"
+                placeholder="Ingresá entre 7 y 8 números"
+                required
+                aria-describedby="ayuda-dni error-dni"
+              >
+              <small class="ayuda-campo" id="ayuda-dni">
+                Ingresá el DNI sin puntos.
+              </small>
+              <small class="mensaje-error" id="error-dni" aria-live="polite"></small>
+            </div>
+
+            <div class="campo-formulario">
+              <label for="email">Correo electrónico</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                autocomplete="email"
+                placeholder="ejemplo@correo.com"
+                required
+                aria-describedby="error-email"
+              >
+              <small class="mensaje-error" id="error-email" aria-live="polite"></small>
+            </div>
+
+            <div class="campo-formulario">
+              <label for="actividad">Actividad</label>
+              <input
+                type="text"
+                id="actividad"
+                name="actividad"
+                placeholder="Escribí el nombre de la actividad"
+                required
+                aria-describedby="error-actividad"
+              >
+              <small class="mensaje-error" id="error-actividad" aria-live="polite"></small>
+            </div>
+
+            <button class="boton boton-deshabilitado" type="button" disabled>
+              Envío de preinscripción no disponible
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie-pagina">
+    <div class="contenedor pie-contenido">
+      <p>Club Social y Deportivo Los Algarrobos</p>
+      <p>SocioClub · Trabajo Práctico Integrador · Universidad Siglo 21</p>
+    </div>
+  </footer>
 </body>
 </html>

@@ -330,3 +330,101 @@ a:focus-visible {
     grid-template-columns: 1fr;
   }
 }
+/* Formulario de preinscripción */
+
+.seccion-preinscripcion {
+  padding-block: clamp(3rem, 7vw, 5rem);
+}
+
+.seccion-preinscripcion h1 {
+  margin: 0;
+  color: var(--verde-oscuro);
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.2;
+}
+
+.descripcion-preinscripcion {
+  max-width: 42rem;
+  color: var(--texto-suave);
+}
+
+.formulario-tarjeta {
+  max-width: 42rem;
+  padding: clamp(1.25rem, 4vw, 2rem);
+  border: 1px solid #dce6dc;
+  border-radius: 0.9rem;
+  background: var(--blanco);
+  box-shadow: 0 0.4rem 1.5rem rgb(24 60 46 / 5%);
+}
+
+.aviso-formulario {
+  margin-top: 0;
+  padding: 1rem;
+  border-left: 4px solid var(--verde-medio);
+  border-radius: 0.35rem;
+  background: var(--verde-claro);
+  color: var(--verde-oscuro);
+}
+
+.formulario-preinscripcion {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.campo-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.campo-formulario label {
+  color: var(--verde-oscuro);
+  font-weight: 700;
+}
+
+.campo-formulario input {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid #aabdaf;
+  border-radius: 0.5rem;
+  background: var(--blanco);
+  color: var(--verde-oscuro);
+  font: inherit;
+}
+
+.campo-formulario input:focus {
+  border-color: var(--verde);
+  outline: 3px solid rgb(46 112 81 / 18%);
+}
+
+.campo-formulario input:invalid:not(:placeholder-shown) {
+  border-color: #a83232;
+}
+
+.ayuda-campo {
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+}
+
+.mensaje-error {
+  min-height: 1.2rem;
+  color: #a83232;
+  font-size: 0.85rem;
+}
+
+.boton-deshabilitado {
+  width: 100%;
+  border-color: #89988e;
+  background: #89988e;
+  color: var(--blanco);
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+@media (max-width: 40rem) {
+  .formulario-tarjeta {
+    padding: 1.25rem;
+  }
+}
