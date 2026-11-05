@@ -1,6 +1,251 @@
-body { font-family: system-ui, sans-serif; margin: 0; color: #183c2e; background: #f5f7f3; }
-header, main, footer { padding: 1.5rem max(1rem, calc((100% - 64rem) / 2)); }
-header, footer { background: #e1ebdf; }
-main { min-height: 55vh; }
-p { line-height: 1.6; max-width: 48rem; }
-h2 { font-size: 1.5rem; margin-top: 2rem; }
+/* =========================================================
+   Mi Club — estilos de la app de socios
+   Paleta compartida con el sitio público del club.
+   ========================================================= */
+
+:root {
+  --verde-oscuro: #183c2e;
+  --verde: #1c543d;
+  --verde-medio: #2e7051;
+  --verde-claro: #e1ebdf;
+  --fondo: #f5f7f3;
+  --blanco: #ffffff;
+  --texto-suave: #52665a;
+  --borde: #dce6dc;
+  --acento: #d18b35;
+  --radio: 0.75rem;
+  --sombra: 0 2px 10px rgba(24, 60, 46, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  line-height: 1.6;
+  color: var(--verde-oscuro);
+  background: var(--fondo);
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 0 0 0.5rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-top: 2rem;
+}
+
+a {
+  color: var(--verde);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--acento);
+  outline-offset: 3px;
+}
+
+.texto-suave {
+  color: var(--texto-suave);
+  max-width: 48rem;
+}
+
+/* ---------- Estructura general ---------- */
+
+/* El pie queda abajo aunque haya poco contenido. */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.contenido {
+  flex: 1;
+  width: min(100% - 2rem, 64rem);
+  margin: 0 auto;
+  padding: 2rem 0 3rem;
+}
+
+.pagina-centrada {
+  text-align: center;
+  padding-top: 2rem;
+}
+
+.pagina-centrada .texto-suave {
+  margin-inline: auto;
+}
+
+/* ---------- Encabezado ---------- */
+
+.encabezado {
+  background: var(--blanco);
+  border-bottom: 1px solid var(--borde);
+}
+
+.encabezado-contenido {
+  width: min(100% - 2rem, 64rem);
+  margin: 0 auto;
+  min-height: 4.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--verde-oscuro);
+  text-decoration: none;
+}
+
+.marca-logo {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: var(--verde);
+  color: var(--blanco);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.marca-texto {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.marca-texto strong {
+  font-size: 1.15rem;
+}
+
+.marca-texto small {
+  color: var(--texto-suave);
+}
+
+.navegacion {
+  list-style: none;
+  display: flex;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+}
+
+.navegacion a {
+  display: block;
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  color: var(--verde-oscuro);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.navegacion a:hover {
+  background: var(--verde-claro);
+}
+
+/* Clase que agrega NavLink al enlace de la página actual. */
+.navegacion a.active {
+  background: var(--verde);
+  color: var(--blanco);
+}
+
+/* ---------- Botones y enlaces ---------- */
+
+.boton {
+  display: inline-block;
+  padding: 0.65rem 1.25rem;
+  border: 2px solid var(--verde);
+  border-radius: 999px;
+  background: var(--verde);
+  color: var(--blanco);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.boton:hover {
+  background: var(--verde-oscuro);
+  border-color: var(--verde-oscuro);
+}
+
+.boton:disabled {
+  background: #c9d1cb;
+  border-color: #c9d1cb;
+  color: #5f6b63;
+  cursor: not-allowed;
+}
+
+.boton-secundario {
+  background: transparent;
+  color: var(--verde);
+}
+
+.boton-secundario:hover {
+  background: var(--verde-claro);
+  border-color: var(--verde);
+}
+
+.enlace-volver {
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+/* ---------- Pie ---------- */
+
+.pie {
+  background: var(--verde-oscuro);
+  color: var(--verde-claro);
+}
+
+.pie-contenido {
+  width: min(100% - 2rem, 64rem);
+  margin: 0 auto;
+  padding: 1.25rem 0;
+  font-size: 0.9rem;
+}
+
+.pie-contenido p {
+  margin: 0.25rem 0;
+}
+
+/* ---------- Celular ---------- */
+
+@media (max-width: 640px) {
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  /* En pantallas chicas la navegación pasa abajo de la marca. */
+  .encabezado-contenido {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.75rem 0;
+  }
+
+  .navegacion {
+    flex-wrap: wrap;
+  }
+
+  .contenido {
+    padding-top: 1.25rem;
+  }
+}
