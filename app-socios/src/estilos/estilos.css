@@ -315,6 +315,12 @@ select:focus-visible {
   border-color: var(--verde-medio);
 }
 
+.mensaje-alerta {
+  background: #fdf3e4;
+  border-color: var(--acento);
+  color: #6b3f0d;
+}
+
 /* ---------- Catálogo ---------- */
 
 .pagina-encabezado {
@@ -534,6 +540,145 @@ select:focus-visible {
   background: #8a948d;
 }
 
+/* ---------- Mis actividades ---------- */
+
+.sin-actividades {
+  margin-top: 1.5rem;
+  padding: 2rem;
+  text-align: center;
+  background: var(--blanco);
+  border: 1px dashed #b9c7bb;
+  border-radius: var(--radio);
+}
+
+.sin-actividades p {
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+
+/* Lista a la izquierda y resumen de cuota a la derecha. */
+.mis-actividades {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 20rem;
+  gap: 1.5rem;
+  align-items: start;
+  margin-top: 1.5rem;
+}
+
+.lista-inscripciones {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.inscripcion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--blanco);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+}
+
+.inscripcion-titulo {
+  margin: 0.4rem 0 0.25rem;
+  font-size: 1.2rem;
+}
+
+.inscripcion-titulo a {
+  color: var(--verde-oscuro);
+  text-decoration: none;
+}
+
+.inscripcion-datos p {
+  margin: 0;
+}
+
+.boton-baja {
+  flex-shrink: 0;
+  border-color: #b3261e;
+  color: #b3261e;
+}
+
+.boton-baja:hover {
+  background: #fdecea;
+  border-color: #b3261e;
+}
+
+/* ---------- Resumen de cuota ---------- */
+
+.resumen-cuota {
+  position: sticky;
+  top: 1rem;
+  padding: 1.25rem;
+  background: var(--blanco);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+}
+
+.resumen-cuota h2 {
+  margin: 0 0 1rem;
+  font-size: 1.2rem;
+}
+
+.resumen-lineas {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0 0 1rem;
+  border-bottom: 1px solid var(--borde);
+}
+
+.resumen-lineas li,
+.resumen-totales div {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.resumen-lineas li {
+  padding: 0.2rem 0;
+}
+
+.resumen-totales {
+  margin: 0;
+}
+
+.resumen-totales div {
+  padding: 0.25rem 0;
+}
+
+.resumen-totales dd {
+  margin: 0;
+}
+
+.con-descuento {
+  color: var(--verde-medio);
+  font-weight: 600;
+}
+
+.resumen-total {
+  margin-top: 0.5rem;
+  padding-top: 0.75rem !important;
+  border-top: 2px solid var(--verde-oscuro);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.resumen-sugerencia {
+  margin: 1rem 0 0;
+  padding: 0.6rem 0.75rem;
+  background: var(--verde-claro);
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+}
+
 /* ---------- Pie ---------- */
 
 .pie {
@@ -607,5 +752,21 @@ select:focus-visible {
 
   .detalle-datos {
     grid-template-columns: 1fr;
+  }
+
+  .inscripcion {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* En tablets el resumen de cuota pasa abajo de la lista. */
+@media (max-width: 860px) {
+  .mis-actividades {
+    grid-template-columns: 1fr;
+  }
+
+  .resumen-cuota {
+    position: static;
   }
 }

@@ -121,3 +121,35 @@ export function inscribir(socioId, actividadId) {
 
   return responder({ ...nueva, actividad: { ...actividad } });
 }
+
+// Simula GET /api/socios/{id}/inscripciones (200 o 404)
+// Devuelve solo las inscripciones ACTIVAS, cada una con los datos de su actividad.
+export function obtenerInscripcionesDeSocio(socioId) {
+  const socio = sociosEjemplo.find((s) => s.id === Number(socioId));
+  if (!socio) {
+    return rechazar(404, 'El socio no existe');
+  }
+  const activas = inscripcionesActivasDe(socio.id).map((inscripcion) => ({
+    id: inscripcion.id,
+    fechaInscripcion: inscripcion.fechaInscripcion,
+    estado: inscripcion.estado,
+    actividad: { ...actividades.find((a) => a.id === inscripcion.actividadId) },
+  }));
+  return responder(activas);
+}
+
+// Simula PUT /api/inscripciones/{id}/baja (200 o 404)
+// Baja lógica: la inscripción no se borra, cambia su estado a BAJA y se libera el cupo.
+// RN4 no aplica acá: un socio MOROSO también puede darse de baja.
+export function darDeBaja(inscripcionId) {
+  const inscripcion = inscripciones.find((i) => i.id === Number(inscripcionId));
+  if (!inscripcion) {
+    return rechazar(404, 'La inscripción no existe');
+  }
+  if (inscripcion.estado === 'ACTIVA') {
+    inscripcion.estado = 'BAJA';
+    const actividad = actividades.find((a) => a.id === inscripcion.actividadId);
+    actividad.cupoDisponible += 1;
+  }
+  return responder({ ...inscripcion });
+}
