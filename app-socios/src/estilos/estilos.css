@@ -166,6 +166,24 @@ select:focus-visible {
   color: var(--blanco);
 }
 
+.encabezado-socio {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.usuario {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-left: 1.25rem;
+  border-left: 1px solid var(--borde);
+}
+
+.usuario-nombre {
+  font-weight: 600;
+}
+
 /* ---------- Botones y enlaces ---------- */
 
 .boton {
@@ -212,6 +230,64 @@ select:focus-visible {
 .boton-grande {
   padding: 0.8rem 2rem;
   font-size: 1.05rem;
+}
+
+.boton-chico {
+  padding: 0.35rem 0.9rem;
+  font-size: 0.9rem;
+}
+
+.boton-ancho {
+  width: 100%;
+}
+
+/* ---------- Ingreso ---------- */
+
+.pagina-ingreso {
+  display: flex;
+  justify-content: center;
+  padding-top: 1.5rem;
+}
+
+.tarjeta-ingreso {
+  width: min(100%, 28rem);
+  padding: 2rem;
+  background: var(--blanco);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 1.5rem 0 1.25rem;
+}
+
+.campo label {
+  font-weight: 600;
+}
+
+.campo input {
+  padding: 0.75rem 0.9rem;
+  border: 1px solid #b9c7bb;
+  border-radius: 0.5rem;
+  font: inherit;
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+}
+
+/* Clase dinámica: el campo se pone rojo cuando el DNI no es válido. */
+.campo input.campo-con-error {
+  border-color: #b3261e;
+  background: #fff8f7;
+}
+
+.error-campo {
+  margin: 0;
+  color: #b3261e;
+  font-size: 0.9rem;
 }
 
 /* ---------- Mensajes ---------- */
@@ -492,6 +568,25 @@ select:focus-visible {
 
   .navegacion {
     flex-wrap: wrap;
+  }
+
+  .encabezado-socio {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .usuario {
+    width: 100%;
+    justify-content: space-between;
+    padding: 0.5rem 0 0;
+    border-left: none;
+    border-top: 1px solid var(--borde);
+  }
+
+  .tarjeta-ingreso {
+    padding: 1.25rem;
   }
 
   .contenido {

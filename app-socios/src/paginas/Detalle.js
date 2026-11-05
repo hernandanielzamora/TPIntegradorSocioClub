@@ -1,16 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import DetalleActividad from '../componentes/DetalleActividad';
-import { obtenerActividad } from '../servicios/datosLocales';
+import { SocioContext } from '../contexto/SocioContext';
+import { inscribir, obtenerActividad } from '../servicios/datosLocales';
+import { mensajeDeError } from '../utils/mensajeDeError';
 
 // Ruta "/actividades/:id": detalle de una actividad.
 function Detalle() {
   // useParams lee la parte variable de la URL; en /actividades/3, id vale "3".
   const { id } = useParams();
+  const { socio } = useContext(SocioContext);
   const [actividad, setActividad] = useState(null);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
-  const [mensaje, setMensaje] = useState('');
+  const [aviso, setAviso] = useState(null); // { tipo: 'exito' | 'error', texto }
 
   // El efecto depende de [id]: se vuelve a ejecutar si cambia la URL.
   useEffect(() => {
@@ -18,12 +21,24 @@ function Detalle() {
     setError('');
     obtenerActividad(id)
       .then((datos) => setActividad(datos))
-      .catch((err) => setError(err.response?.data?.error || 'No se pudo cargar la actividad.'))
+      .catch((err) => setError(mensajeDeError(err)))
       .finally(() => setCargando(false));
   }, [id]);
 
-  function manejarInscribir() {
-    setMensaje('Para inscribirte primero ingresá con tu DNI.');
+  async function manejarInscribir() {
+    setAviso(null);
+    try {
+      await inscribir(socio.id, actividad.id);
+      setAviso({ tipo: 'exito', texto: `¡Listo! Te inscribiste en ${actividad.nombre}.` });
+      // Se vuelve a pedir la actividad para mostrar el cupo actualizado.
+      const actualizada = await obtenerActividad(id);
+      setActividad(actualizada);
+    } catch (err) {
+      // Si una regla rechaza la inscripción (409) se muestra su mensaje.
+      setAviso({ tipo: 'error', texto: mensajeDeError(err) });
+    }
+    // El mensaje está arriba del detalle: se sube la página para que se vea.
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   return (
@@ -40,9 +55,10 @@ function Detalle() {
         </p>
       )}
 
-      {mensaje && (
-        <p className="mensaje mensaje-info" role="status">
-          {mensaje} <Link to="/">Ir al ingreso</Link>
+      {aviso && (
+        <p className={`mensaje mensaje-${aviso.tipo}`} role={aviso.tipo === 'error' ? 'alert' : 'status'}>
+          {aviso.texto}{' '}
+          {aviso.tipo === 'exito' && <Link to="/mis-actividades">Ver mis actividades</Link>}
         </p>
       )}
 

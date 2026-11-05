@@ -5,6 +5,7 @@
 // Las ocho actividades son las de la sección 3.3 del enunciado. Los nombres de
 // los campos son los mismos del Anexo B para que el cambio a la API sea directo.
 // cupoDisponible = cupoMaximo - inscripciones ACTIVAS (lo calcula el backend).
+// Más abajo están los socios y las inscripciones de prueba.
 export const actividadesEjemplo = [
   {
     id: 1,
@@ -110,4 +111,83 @@ export const actividadesEjemplo = [
     cuotaMensual: 17000,
     profesor: 'Inés Arguello',
   },
+];
+
+// Socios de prueba. Son los mismos socios ficticios de Docs/pruebas-sistema.md,
+// así cada uno sirve para mostrar una regla en la exposición:
+//   30111222 Juan Pérez         → inscripción exitosa (sin actividades al inicio)
+//   30222333 Lucas Gómez        → RN1: Fútbol infantil no tiene cupo
+//   30333444 Martín López       → RN2: ya está inscripto en Fútbol infantil
+//   30444555 Nicolás Fernández  → RN3: 14 años, fuera de rango en Funcional adultos
+//   30555666 Federico Ramírez   → RN4: cuota MOROSO
+//   30666777 Agustín Torres     → RN5: ya tiene 3 actividades (y muestra el 15 %)
+export const sociosEjemplo = [
+  {
+    id: 1,
+    dni: '30111222',
+    nombre: 'Juan',
+    apellido: 'Pérez',
+    fechaNacimiento: '2001-05-15',
+    email: 'juan.perez@ejemplo.com',
+    telefono: '351 555-0101',
+    estadoCuota: 'AL_DIA',
+  },
+  {
+    id: 2,
+    dni: '30222333',
+    nombre: 'Lucas',
+    apellido: 'Gómez',
+    fechaNacimiento: '2016-06-10',
+    email: 'lucas.gomez@ejemplo.com',
+    telefono: '351 555-0102',
+    estadoCuota: 'AL_DIA',
+  },
+  {
+    id: 3,
+    dni: '30333444',
+    nombre: 'Martín',
+    apellido: 'López',
+    fechaNacimiento: '2015-08-12',
+    email: 'martin.lopez@ejemplo.com',
+    telefono: '351 555-0103',
+    estadoCuota: 'AL_DIA',
+  },
+  {
+    id: 4,
+    dni: '30444555',
+    nombre: 'Nicolás',
+    apellido: 'Fernández',
+    fechaNacimiento: '2012-04-10',
+    email: 'nicolas.fernandez@ejemplo.com',
+    telefono: '351 555-0104',
+    estadoCuota: 'AL_DIA',
+  },
+  {
+    id: 5,
+    dni: '30555666',
+    nombre: 'Federico',
+    apellido: 'Ramírez',
+    fechaNacimiento: '2006-03-20',
+    email: 'federico.ramirez@ejemplo.com',
+    telefono: '351 555-0105',
+    estadoCuota: 'MOROSO',
+  },
+  {
+    id: 6,
+    dni: '30666777',
+    nombre: 'Agustín',
+    apellido: 'Torres',
+    fechaNacimiento: '2006-02-15',
+    email: 'agustin.torres@ejemplo.com',
+    telefono: '351 555-0106',
+    estadoCuota: 'AL_DIA',
+  },
+];
+
+// Inscripciones iniciales (estado ACTIVA o BAJA, como en el Anexo B).
+export const inscripcionesEjemplo = [
+  { id: 1, socioId: 3, actividadId: 1, fechaInscripcion: '2026-03-02', estado: 'ACTIVA' },
+  { id: 2, socioId: 6, actividadId: 2, fechaInscripcion: '2026-03-05', estado: 'ACTIVA' },
+  { id: 3, socioId: 6, actividadId: 4, fechaInscripcion: '2026-03-05', estado: 'ACTIVA' },
+  { id: 4, socioId: 6, actividadId: 7, fechaInscripcion: '2026-03-09', estado: 'ACTIVA' },
 ];
