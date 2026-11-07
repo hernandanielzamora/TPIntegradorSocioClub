@@ -3,19 +3,119 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Inicio | SocioClub</title>
+  <meta name="description" content="Sitio del Club Social y Deportivo Los Algarrobos. Conocé las actividades y accedé a la preinscripción.">
+  <title>Inicio | Club Social y Deportivo Los Algarrobos</title>
   <link rel="stylesheet" href="css/estilos.css">
   <script src="js/script.js" defer></script>
 </head>
 <body>
-  <header><p>Club Social y Deportivo Los Algarrobos</p>
-    <nav aria-label="Principal"><a href="index.html" aria-current="page">Inicio</a> <a href="actividades.html">Actividades</a> <a href="preinscripcion.html">Preinscripción</a></nav>
+  <header class="encabezado">
+    <div class="contenedor encabezado-contenido">
+      <a class="marca" href="index.html" aria-label="Club Social y Deportivo Los Algarrobos - Inicio">
+        <span class="marca-nombre">Club Social y Deportivo</span>
+        <span class="marca-destacado">Los Algarrobos</span>
+      </a>
+
+      <nav class="navegacion" aria-label="Navegación principal">
+        <a href="index.html" aria-current="page">Inicio</a>
+        <a href="actividades.html">Actividades</a>
+        <a href="preinscripcion.html">Preinscripción</a>
+      </nav>
+    </div>
   </header>
+
   <main>
-    <h1>Bienvenidos a SocioClub</h1>
-    <section><h2>Nuestro club</h2><p>Un club de barrio de la zona norte de Córdoba.</p><p>La historia y la ubicación detallada se incorporarán con información confirmada por el equipo.</p></section>
-    <aside aria-label="Estado del sitio"><p>Sitio en preparación. El catálogo y la preinscripción estarán disponibles en una próxima etapa.</p></aside>
+    <section class="portada">
+      <div class="contenedor portada-contenido">
+        <p class="etiqueta">Club Social y Deportivo Los Algarrobos</p>
+        <h1>Un lugar para compartir y disfrutar del deporte</h1>
+        <p class="portada-descripcion">
+          Te damos la bienvenida a nuestro espacio. Conocé las actividades
+          del club y encontrá la información necesaria para realizar tu
+          preinscripción.
+        </p>
+
+        <div class="portada-acciones">
+          <a class="boton boton-principal" href="actividades.html">
+            Ver actividades
+          </a>
+          <a class="boton boton-secundario" href="preinscripcion.html">
+            Ir a preinscripción
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="seccion-club" aria-labelledby="titulo-club">
+      <div class="contenedor">
+        <div class="seccion-encabezado">
+          <p class="etiqueta">Conocé nuestro espacio</p>
+          <h2 id="titulo-club">Nuestro club</h2>
+        </div>
+
+        <article class="tarjeta-club">
+          <h3>Club Social y Deportivo Los Algarrobos</h3>
+          <p>
+            Este sitio reúne información sobre las actividades deportivas
+            y las opciones de preinscripción disponibles para quienes
+            quieran acercarse al club.
+          </p>
+          <p>
+            La historia institucional y los datos de ubicación se
+            incorporarán cuando el equipo cuente con información
+            confirmada.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="seccion-accesos" aria-labelledby="titulo-accesos">
+      <div class="contenedor">
+        <div class="seccion-encabezado">
+          <p class="etiqueta">Encontrá lo que buscás</p>
+          <h2 id="titulo-accesos">Explorá el sitio</h2>
+        </div>
+
+        <div class="accesos-grid">
+          <article class="tarjeta-acceso">
+            <h3>Actividades</h3>
+            <p>
+              Consultá las actividades del club y conocé las propuestas
+              disponibles.
+            </p>
+            <a href="actividades.html">Consultar actividades</a>
+          </article>
+
+          <article class="tarjeta-acceso">
+            <h3>Preinscripción</h3>
+            <p>
+              Accedé a la sección de preinscripción para conocer el
+              procedimiento disponible.
+            </p>
+            <a href="preinscripcion.html">Ir a preinscripción</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <aside class="aviso-sitio" aria-label="Estado del sitio">
+      <div class="contenedor aviso-contenido">
+        <div>
+          <h2>Sitio en preparación</h2>
+          <p>
+            Algunas secciones y datos institucionales se completarán
+            durante el desarrollo del proyecto.
+          </p>
+        </div>
+      </div>
+    </aside>
   </main>
-  <footer><p>SocioClub · Trabajo Práctico Integrador · Universidad Siglo 21</p></footer>
+
+  <footer class="pie-pagina">
+    <div class="contenedor pie-contenido">
+      <p>Club Social y Deportivo Los Algarrobos</p>
+      <p>SocioClub · Trabajo Práctico Integrador · Universidad Siglo 21</p>
+    </div>
+  </footer>
 </body>
 </html>
