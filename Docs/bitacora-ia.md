@@ -42,8 +42,64 @@ Completar una fila por cada interacción real con una herramienta de IA. Si un d
 
 ## Estado de la bitácora
 
-Actualmente se documentan cuatro entradas. La cantidad mínima requerida por el enunciado es cinco, y al menos tres deben contener errores o ajustes detectados por el grupo.
+Actualmente se documentan ocho entradas reales, incluidas preparación manual y cierre. La cantidad mínima requerida por el enunciado es cinco, y al menos tres deben contener errores o ajustes detectados por el grupo. Las correcciones automáticas de Codex no acreditan detección humana de errores.
 
 No se inventan entradas para alcanzar ese mínimo. La revisión humana y las nuevas intervenciones quedan pendientes de documentar cuando ocurran.
 
 Las compilaciones no prueban requisitos funcionales ni una conexión real a MySQL.
+
+## Entrada 5 — Modelo de datos y repositorios — 2026-11-07
+
+| Campo | Registro real |
+| --- | --- |
+| Integrante | Usuario solicitante de esta sesión; identidad no informada. Sin atribución a otros integrantes. |
+| Herramienta | Codex. |
+| Solicitud | Inspeccionar PDF y PR integrados; implementar entidades y repositorios JPA, SQL MySQL y datos compatibles; configurar entorno, preparar/ejecutar pruebas y documentar defensa. Sin RN1–RN5, API, cambios en frontends, commits ni push. |
+| Resultado generado por IA | Tres entidades, dos enums, tres JpaRepository, integridad con Bean Validation, SQL no destructivo y seed de ocho actividades/21 socios; cinco pruebas de integridad y siete optativas MySQL; guía, documentación y README actualizados. |
+| Correcciones automáticas reales | Se sustituyó el primer borrador de INSERT con NOT EXISTS por LEFT JOIN, tras contrastar la limitación MySQL sobre subconsulta de la tabla destino. Se corrigieron acentos dañados al transferir texto por PowerShell/Python. Se eliminaron imports innecesarios y se actualizaron referencias documentales obsoletas. Son ajustes de Codex, no hallazgos del grupo. |
+| Diferencias detectadas por IA | Los cupos fijos de React no se derivan de sus cuatro vínculos. PS02 necesita Fútbol lleno y PS03 necesita cupo libre: requieren preparación independiente. Se documentó la diferencia del comentario de Nicolás y los contactos de prueba. No se modificaron React ni los casos del grupo. |
+| Revisión humana | Pendiente: no consta revisión del código ni ejecución manual por integrantes. El usuario sí autorizó iniciar MySQL84; no se atribuye esa decisión como revisión técnica del modelo. |
+| Pruebas ejecutadas por Codex | Maven verify: BUILD SUCCESS, 6 aprobadas (5 integridad + 1 MVC), 7 omitidas MySQL, 0 fallos/errores. Revisión estática del seed frente a React/PDF y git diff --check aprobadas. Sin cambios en frontends. |
+| Límites | Windows rechazó abrir MySQL84 al ejecutar Start-Service; servicio detenido y sin credenciales disponibles. No hubo conexión, ejecución SQL, validación real JPA ni persistencia. No se ejecutaron nuevamente pruebas React. |
+| Evidencia | Docs/validacion-modelo-datos.md; Docs/datos-modelo.md; database/schema.sql y seed.sql; fuentes y pruebas del backend; informes locales Surefire y .cache/backend-modelo-verify.log (ignorados). |
+
+Esta entrada registra una interacción real; no se desdobla artificialmente para completar mínimos ni se atribuyen las correcciones automáticas al grupo. No se alteran las entradas históricas.
+
+## Entrada 6 — Diagnóstico MySQL y calidad de persistencia — 2026-11-07
+
+| Campo | Registro real |
+| --- | --- |
+| Integrante | Usuario solicitante, identidad no confirmada. No se atribuye trabajo a otros integrantes. |
+| Herramienta | Codex. |
+| Solicitud | Diagnosticar y validar persistencia MySQL, bases separadas, tests y arranque; completar lo independiente y documentar procedimiento si hacen falta permisos administrativos. Sin nuevas funcionalidades, versiones, commits, push ni merge. |
+| Diagnóstico de IA | Inicialmente MySQL84 detenido/manual, cliente 8.4.13 localizado, configuración leída, puerto sin listener, proceso no elevado y descriptor sin permiso de inicio para usuarios interactivos. Win32 1077 indicaba ausencia de inicio desde el arranque. Posteriormente se observó Running, códigos 0 y TCP 3306 accesible; no se confirmó quién lo inició. |
+| Límites de acceso | Directorio Data denegado; no se leyeron logs internos ni se cambiaron permisos. Credenciales ausentes en proceso y usuario Windows; el servidor ahora acepta TCP, pero no se autenticó ni se crearon bases o ejecutó SQL. |
+| Correcciones automáticas | Se detectó que la URL de pruebas no activaba la suite sin flag; ahora la activa. Se agregaron credenciales específicas de ensayo, recarga JPA tras clear y comprobación de base activa. Se amplió la documentación de conexión, validate, scripts e aislamiento. |
+| Pruebas ejecutadas | verify normal: 6 aprobadas, 7 omitidas, 0 fallos/errores. Dos controles negativos: cada uno 0 aprobadas, 7 errores y 0 omitidas; uno rechaza socioclub antes de conectar, otro detecta conexión rechazada en un puerto sin servidor. No son persistencia aprobada. |
+| Intervención humana real | Se recibió la solicitud y se pidió inicio administrativo. El servicio luego apareció Running, pero no se recibió confirmación de ejecución manual; no se afirma quién lo inició ni que el usuario preparó cuentas o revisó código. Se solicitó configurar credenciales localmente. La autorización anterior permanece en la entrada 5. |
+| Resultado y pendientes | Compilación, prueba MVC e integridad en memoria aprobadas. Persistencia, carga de bases, queries JPA, Hibernate validate y arranque completo pendientes. Rama no aprobada aún para dar por validada la persistencia en un PR. |
+| Evidencia | Docs/validacion-modelo-datos.md, sección Segunda intervención; Docs/mysql-local.md; PersistenciaMySqlTests.java; logs locales ignorados .cache/persistencia-*.log e informes Surefire del verify final. |
+
+Las correcciones son de Codex y no se contabilizan como errores detectados manualmente por el grupo. Se preservaron los archivos de React/sitio público y los cambios locales de la intervención anterior.
+
+## Entrada 7 — Preparación manual y permisos mínimos
+
+El usuario confirmó mediante mensaje MySQL configurado con Workbench, dos bases y cuentas separadas; inicialmente informó que aún no había ejecutado scripts. Solicitó revisar permisos y esperar confirmación para operaciones manuales. Codex cambió PersistenciaMySqlTests a spring.sql.init.mode=never, mantuvo ddl-auto=validate y agregó SELECT DATABASE() antes de cada prueba. Así la cuenta de ensayo puede conservar solo SELECT/INSERT/UPDATE/DELETE sobre tablas precreadas.
+
+Codex entregó pasos de Workbench para schema/seed en desarrollo y solo schema en ensayo. No ejecutó JPA ni atribuyó esa preparación a personas hasta recibir confirmación. Se actualizaron README, mysql-local, guía y validación. El usuario confirmó la preparación manual en el posterior pedido de cierre; no comunicó conteos o resultados definitivos de la aplicación.
+
+## Entrada 8 — Cierre y publicación autorizada — 2026-11-08
+
+| Campo | Registro real |
+| --- | --- |
+| Solicitud | Auditar archivos/secretos, ejecutar validaciones disponibles, documentar instalación en otra computadora y hacer commit/push de feature/backend-modelo-datos; PR hacia dev si es posible. |
+| Herramienta e integrante | Codex; usuario solicitante sin identidad atribuida a otros integrantes. |
+| Resultado automático | Revisión del modelo/repositorios/tests/SQL y archivos locales, guía de instalación desde cero, documentación vigente y preparación de un único commit coherente. |
+| Corrección automática real | Se detectaron USE socioclub guardados en los scripts reutilizables. Se retiraron y se agregó rechazo de USE en el seed del test, para evitar desviar ensayo hacia desarrollo. |
+| Pruebas ejecutadas | Maven verify: 6 aprobadas, 7 omitidas, 0 fallos/errores; React build exitoso; Jest/RTL: 20 aprobadas, 0 fallidas, 0 omitidas. git diff --check sin errores. |
+| Límite MySQL | Sin credenciales/configuración segura disponibles para el proceso; no se solicitó ni imprimió contraseña. Preparación local confirmada por el usuario; persistencia real/arranque pendientes. |
+| Intervención humana | Confirmación de MySQL, bases, cuentas, tablas y preparación manual; autorización explícita de commit/push y PR sin merge. No se presume revisión del código o ejecución JPA. |
+| Publicación | Se prepara el commit con mensaje feat(backend): implement JPA data model and MySQL persistence. Hash, push y limpieza se verifican después en Git y en el informe final; no se anticipa éxito. GitHub CLI no está disponible. |
+| Evidencia | Docs/validacion-modelo-datos.md (cierre), Docs/instalacion-desde-cero.md, README y diff/índice Git; informes locales Surefire y logs de cierre ignorados. |
+
+Esta entrada documenta un pedido real distinto de la preparación anterior. El análisis y las correcciones automáticas no se contabilizan como errores detectados por el grupo.

@@ -6,18 +6,17 @@ Sistema destinado al Club Social y Deportivo Los Algarrobos, Córdoba.
 
 ## Estado actual del proyecto
 
-**Etapa completada: inicialización estructural del Prompt 01.**
+**Etapa actual: modelo de datos y repositorios (2026-11-07), preparada para revisión.**
 
-El repositorio contiene una primera estructura del sitio público, un backend MVC con Spring Boot y una aplicación React mínima.
+PR #1 (sitio público) y PR #2 (React con datos locales) integrados. Se implementaron Socio, Actividad, Inscripcion, sus enums y tres JpaRepository, con búsquedas paginadas y conteos de ACTIVAS. Hay esquema MySQL y seed con ocho actividades del PDF y 21 socios ficticios (dos MOROSOS y Yoga con 14/15 plazas).
 
-Esta etapa es únicamente estructural. Todavía no están implementados:
+**Cierre del 2026-11-08:** Maven verify finalizó con 6 aprobadas, 7 omitidas y 0 fallos/errores. React compiló y sus 20 pruebas aprobaron. El usuario confirmó MySQL operativo, bases/cuentas separadas, tablas creadas y preparación manual de datos. Las credenciales no están disponibles para Codex; las siete pruebas JPA reales, Hibernate validate contra MySQL y el arranque completo siguen pendientes. Ver [validación](Docs/validacion-modelo-datos.md).
 
-- CRUD de socios, actividades ni inscripciones.
-- Entidades JPA ni tablas de base de datos.
-- Datos de prueba o carga inicial de información.
-- Reglas de negocio RN1–RN7.
-- Funcionalidades reales de ingreso, inscripción y consulta.
-- Pruebas funcionales completas ni colección Postman.
+Para continuar desde otra computadora, seguir [instalación desde cero en Windows](Docs/instalacion-desde-cero.md): herramientas, clonación de esta rama, cuentas, scripts, variables y arranque de las tres aplicaciones.
+
+Todavía faltan los servicios RN1–RN5, CRUD, API REST, pantallas de gestión e integración Axios. El sitio público conserva sus pendientes de JavaScript. Los frontends existentes no se modificaron. El usuario autorizó publicar esta rama con sus límites de validación documentados; confirmar commit y push en el historial de Git y en el remoto.
+
+Ver [guía de defensa técnica](Docs/guia-defensa-tecnica.md), [datos y DNI de prueba](Docs/datos-modelo.md) e [instrucciones MySQL para Windows](Docs/mysql-local.md).
 
 No se realizaron despliegues.
 
@@ -40,7 +39,7 @@ La implementación se realizará por etapas, siguiendo los requisitos funcionale
 ├── sitio-publico/      HTML5, CSS3, JavaScript y assets
 ├── backend/            Maven Wrapper, Spring Boot, MVC/REST y Thymeleaf
 ├── app-socios/         Create React App
-├── database/           schema.sql y seed.sql, solo comentarios
+├── database/           schema.sql y seed.sql, carga manual
 ├── postman/            colección pendiente
 ├── Docs/               enunciado, trazabilidad y registros
 ├── .vscode/            recomendaciones de extensiones
@@ -149,7 +148,15 @@ mysql.exe -u root -p -e "CREATE DATABASE IF NOT EXISTS socioclub CHARACTER SET u
 
 **Importante:** este comando solamente prepara la base vacía. No se ejecutó en esta sesión.
 
-Los archivos `database/schema.sql` y `database/seed.sql` contienen comentarios: todavía no crean tablas ni cargan datos.
+Después de crear la base, abrir el cliente MySQL desde la raíz del repositorio y ejecutar:
+
+```sql
+USE socioclub;
+SOURCE database/schema.sql;
+SOURCE database/seed.sql;
+```
+
+Los scripts están preparados y no se ejecutaron en esta sesión. No borran ni actualizan datos existentes. Revisar tablas y actividades homónimas antes de cargar una base poblada. Ver [procedimiento completo](Docs/mysql-local.md).
 
 Para iniciar el backend, abrir una terminal PowerShell y ejecutar:
 
@@ -160,7 +167,7 @@ $env:DB_USERNAME = '<usuario_mysql_local>'
 $env:DB_PASSWORD = [System.Net.NetworkCredential]::new('', (Read-Host 'Contraseña MySQL' -AsSecureString)).Password
 $env:PORT = '8080'
 $env:CORS_ALLOWED_ORIGINS = 'http://localhost:3000,http://localhost:5500'
-.\mvnw\.cmd spring-boot:run
+.\mvnw.cmd spring-boot:run
 ```
 
 Reemplazar `<usuario_mysql_local>` por una cuenta real que tenga acceso a la base de datos.
@@ -175,15 +182,15 @@ La pantalla inicial requiere que Spring pueda conectarse a MySQL.
 
 Las variables se leen desde `application.properties`. El archivo `backend/.env.example` documenta los nombres de las variables, pero no se carga automáticamente.
 
-Hibernate está configurado con `ddl-auto=none` y sin inicialización SQL.
+Hibernate usa `ddl-auto=validate`, sin generación de tablas ni inicialización SQL automática. Ejecutar el esquema antes del arranque.
 
-#### Compilación y prueba MVC aislada
+#### Compilación y pruebas sin MySQL
 
-Para compilar el backend y ejecutar la prueba MVC aislada, sin conexión MySQL, desde PowerShell:
+Para compilar y ejecutar las pruebas de integridad en memoria y MVC sin MySQL, desde PowerShell (las siete pruebas MySQL se omiten salvo activación explícita):
 
 ```powershell
 Set-Location .\backend
-.\mvnw\.cmd -B verify
+.\mvnw.cmd -B verify
 ```
 
 Se genera el archivo:
@@ -209,7 +216,7 @@ Abrir:
 
 [http://localhost:3000/](http://localhost:3000/)
 
-La aplicación muestra una pantalla de bienvenida. El cliente Axios está preparado, pero todavía no realiza peticiones a la API.
+La aplicación incluye ingreso por DNI, catálogo, detalle y Mis Actividades con datos locales del PR #2. La conexión a la API mediante Axios sigue pendiente.
 
 `REACT_APP_API_URL` es una variable pública que se incorpora al compilar la aplicación. No debe utilizarse para almacenar contraseñas ni otros secretos.
 
@@ -219,10 +226,10 @@ Desde `app-socios`:
 
 ```powershell
 npm.cmd run build
-npm.cmd test -- --watchAll=false --runInBand --passWithNoTests
+npm.cmd test -- --watchAll=false --runInBand
 ```
 
-Todavía no hay pruebas React implementadas. La opción `--passWithNoTests` permite que el comando termine sin pruebas disponibles; por lo tanto, una ejecución exitosa no acredita que existan pruebas aprobadas.
+El PR #2 incorporó pruebas Jest y React Testing Library. En el cierre del 2026-11-08 se ejecutaron: 20 aprobadas, 0 fallidas y 0 omitidas, además del build exitoso. No se modificaron fuentes ni dependencias de los frontends.
 
 La compilación estática queda en:
 
@@ -232,9 +239,9 @@ app-socios/build/
 
 Para detener los servidores, utilizar `Ctrl+C` en cada terminal.
 
-## Validación observada y límites
+## Validación histórica de inicialización y límites
 
-Las siguientes comprobaciones fueron registradas durante la inicialización estructural:
+Las siguientes comprobaciones son históricas (Prompt 01). Ver el resultado actual en [validación del modelo](Docs/validacion-modelo-datos.md):
 
 | Comprobación | Resultado registrado |
 | --- | --- |
@@ -294,7 +301,7 @@ La carpeta `Docs/` reúne el enunciado, las decisiones técnicas, los registros 
 
 - [Enunciado principal](Docs/Enunciado/TPIntegradorSocioClubEnunciado.pdf): consigna del trabajo integrador.
 - [Arquitectura y decisiones](Docs/arquitectura.md): organización y decisiones técnicas.
-- [Matriz RF1–RF10 y RN1–RN7](Docs/requerimientos.md): requisitos y reglas de negocio, actualmente en estado Pendiente.
+- [Matriz RF1–RF10 y RN1–RN7](Docs/requerimientos.md): requisitos, reglas y avances parciales; cumplimiento integral pendiente.
 - [Bitácora de IA — Anexo C](Docs/bitacora-ia.md): prompts, resultados, revisiones y correcciones reales.
 - [Registro de trabajo manual](Docs/registro-trabajo.md): intervenciones del grupo, decisiones, validaciones y commits asociados.
 - [Pruebas de sistema](Docs/pruebas-sistema.md): seis escenarios previstos, todavía sin ejecutar.
@@ -307,10 +314,9 @@ La carpeta `Docs/` reúne el enunciado, las decisiones técnicas, los registros 
 Las siguientes tareas corresponden a etapas posteriores del trabajo integrador:
 
 - Informar los integrantes y el número de grupo. El enunciado exige un grupo de 4 o 5 personas.
-- Registrar los DNI de prueba y las intervenciones manuales reales cuando se realicen.
+- Registrar las intervenciones manuales reales cuando se realicen; los DNI preparados están en Docs/datos-modelo.md.
 - Implementar RF1–RF10 y RN1–RN7.
-- Desarrollar el modelo de entidades JPA.
-- Definir el esquema SQL y los datos de prueba según el PDF del enunciado.
+- Validar la persistencia real del modelo y ejecutar esquema/seed en MySQL operativo.
 - Implementar los endpoints de la API REST.
 - Completar las pantallas de gestión y las funcionalidades de la aplicación para socios.
 - Implementar y ejecutar pruebas funcionales y de interfaz.
