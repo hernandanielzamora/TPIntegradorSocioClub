@@ -428,3 +428,33 @@ a:focus-visible {
     padding: 1.25rem;
   }
 }
+/* Cierre Parte A: mismos colores y componentes del trabajo existente. */
+.seccion-catalogo { padding-block: clamp(2rem, 6vw, 4rem); }
+.seccion-catalogo h1 { font-size: clamp(2rem, 5vw, 3rem); margin: 0; }
+.filtros-catalogo { display: flex; flex-wrap: wrap; gap: 1.25rem; align-items: flex-start; margin-block: 2rem; }
+.filtros-catalogo > .campo-formulario { flex: 1 1 13rem; }
+.filtros-catalogo > button { align-self: flex-start; margin-top: 2rem; }
+.catalogo-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+.tarjeta-actividad { min-width: 0; padding: 1.25rem; border: 1px solid #dce6dc; border-radius: .9rem; background: var(--blanco); }
+.tarjeta-actividad h3 { margin-top: 0; }
+.tarjeta-actividad dt { font-weight: 700; }
+.tarjeta-actividad dd { margin: 0 0 .7rem; overflow-wrap: anywhere; }
+.tarjeta-actividad .boton { margin-top: .5rem; }
+.campo-formulario select { width: 100%; min-height: 3rem; padding: .7rem; font: inherit; color: var(--verde-oscuro); background: white; border: 1px solid #aabdaf; border-radius: .5rem; }
+button { cursor: pointer; font: inherit; }
+button:disabled { cursor: not-allowed; opacity: .65; }
+button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="-1"]:focus-visible { outline: 3px solid #b56d16; outline-offset: 3px; }
+.campo-formulario [aria-invalid="true"] { border: 2px solid #a83232; }
+.campo-formulario input:invalid:not(:placeholder-shown):not([aria-invalid="true"]) { border-color: #aabdaf; }
+#resultado-preinscripcion:not(:empty) { padding: 1rem; background: var(--verde-claro); border-left: 4px solid var(--verde); }
+#resultado-catalogo { font-weight: 700; }
+.estado-vacio { grid-column: 1 / -1; }
+.ilustracion-club { width: min(100%, 32rem); height: auto; display: block; margin-block: 1rem; }
+@media (max-width: 60rem) { .catalogo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 40rem) {
+  .catalogo-grid { grid-template-columns: 1fr; }
+  .filtros-catalogo { flex-direction: column; }
+  .filtros-catalogo > .campo-formulario { flex-basis: auto; width: 100%; }
+  .filtros-catalogo > button { margin-top: 0; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

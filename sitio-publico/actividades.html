@@ -3,15 +3,64 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Actividades | SocioClub</title>
+  <meta name="description" content="Actividades iniciales de Los Algarrobos: disciplinas, edades, horarios y cuotas.">
+  <title>Actividades | Club Social y Deportivo Los Algarrobos</title>
   <link rel="stylesheet" href="css/estilos.css">
   <script src="js/script.js" defer></script>
 </head>
 <body>
-  <header><p>Club Social y Deportivo Los Algarrobos</p>
-    <nav aria-label="Principal"><a href="index.html">Inicio</a> <a href="actividades.html" aria-current="page">Actividades</a> <a href="preinscripcion.html">Preinscripción</a></nav>
+<header class="encabezado">
+    <div class="contenedor encabezado-contenido">
+      <a class="marca" href="index.html" aria-label="Club Social y Deportivo Los Algarrobos - Inicio">
+        <span class="marca-nombre">Club Social y Deportivo</span>
+        <span class="marca-destacado">Los Algarrobos</span>
+      </a>
+
+      <nav class="navegacion" aria-label="Navegación principal">
+        <a href="index.html">Inicio</a>
+        <a href="actividades.html" aria-current="page">Actividades</a>
+        <a href="preinscripcion.html">Preinscripción</a>
+      </nav>
+    </div>
   </header>
-  <main><h1>Actividades</h1><section><h2>Catálogo en preparación</h2><p>Las actividades, horarios, cuotas y filtros se incorporarán en una próxima etapa.</p></section></main>
-  <footer><p>SocioClub · Trabajo Práctico Integrador · Universidad Siglo 21</p></footer>
+  <main id="contenido">
+    <section class="seccion-catalogo contenedor" aria-labelledby="titulo-catalogo">
+      <div class="seccion-encabezado">
+        <p class="etiqueta">Deporte y recreación</p>
+        <h1 id="titulo-catalogo">Actividades</h1>
+        <p>Buscá una propuesta para tu edad y disciplina. Edades mínimas y máximas inclusivas.</p>
+      </div>
+      <form class="filtros-catalogo" aria-label="Filtrar actividades">
+        <div class="campo-formulario">
+          <label for="filtro-disciplina">Disciplina</label>
+          <select id="filtro-disciplina" name="disciplina"><option value="">Todas las disciplinas</option></select>
+        </div>
+        <div class="campo-formulario">
+          <label for="filtro-edad">Edad (opcional)</label>
+          <input id="filtro-edad" name="edad" type="text" inputmode="numeric" maxlength="4" aria-describedby="ayuda-edad error-edad">
+          <small id="ayuda-edad">Un número entero entre 0 y 120.</small>
+          <small id="error-edad" class="mensaje-error" aria-live="polite"></small>
+        </div>
+        <button class="boton boton-secundario" type="button" id="limpiar-filtros">Limpiar filtros</button>
+      </form>
+      <h2>Propuestas deportivas y recreativas</h2>
+      <p id="resultado-catalogo" role="status" aria-live="polite"></p>
+      <div id="catalogo-actividades" class="catalogo-grid"></div>
+      <noscript><p>Activá JavaScript para ver el catálogo y sus filtros.</p></noscript>
+    </section>
+    <aside class="aviso-sitio" aria-labelledby="aviso-catalogo">
+      <div class="contenedor">
+        <h2 id="aviso-catalogo">Información del catálogo inicial</h2>
+        <p>Datos de la consigna académica. Los cupos máximos no indican vacantes actuales. Para consultar disponibilidad e inscribirte como socio, usá la app Mi Club o Secretaría.</p>
+        <a href="http://localhost:3000/">Abrir Mi Club (demostración local)</a>
+      </div>
+    </aside>
+  </main>
+<footer class="pie-pagina">
+    <div class="contenedor pie-contenido">
+      <p>Club Social y Deportivo Los Algarrobos</p>
+      <p>SocioClub · Trabajo Práctico Integrador · Universidad Siglo 21</p>
+    </div>
+  </footer>
 </body>
 </html>

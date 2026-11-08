@@ -6,9 +6,13 @@ Sistema destinado al Club Social y Deportivo Los Algarrobos, Córdoba.
 
 ## Estado actual del proyecto
 
-Backend JPA/MySQL, RN1–RN5, MVC de Secretaría y nueve endpoints REST del Anexo A implementados; baja lógica de socios adicional, con vigencia independiente de cuota y conservación del historial. Migración aplicada manualmente a testing y desarrollo tras respaldos mysqldump. Verify autenticado confirmado: **128 aprobadas, 0 fallos, 0 errores, 0 omitidas**, antes de cargar el fixture manual. El usuario confirmó el ensayo de Secretaría sobre testing:8081; HTTP 409, idempotencia y valores finales exactos aún requieren evidencia específica. No ejecutar nuevamente suites MySQL que exigen tablas vacías: testing contiene el fixture, no limpiarlo automáticamente.
+**Cierre obligatorio: LISTO CON VALIDACIONES MANUALES PENDIENTES.** Sitio público con tres páginas, catálogo DOM/filtros y formulario validado localmente; backend MVC/REST/JPA/MySQL y React con Axios real. RN1–RN7 implementadas. Se conserva la baja lógica adicional de socios. FE-ADMIN-01/RN8 están NO IMPLEMENTADAS y postergadas en [mejoras futuras](Docs/mejoras-futuras.md), sin migraciones ejecutadas.
 
-Contrato: [API REST](Docs/api-rest.md). [Ensayo manual y fixture convencional](Docs/validacion-manual-baja-socios.md). [Configuración privada MySQL](Docs/mysql-local.md). No hay autenticación/autorización/CSRF: demostración académica local, sin exposición pública ni despliegue. Respaldos fuera de Git, sin restauración de ensayo confirmada. Backend integrado en dev; esta rama React conecta ingreso, catálogo/detalle e inscripciones mediante Axios real y conserva el trabajo del equipo. 58 pruebas frontend aprobadas; conexión real en navegador pendiente. Ver [integración React](Docs/react-integracion-api.md). React no se fusiona todavía a dev. El sitio público no cambia.
+Esta ejecución: **111 pruebas backend sin MySQL, 58 React y 25 sitio aprobadas**, sin fallos/omisiones; React build exitoso. HTTP real de solo lectura y CORS comprobados. Los 128 tests autenticados históricos del usuario no se repitieron: socioclub_test contiene fixtures manuales y no debe limpiarse ni recibir suites de vacío. No confundir los mocks de pruebas con el consumo real de la app.
+
+Ver [cierre y límites](Docs/cierre-desarrollo.md), [trazabilidad](Docs/requerimientos.md), [casos de sistema](Docs/pruebas-sistema.md), [Parte A](Docs/sitio-publico.md) y [material para informe/defensa](Docs/preparacion-informe-defensa.md). Pendientes: recorridos visuales/escrituras autorizadas, seis casos E2E, capturas reales e informe. RF3 valida en navegador pero NO envía ni guarda una preinscripción en MySQL; confirmar ese alcance docente si se exige recepción remota adicional.
+
+Uso académico LOCAL: sin autenticación administrativa/autorización robusta ni CSRF. No exponer públicamente. No hubo despliegue. Los hashes/merges reales están en [registro de trabajo](Docs/registro-trabajo.md) y Git; main permanece fuera de alcance.
 ## Propósito
 
 SocioClub es un proyecto académico que busca desarrollar un sistema para gestionar las actividades y los socios de un club deportivo.
@@ -115,7 +119,7 @@ Abrir en el navegador:
 
 [http://localhost:5500/index.html](http://localhost:5500/index.html)
 
-La navegación entre las tres páginas funciona. El catálogo y el formulario se encuentran pendientes de implementación funcional.
+Catálogo estático inicial, filtros disciplina/edad y validación local del formulario completos. El formulario no envía ni guarda datos. Para tests del sitio, después de npm.cmd ci en app-socios: node --test sitio-publico/tests/script.test.cjs.
 
 Alternativa sin servidor:
 
@@ -232,7 +236,7 @@ La carpeta `Docs/` reúne el enunciado, las decisiones técnicas, los registros 
 
 - [Enunciado principal](Docs/Enunciado/TPIntegradorSocioClubEnunciado.pdf): consigna del trabajo integrador.
 - [Arquitectura y decisiones](Docs/arquitectura.md): organización y decisiones técnicas.
-- [Matriz RF1–RF10 y RN1–RN7](Docs/requerimientos.md): requisitos, reglas y avances parciales; cumplimiento integral pendiente.
+- [Matriz RF1–RF10 y RN1–RN7](Docs/requerimientos.md): trazabilidad actual, evidencia y límites explícitos.
 - [Bitácora de IA — Anexo C](Docs/bitacora-ia.md): prompts, resultados, revisiones y correcciones reales.
 - [Registro de trabajo manual](Docs/registro-trabajo.md): intervenciones del grupo, decisiones, validaciones y commits asociados.
 - [Pruebas de sistema](Docs/pruebas-sistema.md): seis escenarios previstos, todavía sin ejecutar.
@@ -242,18 +246,10 @@ La carpeta `Docs/` reúne el enunciado, las decisiones técnicas, los registros 
 
 ## Pendientes
 
-Las siguientes tareas corresponden a etapas posteriores del trabajo integrador:
-
-- Informar los integrantes y el número de grupo. El enunciado exige un grupo de 4 o 5 personas.
-- Registrar las intervenciones manuales reales cuando se realicen; los DNI preparados están en Docs/datos-modelo.md.
-- Implementar RF1–RF10 y RN1–RN7.
-- Validar la persistencia real del modelo y ejecutar esquema/seed en MySQL operativo.
-- Implementar los endpoints de la API REST.
-- Completar las pantallas de gestión y las funcionalidades de la aplicación para socios.
-- Implementar y ejecutar pruebas funcionales y de interfaz.
-- Completar la colección de Postman.
-- Elaborar el informe PDF de 8–12 páginas.
-
+- **Bloqueantes:** ninguno detectado en las pruebas disponibles; aclarar el límite docente de RF3 si exige recepción remota adicional.
+- **Validaciones manuales:** seis casos de sistema, Postman por escenarios, móvil/teclado/consola y recorrido de escrituras con datos aprobados. No ejecutar suites MySQL de vacío en la base poblada.
+- **Entrega y defensa:** integrantes/número de grupo/contribuciones confirmadas, capturas reales, informe 8–12 páginas y revisión de evidencia de ajustes humanos de código. No inventar aportes.
+- **Mejoras futuras:** FE-ADMIN-01/RN8, seguridad y eventual despliegue; no son requisitos de cierre local. SQL de propuestas no debe ejecutarse.
 ### Alojamiento y despliegue
 
 El despliegue todavía no se realizó.
@@ -274,7 +270,7 @@ Las vistas Thymeleaf se alojarán junto con el backend, no como frontend estáti
 
 Los escenarios de prueba de sistema están documentados, pero no ejecutados. Los resultados deben registrarse únicamente después de realizar cada prueba y observar el comportamiento real del sistema.
 
-No deben interpretarse las comprobaciones de compilación o inicialización como evidencia de que las reglas de negocio, las operaciones CRUD o las integraciones estén funcionando.
+Las pruebas unitarias/MVC/RTL actuales sí cubren reglas y contratos, pero no sustituyen los casos E2E manuales. Los resultados históricos de inicialización no se presentan como pruebas de esta etapa.
 
 ## Mejoras futuras postergadas
 

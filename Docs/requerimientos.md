@@ -1,5 +1,34 @@
 # Requerimientos y trazabilidad — SocioClub
 
+## Matriz vigente de cierre — Prompt 22
+
+Referencias originales: enunciado secciones 3.1/3.2 y Parte A–E. Estados describen el alcance y la evidencia, no acreditan recorridos humanos no realizados. Las matrices anteriores se conservan abajo como historial de etapas.
+
+| ID | Implementación y archivos / módulos | Evidencia actual | Estado |
+| --- | --- | --- | --- |
+| RF1 | Sitio: ocho Actividad y tarjetas DOM (script.js); backend y React catálogo real | 25 sitio, GET real catálogo/detalle 200, tests React | Implementado y probado |
+| RF2 | Sitio: filtros combinados disciplina/edad; React disciplina | Sitio bordes/combinación/vacío/edad inválida; React filtro | Implementado y probado |
+| RF3 | Preinscripción: validación local accesible, sin recepción remota/MySQL | 25 sitio incluyen formulario válido/inválido y preventDefault; alcance en sitio-publico.md | Implementado y probado |
+| RF4 | ActividadService, Secretaría, nueve endpoints API para ABM y cupos | Tests servicio/MockMvc 200/201/204/400/404/409; GET real 200 | Implementado y probado |
+| RF5 | SocioService/repositorio, formulario/listado/búsqueda/paginación MVC | Tests servicio/MVC; Secretaría real 200 | Implementado y probado |
+| RF6 | InscripcionService compartido por MVC/API; React POST | Unitarios RN1–RN5 y Axios; flujo de escritura navegador pendiente | Implementado y probado |
+| RF7 | ConsultaSecretariaService, listado inscriptos y cupo calculado de ACTIVAS | Unitarios/MVC/DTO; catálogo real 200; cupos finales manuales pendientes | Implementado y probado |
+| RF8 | DNI por API, contexto mínimo, ACTIVAS por socio | React/contrato; consulta real de socio y ACTIVAS 200 | Implementado y probado |
+| RF9 | PUT baja de inscripción, confirmación React y POST MVC; historial BAJA | Unitarios/MockMvc/RTL; flujo integral manual pendiente | Implementado y probado |
+| RF10 | ResumenCuota y calcularCuotaMensual, precios del DTO real | Jest cero/una/dos/tres y centavos; BAJA excluida | Implementado y probado |
+| RN1 | InscripcionService cupo, lock de actividad | aceptaUltimoCupo/rechazaCupoCompletoOYaExcedido; API RN1; React conflicto | Implementado y probado |
+| RN2 | Duplicado ACTIVA; BAJA permite reinscribir sin reactivar | rechazaActivaDuplicada/reinscripcionNoReactivaNiModificaLaBaja; API RN2 | Implementado y probado |
+| RN3 | Period/Clock, edad mínima/máxima inclusivas | Cumpleaños y bisiesto, API RN3, filtro sitio inclusivo | Implementado y probado |
+| RN4 | MOROSO rechaza alta, permite consulta/baja | rechazaSocioMoroso; servicios/contrato; API RN4 | Implementado y probado |
+| RN5 | Máximo tres ACTIVAS, lock de socio | aceptaTerceraActividadContandoSoloActivas/rechazaCuartaActividadOConteoYaExcedido; API RN5 | Implementado y probado |
+| RN6 | Función JS con bonificación 0/10/15%, centavos | Jest 0/1/2/3 actividades y redondeo | Implementado y probado |
+| RN7 | Validación DNI sitio/React y Bean Validation SQL | Tests sitio/React 7/8 válidos; puntos/letras/longitudes inválidos | Implementado y probado |
+| FE-ADMIN-01 / RN8 | Solo diseño preservado en propuestas | NO ejecutados, sin dependencias/función parcial | Mejora futura fuera del alcance |
+
+“Implementado y probado” aquí acredita pruebas automatizadas descritas y consultas explícitas, no los seis casos E2E manuales. Ver [pruebas-sistema.md](pruebas-sistema.md) y [cierre-desarrollo.md](cierre-desarrollo.md). No representa garantía de seguridad pública ni nueva corrida MySQL. RF3 tiene el límite expreso de recepción local: no afirmar recepción remota o almacenamiento. Si la interpretación docente exige esa recepción, requiere resolver el alcance antes de entregar. La tabla no reemplaza ese aviso.
+
+## Antecedentes de matrices anteriores
+
 Actualización de etapa RN1–RN5 (2026-11-08): la persistencia anterior fue validada e integrada por PR #3. Ahora InscripcionService implementa las reglas con bloqueos pesimistas y transacción READ_COMMITTED. Verify final: 36 aprobadas, 0 fallos/errores/omisiones, incluidas las 19 unitarias del servicio y 11 MySQL. Ejecución autenticada confirmada por el usuario y XML inspeccionados por Codex. Ver [detalle](reglas-negocio.md). Los estados históricos siguientes describen la preparación anterior; RF6 no se considera integralmente completo sin controladores e integración.
 
 Fuente principal: [TPIntegradorSocioClubEnunciado.pdf](Enunciado/TPIntegradorSocioClubEnunciado.pdf), leído íntegramente (14 páginas) el 2026-11-02.

@@ -24,7 +24,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="contenido">
     <section class="seccion-preinscripcion" aria-labelledby="titulo-preinscripcion">
       <div class="contenedor">
         <div class="seccion-encabezado">
@@ -37,10 +37,10 @@
         </div>
 
         <div class="formulario-tarjeta">
-          <form class="formulario-preinscripcion">
+          <form class="formulario-preinscripcion" method="post" novalidate>
             <p class="aviso-formulario">
-              La recepción de preinscripciones todavía no está habilitada.
-              Este formulario es una interfaz de preparación y no envía ni
+              Este formulario valida tus datos en el navegador, pero no envía una solicitud al club.
+              No reemplaza la inscripción de un socio desde Mi Club o Secretaría ni
               guarda información.
             </p>
 
@@ -50,7 +50,7 @@
                 type="text"
                 id="nombre"
                 name="nombre"
-                autocomplete="given-name"
+                autocomplete="given-name" maxlength="80"
                 required
                 aria-describedby="error-nombre"
               >
@@ -63,7 +63,7 @@
                 type="text"
                 id="apellido"
                 name="apellido"
-                autocomplete="family-name"
+                autocomplete="family-name" maxlength="80"
                 required
                 aria-describedby="error-apellido"
               >
@@ -95,7 +95,7 @@
                 type="email"
                 id="email"
                 name="email"
-                autocomplete="email"
+                autocomplete="email" maxlength="150"
                 placeholder="ejemplo@correo.com"
                 required
                 aria-describedby="error-email"
@@ -105,20 +105,16 @@
 
             <div class="campo-formulario">
               <label for="actividad">Actividad</label>
-              <input
-                type="text"
-                id="actividad"
-                name="actividad"
-                placeholder="Escribí el nombre de la actividad"
-                required
-                aria-describedby="error-actividad"
-              >
+              <select id="actividad" name="actividad" required aria-describedby="error-actividad"><option value="">Seleccioná una actividad</option></select>
               <small class="mensaje-error" id="error-actividad" aria-live="polite"></small>
             </div>
 
-            <button class="boton boton-deshabilitado" type="button" disabled>
-              Envío de preinscripción no disponible
+            <button id="validar-preinscripcion" class="boton boton-principal" type="submit" disabled>
+              Validar datos de preinscripción
             </button>
+            <button class="boton boton-secundario" type="reset">Limpiar datos</button>
+            <p id="resultado-preinscripcion" role="status" aria-live="polite" tabindex="-1"></p>
+            <noscript><p>Activá JavaScript para validar. No se enviarán tus datos.</p></noscript>
           </form>
         </div>
       </div>
