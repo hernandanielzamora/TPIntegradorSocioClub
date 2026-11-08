@@ -8,7 +8,7 @@ Sistema destinado al Club Social y Deportivo Los Algarrobos, Córdoba.
 
 Backend JPA/MySQL, RN1–RN5, MVC de Secretaría y nueve endpoints REST del Anexo A implementados; baja lógica de socios adicional, con vigencia independiente de cuota y conservación del historial. Migración aplicada manualmente a testing y desarrollo tras respaldos mysqldump. Verify autenticado confirmado: **128 aprobadas, 0 fallos, 0 errores, 0 omitidas**, antes de cargar el fixture manual. El usuario confirmó el ensayo de Secretaría sobre testing:8081; HTTP 409, idempotencia y valores finales exactos aún requieren evidencia específica. No ejecutar nuevamente suites MySQL que exigen tablas vacías: testing contiene el fixture, no limpiarlo automáticamente.
 
-Contrato: [API REST](Docs/api-rest.md). [Ensayo manual y fixture convencional](Docs/validacion-manual-baja-socios.md). [Configuración privada MySQL](Docs/mysql-local.md). No hay autenticación/autorización/CSRF: demostración académica local, sin exposición pública ni despliegue. Respaldos fuera de Git, sin restauración de ensayo confirmada. React existente usa datos locales; su integración Axios es la siguiente etapa y conservará el trabajo del equipo. El sitio público no cambia.
+Contrato: [API REST](Docs/api-rest.md). [Ensayo manual y fixture convencional](Docs/validacion-manual-baja-socios.md). [Configuración privada MySQL](Docs/mysql-local.md). No hay autenticación/autorización/CSRF: demostración académica local, sin exposición pública ni despliegue. Respaldos fuera de Git, sin restauración de ensayo confirmada. Backend integrado en dev; esta rama React conecta ingreso, catálogo/detalle e inscripciones mediante Axios real y conserva el trabajo del equipo. 58 pruebas frontend aprobadas; conexión real en navegador pendiente. Ver [integración React](Docs/react-integracion-api.md). React no se fusiona todavía a dev. El sitio público no cambia.
 ## Propósito
 
 SocioClub es un proyecto académico que busca desarrollar un sistema para gestionar las actividades y los socios de un club deportivo.
@@ -125,105 +125,51 @@ Start-Process .\sitio-publico\index.html
 
 ### 2. Base MySQL y backend
 
-Si se dispone del cliente MySQL y de una cuenta administradora local, se puede preparar una base vacía con:
+Bases existentes: no volver a ejecutar schema/seed ni migraciones para arrancar. Instalaciones nuevas: seguir [mysql-local.md](Docs/mysql-local.md) y [plan de migración](Docs/plan-migracion-estado-socio.md). Desarrollo usa socioclub/socioclub_app y testing socioclub_test/socioclub_tests; nunca root desde Spring. .env se completa localmente desde la plantilla, permanece ignorado y no se carga solo.
+
+Terminal independiente, desde la raíz:
 
 ```powershell
-mysql.exe -u root -p -e "CREATE DATABASE IF NOT EXISTS socioclub CHARACTER SET utf8mb4;"
-```
-
-**Importante:** este comando solamente prepara la base vacía. No se ejecutó en esta sesión.
-
-Después de crear la base, abrir el cliente MySQL desde la raíz del repositorio y ejecutar:
-
-```sql
-USE socioclub;
-SOURCE database/schema.sql;
-SOURCE database/seed.sql;
-```
-
-Los scripts están preparados y no se ejecutaron en esta sesión. No borran ni actualizan datos existentes. Revisar tablas y actividades homónimas antes de cargar una base poblada. Ver [procedimiento completo](Docs/mysql-local.md).
-
-Para iniciar el backend, abrir una terminal PowerShell y ejecutar:
-
-```powershell
+Get-Service -Name MySQL84
 Set-Location .\backend
-$env:DB_URL = 'jdbc:mysql://localhost:3306/socioclub'
-$env:DB_USERNAME = '<usuario_mysql_local>'
-$env:DB_PASSWORD = [System.Net.NetworkCredential]::new('', (Read-Host 'Contraseña MySQL' -AsSecureString)).Password
+.\scripts\load-env.ps1
+if (-not $?) { throw 'No se cargó el entorno.' }
 $env:PORT = '8080'
-$env:CORS_ALLOWED_ORIGINS = 'http://localhost:3000,http://localhost:5500'
-.\mvnw.cmd spring-boot:run
+.\mvnw.cmd '-Dspring-boot.run.arguments=--server.port=8080' spring-boot:run
 ```
 
-Reemplazar `<usuario_mysql_local>` por una cuenta real que tenga acceso a la base de datos.
+Si el servicio MySQL está detenido, iniciarlo desde Servicios de Windows o Start-Service -Name MySQL84 en una terminal administradora. No modificar credenciales para ocultar un fallo de conexión. Esperar Started SocioClubApplication. Abrir http://localhost:8080/secretaria (panel académico sin login) y http://localhost:8080/api/actividades. Hibernate solo valida: ddl-auto=validate, init SQL desactivado. GET de Secretaría y API verificaron 200 durante este cierre.
 
-Abrir:
-
-[http://localhost:8080/](http://localhost:8080/)
-
-La pantalla inicial requiere que Spring pueda conectarse a MySQL.
-
-**No se verificó el arranque completo del backend ni una conexión real a MySQL en esta sesión.**
-
-Las variables se leen desde `application.properties`. El archivo `backend/.env.example` documenta los nombres de las variables, pero no se carga automáticamente.
-
-Hibernate usa `ddl-auto=validate`, sin generación de tablas ni inicialización SQL automática. Ejecutar el esquema antes del arranque.
-
-#### Compilación y pruebas sin MySQL
-
-Para compilar y ejecutar las pruebas de integridad en memoria y MVC sin MySQL, desde PowerShell (las siete pruebas MySQL se omiten salvo activación explícita):
+La base de testing contiene el fixture manual: NO ejecutar verify/MySQL tests que exigen vacío ni limpiarla para que pase. Para regresión segura, desde backend y sin cargar .env:
 
 ```powershell
-Set-Location .\backend
-.\mvnw.cmd -B verify
+.\mvnw.cmd -B '-Dtest=ApiControllerTests,ApiConsultaServiceTests,SecretariaControllerTests,SecretariaServiceTests,SocioBajaServiceTests,InscripcionServiceTests,IntegridadModeloTests,SocioClubApplicationTests' test
 ```
 
-Se genera el archivo:
-
-```text
-backend/target/socioclub-0.0.1-SNAPSHOT.jar
-```
-
-El sufijo `SNAPSHOT` corresponde a la versión del proyecto en desarrollo. Spring Boot utiliza una versión estable.
+Son 111 casos sin MySQL. Los 128/0/0/0 históricos corresponden a la ejecución autenticada del usuario antes del fixture; no se reemplazan por esta selección.
 
 ### 3. Aplicación React
 
-Abrir otra terminal PowerShell desde la raíz del monorepo:
+Otra terminal desde la raíz; fijar PORT porque una terminal que herede PORT=8080 también cambia el puerto de CRA:
 
 ```powershell
 Set-Location .\app-socios
 npm.cmd ci
+$env:PORT = '3000'
 $env:REACT_APP_API_URL = 'http://localhost:8080/api'
 npm.cmd start
 ```
 
-Abrir:
+Abrir http://localhost:3000. Ingreso por DNI de 7/8 dígitos, catálogo/detalle, ACTIVAS, alta/baja confirmada y cuota RN6 usan Axios real. Solo el DNI se guarda en sessionStorage; no es autenticación segura. CORS autoriza localhost:3000, no usar '*' para corregir un origen distinto. Ver [contratos e integración](Docs/react-integracion-api.md). POST alta crea una fila ACTIVA/ocupa plaza y PUT baja conserva historial/libera plaza: revisar datos antes de probar escrituras manuales; Codex solo hizo consultas HTTP de lectura.
 
-[http://localhost:3000/](http://localhost:3000/)
-
-La aplicación incluye ingreso por DNI, catálogo, detalle y Mis Actividades con datos locales del PR #2. La conexión a la API mediante Axios sigue pendiente.
-
-`REACT_APP_API_URL` es una variable pública que se incorpora al compilar la aplicación. No debe utilizarse para almacenar contraseñas ni otros secretos.
-
-#### Compilación y comprobación del runner de pruebas
-
-Desde `app-socios`:
+Pruebas y build, desde app-socios:
 
 ```powershell
-npm.cmd run build
 npm.cmd test -- --watchAll=false --runInBand
+npm.cmd run build
 ```
 
-El PR #2 incorporó pruebas Jest y React Testing Library. En el cierre del 2026-11-08 se ejecutaron: 20 aprobadas, 0 fallidas y 0 omitidas, además del build exitoso. No se modificaron fuentes ni dependencias de los frontends.
-
-La compilación estática queda en:
-
-```text
-app-socios/build/
-```
-
-Para detener los servidores, utilizar `Ctrl+C` en cada terminal.
-
+58 pruebas actuales con Axios simulado solo en tests; no son una prueba completa en navegador/MySQL. build y node_modules están ignorados. No hay despliegue. Detener cada servidor con Ctrl+C.
 ## Validación histórica de inicialización y límites
 
 Las siguientes comprobaciones son históricas (Prompt 01). Ver el resultado actual en [validación del modelo](Docs/validacion-modelo-datos.md):
@@ -329,3 +275,7 @@ Las vistas Thymeleaf se alojarán junto con el backend, no como frontend estáti
 Los escenarios de prueba de sistema están documentados, pero no ejecutados. Los resultados deben registrarse únicamente después de realizar cada prueba y observar el comportamiento real del sistema.
 
 No deben interpretarse las comprobaciones de compilación o inicialización como evidencia de que las reglas de negocio, las operaciones CRUD o las integraciones estén funcionando.
+
+## Mejoras futuras postergadas
+
+FE-ADMIN-01 y RN8 no están implementadas y no forman parte del cierre obligatorio. Ver [registro de mejoras](Docs/mejoras-futuras.md); sus SQL están en database/propuestas, no deben ejecutarse como migraciones.

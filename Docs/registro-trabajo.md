@@ -173,3 +173,37 @@ Se mantienen IH-MIG-01 y AH-1–AH-3: migraciones/respaldos manuales y decisione
 Commit feature/backend-api-rest: d58094cfd940f8a885908335f10febf2effdb5b3 (API, baja logica, fixture convencional y documentacion; 45 archivos). Push a origin/feature/backend-api-rest realizado. dev local y origin/dev estaban sincronizados en a93d450; merge --no-ff sin conflictos: 3ace199fc3ef6c847b47ce7457ae41680cb5bdb5. No se creo PR, no se modifico main ni se reescribieron commits del equipo.
 
 Validacion segura posterior al merge, ejecutada por Codex: Maven offline, seleccion explicita de ocho suites sin MySQL, 111 aprobadas, 0 fallos, 0 errores, 0 omitidas, BUILD SUCCESS. No fue verify completo ni ejecucion de las 17 MySQL; la corrida completa anterior de 128/0/0/0 sigue siendo la confirmada por el usuario antes de cargar fixtures. Se conservaron metadatos de reportes anteriores en .cache/backend-128-previo-regresion.json, ignorado, sin secretos. No se abrio .env ni se ejecuto SQL o limpieza de bases. Push de dev y rama React se verifican en Git al completar la siguiente operacion; no se anticipa su resultado en este registro.
+
+## Rama e implementación React — 2026-11-08
+
+Publicación de dev confirmada en 08d7c403bcd2fe392fbaedd96a40c4eee8b81695 y sincronización local/remoto 0/0. Se creó feature/react-integracion-api desde ese commit, sin modificar main ni integrar React a dev. Auditoría conservó commits de Mateo 4268ffb/ec53dfb/dba8ac7 y componentes/rutas/CSS. Codex conectó seis operaciones REST desde cuatro páginas, agregó validación de DTO/errores, identificación mínima, confirmación/bloqueos de UI y ajuste de centavos RN6. No hubo SQL, migración o limpieza de bases.
+
+Validación real React: npm ci desde lock existente; 58 pruebas aprobadas, 0 fallos, 0 omitidas, cinco suites. La falla intermedia fue un selector ambiguo del test nuevo, corregido por Codex. No consta código editado manualmente por el usuario. Build en curso al escribir este registro; se anexará resultado efectivo. Integración real HTTP/navegador pendiente de usuario según react-integracion-api.md; ningún test nuevo depende de MySQL. Los commits/push de esta feature se registrarán después de su ejecución y no hay autorización para fusionarla todavía.
+
+## Resultado efectivo de validación React
+
+npm.cmd test -- --watchAll=false --runInBand: 58 aprobadas, 0 fallidas, 0 omitidas, cinco suites, sin MySQL. npm.cmd run build con CI=true: exit 0, Compiled successfully (bundle JS gzip 80.08 kB, CSS 2.51 kB). El aviso Node DEP0176/fs.F_OK procede del stack de herramientas existente y no impidió compilar; no se migró CRA ni se cambiaron dependencias para ocultarlo. npm ci mantuvo package.json y package-lock.json sin modificaciones. Logs/resultados locales en .cache ignorado; build y node_modules no se publican. No hubo pruebas reales en navegador, solicitudes contra MySQL ni despliegue. Esos pendientes están descritos en react-integracion-api.md.
+
+## Commit de integración React creado
+
+Commit 5771ffe551613b56c6da126f5819ff27f76c5487 en feature/react-integracion-api: 27 archivos, conexión Axios real, tests y documentación. Validación previa: 58 pruebas aprobadas y build Compiled successfully. No cambió package.json/package-lock.json, backend, database o sitio-publico respecto de dev. Esta feature no se fusionó con dev. La publicación remota se realizará después de este registro; su resultado se informa al cierre, sin anticiparlo aquí.
+
+## Ampliaciones propuestas: FE-ADMIN-01 y RN8 — Prompt 21
+
+El usuario propuso administración React con autenticación/rol ADMIN y prevención de conflictos horarios como EXTRAS, sin reemplazar RF1–RF10/RN1–RN7. Auditoría/diseño/SQL revisables en [propuesta-admin-rn8.md](propuesta-admin-rn8.md). Se comprobó que dias es texto libre, horario solo contiene inicio y no existe parser/duración; tampoco hay seguridad administrativa ni CSRF. No se consultaron datos vivos ni se asumieron horas de fin.
+
+Codex preparó 002_cuenta_administrativa.sql y 003_actividad_horario.sql, sin ejecutarlas ni agregar código de aplicación o dependencias. La condición expresa del pedido obliga a detenerse porque la integración necesita alterar el esquema. Administración protegida y RN8 NO están implementadas todavía; la aplicación actual conserva sus limitaciones de seguridad. Pendiente aprobación humana del modelo, inventario real y horas fin, provisión privada de cuenta y pruebas de las funciones nuevas. Los éxitos anteriores de tests no acreditan estas EXTRAS. Propuesta humana; diseño/DDL/documentación Codex, sin ediciones manuales ficticias ni cambio de AH-1–AH-3/IH-MIG-01. Sin commit/push/merge ni modificación de bases.
+
+Verificación efectiva de esta preparación: npm.cmd test -- --watchAll=false --runInBand ejecutado por Codex: cinco suites, 58 aprobadas, 0 fallidas y 0 omitidas (regresión EXISTENTE, no pruebas de FE-ADMIN-01/RN8). No se ejecutó Maven/MySQL ni build nuevo porque no cambió código de aplicación. git diff --check satisfactorio; .env sigue ignorado y no se leyó. El BOM local oficial spring-boot-dependencies 4.1.2 administra Spring Security 7.1.2; se contrastó su documentación, sin agregar la dependencia todavía. Git: seis documentos modificados y tres archivos nuevos (propuesta y dos SQL); sin commit/push/merge.
+
+## Cierre obligatorio — decisión de alcance del usuario
+
+Se postergan FE-ADMIN-01/RN8, sin implementarlas ni ejecutar su SQL. Se conserva auditoría; archivos reubicados en database/propuestas y detalles en [mejoras-futuras.md](mejoras-futuras.md). La decisión de priorizar requisitos/entrega es humana; reubicación/documentación de Codex. Las aprobaciones de tests anteriores son antecedentes, no pruebas nuevas de este cierre. No se borra trabajo del equipo.
+
+## Prompt 22 — regresión e integración real de solo lectura
+
+Ejecución actual de Codex: 58 pruebas React aprobadas (cinco suites, cero fallos/omisiones) y 111 backend seguras aprobadas (cero fallos/errores/omisiones, goal test BUILD SUCCESS). No se ejecutaron las suites MySQL ni verify completo: socioclub_test conserva los fixtures manuales. Los 128 anteriores son un antecedente distinto, no un resultado nuevo.
+
+Consultas HTTP reales actuales, sin escrituras: GET / y /secretaria en backend 8080: 200; GET /api/actividades: 200 (9 actividades vivas); detalle de una actividad: 200, ID coincidente; consulta del socio ficticio 30111222 con vigencia/cuota válidas e inscripciones ACTIVAS como array: 200. GET actividad con ID no numérico: 400; ID 999999999: 404; frontend localhost:3000: 200. OPTIONS /api/inscripciones: 200 y Access-Control-Allow-Origin=http://localhost:3000, métodos GET/POST/PUT/DELETE/OPTIONS. No se imprimieron los datos personales completos ni se alteró una fila. Esto prueba transporte/contrato/preflight, no clics en navegador ni POST/PUT reales. 201/204/409 se validan con MockMvc; runner Postman/escrituras/revisión visual quedan pendientes. Ambos JSON Postman parseados correctamente. Las ocho actividades del sitio público serán las iniciales de la consigna, no un espejo en tiempo real de las nueve de la base viva.
+
+Las nuevas propuestas EXTRA se postergan y preservan en database/propuestas; no son requisito para integrar React. El usuario autorizó merge directo sin PR y main intacta. Se publicará solo después de build y auditoría satisfactorios; hashes efectivos se registran al completar las operaciones.

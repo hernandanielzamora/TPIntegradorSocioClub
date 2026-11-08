@@ -1,20 +1,22 @@
-import { useContext, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { SocioContext } from '../contexto/SocioContext';
-import { buscarSocioPorDni } from '../servicios/datosLocales';
+import { buscarSocioPorDni } from '../servicios/api';
 import { esDniValido } from '../utils/esDniValido';
 import { mensajeDeError } from '../utils/mensajeDeError';
 
 // Ruta "/": el socio escribe su DNI y la app lo busca.
 function Ingreso() {
-  const { socio, ingresar } = useContext(SocioContext);
+  const { socio, ingresar, cargandoSesion, errorSesion } = useContext(SocioContext);
+  const envioEnCurso = useRef(false);
   const [dni, setDni] = useState('');
   const [errorDni, setErrorDni] = useState('');
   const [errorBusqueda, setErrorBusqueda] = useState('');
   const [buscando, setBuscando] = useState(false);
   const navigate = useNavigate();
 
-  // Si ya hay un socio en el contexto no tiene sentido volver a ingresar.
+  if (cargandoSesion) return <p role="status">Recuperando identificación…</p>;
+  // El DNI identifica para esta demostración; no autentica al usuario.
   if (socio) {
     return <Navigate to="/actividades" replace />;
   }
@@ -28,6 +30,7 @@ function Ingreso() {
   function manejarEnvio(evento) {
     // Evita que el formulario recargue la página (comportamiento por defecto).
     evento.preventDefault();
+    if (envioEnCurso.current) return;
 
     const dniLimpio = dni.trim();
 
@@ -37,6 +40,7 @@ function Ingreso() {
       return;
     }
 
+    envioEnCurso.current = true;
     setBuscando(true);
     buscarSocioPorDni(dniLimpio)
       .then((socioEncontrado) => {
@@ -44,9 +48,9 @@ function Ingreso() {
         navigate('/actividades');
       })
       .catch((error) => {
-        setErrorBusqueda(mensajeDeError(error));
-        setBuscando(false);
-      });
+        setErrorBusqueda(error?.response?.status === 404 ? 'No encontramos un socio con ese DNI.' : mensajeDeError(error));
+      })
+      .finally(() => { envioEnCurso.current = false; setBuscando(false); });
   }
 
   return (
@@ -57,6 +61,8 @@ function Ingreso() {
           Escribí tu DNI para ver tus actividades, tu cuota mensual y anotarte en las que quieras.
         </p>
 
+        <p className="texto-suave">Identificación académica por DNI; no es una autenticación segura.</p>
+        {errorSesion && <p role="alert">{errorSesion}</p>}
         <form onSubmit={manejarEnvio} noValidate>
           <div className="campo">
             <label htmlFor="dni">DNI</label>

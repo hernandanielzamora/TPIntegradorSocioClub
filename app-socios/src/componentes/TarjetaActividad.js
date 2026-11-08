@@ -15,7 +15,7 @@ function textoCupo(cupoDisponible, cupoMaximo) {
 }
 
 // Tarjeta de una actividad. Recibe los datos por props desde ListaActividades.
-function TarjetaActividad({ actividad, onInscribir }) {
+function TarjetaActividad({ actividad, onInscribir, bloqueado = false }) {
   const sinCupo = actividad.cupoDisponible <= 0;
   const pocosLugares = !sinCupo && actividad.cupoDisponible <= 3;
 
@@ -57,7 +57,7 @@ function TarjetaActividad({ actividad, onInscribir }) {
         <button
           type="button"
           className="boton"
-          disabled={sinCupo}
+          disabled={sinCupo || bloqueado}
           onClick={() => onInscribir(actividad)}
         >
           Inscribirme
@@ -70,6 +70,7 @@ function TarjetaActividad({ actividad, onInscribir }) {
 TarjetaActividad.propTypes = {
   actividad: actividadPropType.isRequired,
   onInscribir: PropTypes.func.isRequired,
+  bloqueado: PropTypes.bool,
 };
 
 export default TarjetaActividad;

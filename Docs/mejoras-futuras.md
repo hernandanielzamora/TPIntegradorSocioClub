@@ -1,0 +1,12 @@
+# Mejoras futuras fuera del alcance obligatorio
+
+Decisión humana del Prompt 22: postergar FE-ADMIN-01 y RN8 para priorizar consigna original y entrega. Ambas surgieron de observaciones y propuestas del usuario al evaluar el sistema, no son RF/RN originales y no condicionan el cierre. Codex conservó la auditoría y reubicó el SQL en database/propuestas; NO ejecutó esas propuestas ni alteró MySQL. Estado de ambas: **NO IMPLEMENTADA / Mejora futura fuera del alcance**.
+
+| Identificador | Problema y propuesta | Diseño e impacto | Riesgos y postergación |
+| --- | --- | --- | --- |
+| FE-ADMIN-01 | Secretaría actual no exige autenticación; se propuso panel React /admin con DNI + contraseña adicional validada por servidor | Spring Security, hash adaptativo y sesión/rol ADMIN; CSRF y CORS con credenciales; tabla separada cuenta_administrativa; endpoints admin reutilizando servicios, sin contraseñas en React | Necesita esquema/provisión privada, autorización real de rutas alternativas y tests CSRF/sesión. No añadir seguridad parcial en el cierre; sistema solo local hasta otra etapa |
+| RN8 | Dos ACTIVAS podrían superponer horarios; textos de días diferentes pueden ser equivalentes | ActividadHorario con DayOfWeek/LocalTime y TIME, intervalos por día, completitud explícita; validación de solapamiento en servicio bajo locks; rangos en DTO/React | No existe hora fin en el modelo actual: no inventar duración. Requiere inventario vivo, decisiones humanas de fin, migración, concurrencia y conflictos históricos. Se posterga para conservar el alcance original |
+
+Auditoría detallada y alternativas: [propuesta-admin-rn8.md](propuesta-admin-rn8.md). SQL de diseño, NO migraciones para ejecutar: [cuentas](../database/propuestas/002_cuenta_administrativa.sql) y [horarios](../database/propuestas/003_actividad_horario.sql). Los números 002/003 identifican el borrador original, no significan pendientes de aplicación. Migración 001 de EstadoSocio es distinta y fue aplicada manualmente según confirmación humana anterior.
+
+No se agregó Spring Security, login admin, parser nuevo de días ni RN8 parcial. La baja lógica de socios ya implementada se conserva; no se agregan más extras. No hay garantía de que las propuestas sean un script definitivo o validado en MySQL. Su eventual retomada exige un nuevo alcance autorizado, revisión de backups y pruebas. Mantener AH-1–AH-3 e IH-MIG-01 sin atribuir código Codex al equipo ni inventar cambios manuales.

@@ -1,8 +1,8 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import DetalleActividad from '../componentes/DetalleActividad';
 import { SocioContext } from '../contexto/SocioContext';
-import { inscribir, obtenerActividad } from '../servicios/datosLocales';
+import { inscribir, obtenerActividad } from '../servicios/api';
 import { mensajeDeError } from '../utils/mensajeDeError';
 
 // Ruta "/actividades/:id": detalle de una actividad.
@@ -14,28 +14,42 @@ function Detalle() {
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
   const [aviso, setAviso] = useState(null); // { tipo: 'exito' | 'error', texto }
+  const [procesando, setProcesando] = useState(false);
+  const enCurso = useRef(false);
 
   // El efecto depende de [id]: se vuelve a ejecutar si cambia la URL.
   useEffect(() => {
     setCargando(true);
     setError('');
+    setActividad(null);
+    setAviso(null);
+    let vigente = true;
     obtenerActividad(id)
-      .then((datos) => setActividad(datos))
-      .catch((err) => setError(mensajeDeError(err)))
-      .finally(() => setCargando(false));
+      .then((datos) => { if (vigente) setActividad(datos); })
+      .catch((err) => { if (vigente) setError(mensajeDeError(err)); })
+      .finally(() => { if (vigente) setCargando(false); });
+    return () => { vigente = false; };
   }, [id]);
 
   async function manejarInscribir() {
+    if (enCurso.current) return;
+    enCurso.current = true;
+    setProcesando(true);
+    let registrada = false;
     setAviso(null);
     try {
       await inscribir(socio.id, actividad.id);
+      registrada = true;
       setAviso({ tipo: 'exito', texto: `¡Listo! Te inscribiste en ${actividad.nombre}.` });
       // Se vuelve a pedir la actividad para mostrar el cupo actualizado.
       const actualizada = await obtenerActividad(id);
       setActividad(actualizada);
     } catch (err) {
       // Si una regla rechaza la inscripción (409) se muestra su mensaje.
-      setAviso({ tipo: 'error', texto: mensajeDeError(err) });
+      setAviso({ tipo: 'error', texto: registrada ? 'La inscripción se registró, pero no pudimos actualizar los cupos. Recargá la pantalla.' : mensajeDeError(err) });
+    } finally {
+      enCurso.current = false;
+      setProcesando(false);
     }
     // El mensaje está arriba del detalle: se sube la página para que se vea.
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -62,8 +76,9 @@ function Detalle() {
         </p>
       )}
 
-      {!cargando && actividad && (
-        <DetalleActividad actividad={actividad} onInscribir={manejarInscribir} />
+      {socio.estadoSocio === 'INACTIVO' && <p role="alert">El socio está inactivo. Consultá en Secretaría.</p>}
+      {!cargando && !error && actividad && (
+        <DetalleActividad actividad={actividad} onInscribir={manejarInscribir} bloqueado={procesando || socio.estadoSocio === 'INACTIVO'} />
       )}
     </section>
   );

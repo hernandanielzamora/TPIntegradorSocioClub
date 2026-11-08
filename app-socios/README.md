@@ -2,7 +2,7 @@
 
 App React creada con Create React App. Ver el [README principal](../README.md) para la instalación general del monorepo.
 
-Estado: rutas, componentes, estado, contexto y pruebas funcionando con **datos locales** (un arreglo en `src/datos/datosEjemplo.js`), como pide el hito de la semana 2. Falta conectar la API REST con Axios (tarea 6.5).
+Estado vigente: pantallas conectadas por Axios a Spring Boot; sin fallback local. Se conserva el diseño/estructura del equipo. Contratos, pruebas, seguridad y comandos en [integración React](../Docs/react-integracion-api.md). Ingreso por DNI es identificación académica, no autenticación segura.
 
 ## Cómo levantarla
 
@@ -10,6 +10,8 @@ Desde la carpeta `app-socios`:
 
 ```powershell
 npm.cmd ci
+$env:PORT = '3000'
+$env:REACT_APP_API_URL = 'http://localhost:8080/api'
 npm.cmd start
 ```
 
@@ -25,14 +27,14 @@ npm.cmd test -- --watchAll=false
 
 | Ruta | Página | Qué hace |
 | --- | --- | --- |
-| `/` | `Ingreso` | El socio escribe su DNI (validado con `esDniValido`, RN7) y se guarda en el contexto. |
-| `/actividades` | `Catalogo` | Tarjetas de las 8 actividades con filtro por disciplina, cupo disponible e «Inscribirme». |
+| `/` | `Ingreso` | Consulta el DNI por Axios; DTO en memoria, solo DNI en sessionStorage. |
+| `/actividades` | `Catalogo` | Tarjetas de las actividades reales con filtro por disciplina, cupo disponible e «Inscribirme». |
 | `/actividades/:id` | `Detalle` | Detalle de la actividad con el botón «Inscribirme». |
 | `/mis-actividades` | `MisActividades` | Inscripciones activas, botón «Darme de baja» y `ResumenCuota` (RN6). |
 
 Las tres últimas están envueltas en `RutaProtegida`: sin socio ingresado redirigen a `/`.
 
-## DNI de prueba (datos locales)
+## Antecedente: DNI del hito local (no asumir escenarios reales)
 
 Son los socios ficticios de `Docs/pruebas-sistema.md`:
 
@@ -45,7 +47,7 @@ Son los socios ficticios de `Docs/pruebas-sistema.md`:
 | 30555666 | Federico Ramírez | RN4: cuota MOROSO; rechazo al inscribirse. |
 | 30666777 | Agustín Torres | RN5: ya tiene 3 actividades; muestra la bonificación del 15 %. |
 
-Los datos locales vuelven al estado inicial al recargar la página.
+Estos datos son históricos: la app actual consulta MySQL mediante la API y no se reinicia al recargar. Comprobar los datos/IDs reales y no ejecutar escrituras exploratorias sin revisar sus efectos.
 
 ## Estructura de `src`
 
@@ -58,7 +60,7 @@ src/
 ├── datos/                 datosEjemplo.js (temporal)
 ├── estilos/               estilos.css
 ├── paginas/               Ingreso, Catalogo, Detalle, MisActividades, NoEncontrada
-├── servicios/             api.js (Axios) y datosLocales.js (simulación temporal)
+├── servicios/             api.js (Axios real); datosLocales.js conservado como antecedente sin imports
 ├── tests/                 pruebas Jest y React Testing Library
 └── utils/                 calcularCuotaMensual, esDniValido, formatearPesos, mensajeDeError
 ```

@@ -1,8 +1,8 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ResumenCuota from '../componentes/ResumenCuota';
 import { SocioContext } from '../contexto/SocioContext';
-import { darDeBaja, obtenerInscripcionesDeSocio } from '../servicios/datosLocales';
+import { darDeBaja, obtenerInscripcionesDeSocio } from '../servicios/api';
 import { formatearPesos } from '../utils/formatearPesos';
 import { mensajeDeError } from '../utils/mensajeDeError';
 
@@ -20,28 +20,38 @@ function MisActividades() {
   const [error, setError] = useState('');
   const [aviso, setAviso] = useState(null); // { tipo: 'exito' | 'error', texto }
   const [idEnProceso, setIdEnProceso] = useState(null);
+  const enCurso = useRef(false);
 
   // Se cargan las inscripciones del socio. Depende de [socio.id]: si cambiara
   // el socio, el efecto se vuelve a ejecutar y trae las del nuevo socio.
   useEffect(() => {
+    let vigente = true;
+    setCargando(true);
+    setError('');
     obtenerInscripcionesDeSocio(socio.id)
-      .then((datos) => setInscripciones(datos))
-      .catch((err) => setError(mensajeDeError(err)))
-      .finally(() => setCargando(false));
+      .then((datos) => { if (vigente) setInscripciones(datos); })
+      .catch((err) => { if (vigente) setError(mensajeDeError(err)); })
+      .finally(() => { if (vigente) setCargando(false); });
+    return () => { vigente = false; };
   }, [socio.id]);
 
   async function manejarBaja(inscripcion) {
+    if (enCurso.current || !window.confirm(`¿Confirmás darte de baja de ${inscripcion.actividad.nombre}?`)) return;
+    enCurso.current = true;
     setAviso(null);
     setIdEnProceso(inscripcion.id);
+    let confirmada = false;
     try {
       await darDeBaja(inscripcion.id);
+      confirmada = true;
       // Se vuelve a pedir la lista: la inscripción dada de baja ya no aparece.
       const actualizadas = await obtenerInscripcionesDeSocio(socio.id);
       setInscripciones(actualizadas);
       setAviso({ tipo: 'exito', texto: `Te diste de baja de ${inscripcion.actividad.nombre}.` });
     } catch (err) {
-      setAviso({ tipo: 'error', texto: mensajeDeError(err) });
+      setAviso({ tipo: 'error', texto: confirmada ? 'La baja se registró, pero no pudimos actualizar la lista. Recargá la pantalla.' : mensajeDeError(err) });
     } finally {
+      enCurso.current = false;
       setIdEnProceso(null);
     }
     // El mensaje está arriba de la lista: se sube la página para que se vea.
@@ -114,7 +124,7 @@ function MisActividades() {
                 <button
                   type="button"
                   className="boton boton-secundario boton-baja"
-                  disabled={idEnProceso === inscripcion.id}
+                  disabled={idEnProceso !== null}
                   onClick={() => manejarBaja(inscripcion)}
                 >
                   {idEnProceso === inscripcion.id ? 'Procesando…' : 'Darme de baja'}
@@ -122,10 +132,10 @@ function MisActividades() {
               </li>
             ))}
           </ul>
-
           <ResumenCuota actividades={actividades} />
         </div>
       )}
+      {!cargando && !error && inscripciones.length === 0 && <ResumenCuota actividades={actividades} />}
     </section>
   );
 }
