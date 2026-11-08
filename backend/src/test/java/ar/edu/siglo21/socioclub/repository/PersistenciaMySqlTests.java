@@ -3,6 +3,7 @@ package ar.edu.siglo21.socioclub.repository;
 import ar.edu.siglo21.socioclub.model.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.condition.EnabledIf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -69,15 +71,17 @@ class PersistenciaMySqlTests {
             throw new IllegalArgumentException("Las pruebas solo admiten la base socioclub_test");
         }
         registry.add("spring.datasource.url", () -> url);
-        // Una cuenta de ensayo puede carecer de permisos sobre socioclub.
+        // Nunca heredar credenciales de desarrollo si falta configuración de ensayo.
         String usuario = System.getenv("MYSQL_TEST_DB_USERNAME");
         String clave = System.getenv("MYSQL_TEST_DB_PASSWORD");
-        if (usuario != null && !usuario.isBlank()) {
-            registry.add("spring.datasource.username", () -> usuario);
+        if (usuario == null || usuario.isBlank()) {
+            throw new IllegalArgumentException("Configurar MYSQL_TEST_DB_USERNAME para las pruebas");
         }
-        if (clave != null) {
-            registry.add("spring.datasource.password", () -> clave);
+        if (clave == null || clave.isEmpty()) {
+            throw new IllegalArgumentException("Configurar MYSQL_TEST_DB_PASSWORD para las pruebas");
         }
+        registry.add("spring.datasource.username", () -> usuario);
+        registry.add("spring.datasource.password", () -> clave);
     }
 
     private Socio guardarSocio(String dni, String apellido) {
@@ -174,11 +178,22 @@ class PersistenciaMySqlTests {
     @Test
     void rechazaEstadosYMontosInvalidosDesdeSql() {
         Actividad actividad = guardarActividad();
-        assertThrows(DataIntegrityViolationException.class, () -> jdbc.update(
+        comprobarViolacionCheck("ck_actividad_cuota", () -> jdbc.update(
                 "UPDATE actividad SET cuota_mensual = -1 WHERE id = ?", actividad.getId()));
         Socio socio = guardarSocio("99000006", "Estado");
-        assertThrows(DataIntegrityViolationException.class, () -> jdbc.update(
+        comprobarViolacionCheck("ck_socio_estado", () -> jdbc.update(
                 "UPDATE socio SET estado_cuota = 'INVENTADO' WHERE id = ?", socio.getId()));
+    }
+
+    /** MySQL comunica CHECK con HY000; la categoría traducida por Spring puede variar. */
+    private void comprobarViolacionCheck(String restriccion, Runnable sentencia) {
+        DataAccessException error = assertThrows(DataAccessException.class, sentencia::run);
+        SQLException causa = assertInstanceOf(SQLException.class, error.getMostSpecificCause());
+        assertEquals(3819, causa.getErrorCode());
+        assertEquals("HY000", causa.getSQLState());
+        assertNotNull(causa.getMessage());
+        assertTrue(causa.getMessage().contains("'" + restriccion + "'"),
+                "El error debe identificar la restricción CHECK esperada: " + restriccion);
     }
 
     @Test

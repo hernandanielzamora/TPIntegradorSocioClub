@@ -1,6 +1,6 @@
 # Guía de defensa técnica — modelo y persistencia
 
-Estado de cierre 2026-11-08: Maven verify aprobó 6 pruebas y omitió 7 MySQL por falta de configuración segura para Codex; React aprobó 20 pruebas y su build. El usuario confirmó preparación manual del servidor/bases/tablas/datos, pero falta verificar persistencia y arranque de la aplicación. La publicación de la rama conserva ese pendiente. Ver [instalación en otra computadora](instalacion-desde-cero.md).
+Estado final 2026-11-08: los reportes Surefire locales acreditan 13 pruebas aprobadas (5 de integridad, 7 de persistencia MySQL y 1 MVC), 0 fallidas, 0 errores y 0 omitidas. El usuario confirmó Maven verify con BUILD SUCCESS y arranque completo contra socioclub: MySQL 8.4.13, EntityManagerFactory inicializado, Tomcat 8080 y Started SocioClubApplication. Codex revisó los reportes; no ejecutó el arranque con credenciales ni verificó HTTP GET /. Ver [instalación en otra computadora](instalacion-desde-cero.md).
 
 Alcance de esta intervención (2026-11-07): entidades, repositorios, esquema y datos preparados. No hay servicios de inscripción ni API REST implementados. Las pruebas MySQL requieren un servidor operativo; no confundir preparación con ejecución.
 
@@ -103,7 +103,7 @@ boolean duplicada = inscripcionRepository.existsBySocioIdAndActividadIdAndEstado
 | ¿Por qué DTO y no devolver la entidad? | Para elegir campos, evitar ciclos y controlar cuándo se accede a relaciones LAZY. |
 | ¿Por qué BigDecimal y no double? | Para conservar cantidades decimales monetarias sin aproximaciones binarias. |
 | ¿Las pruebas verdes demuestran MySQL? | Solo las pruebas optativas conectadas lo demuestran; integridad en memoria y MVC no prueban persistencia. |
-| ¿Qué pasa al ejecutar dos veces seed.sql? | El script agrega solo registros ausentes. No actualiza socios existentes ni reactiva vínculos; su ejecución MySQL queda pendiente de comprobar en este equipo. |
+| ¿Qué pasa al ejecutar dos veces seed.sql? | El script agrega solo registros ausentes. No actualiza socios existentes ni reactiva vínculos; el test MySQL de seed repetible aprobó y conserva ediciones y bajas. |
 | ¿Por qué el seed tiene más de quince socios? | Yoga necesita catorce personas habilitadas además de los seis escenarios, que incluyen menores y candidatos que deben comenzar sin Yoga. |
 | ¿El modelo garantiza todas las reglas? | No. Garantiza integridad básica; RN1–RN5 y la concurrencia se implementarán una vez en servicios. |
 
@@ -126,3 +126,31 @@ Los scripts compartidos no contienen USE: la base se selecciona en la conexión 
 **¿Por qué otra base para testing?** Las pruebas crean datos, provocan violaciones de integridad y ensayan bajas y ediciones. socioclub_test separa eso de socioclub. Se exige ese nombre en la URL y se comprueba SELECT DATABASE(); una cuenta restringida únicamente a ensayo refuerza el aislamiento. Los datos de cada test se revierten con rollback. Las tablas DDL y el avance de AUTO_INCREMENT pueden permanecer: no se debe usar una base con datos personales o trabajo de desarrollo.
 
 **¿Una conexión fallida aparece como prueba omitida?** Con MYSQL_TEST_DB_URL configurada, la suite se activa aunque falte MYSQL_TEST_ENABLED. Una conexión rechazada produce errores y Maven falla. Sin configuración de ensayo, los tests se omiten con una razón expresa. En la revisión se ejecutaron controles negativos para comprobar esa diferencia; ninguno representa persistencia aprobada.
+
+## Problemas reales encontrados y cómo los resolvimos
+
+- Autenticación de pruebas: MySQL devolvió 1045/28000 para socioclub_tests. El usuario corrigió las claves locales. Codex diagnosticó el log y además exigió credenciales exclusivas de ensayo en el test; ese cambio evita heredar desarrollo, pero no arregla una contraseña incorrecta.
+- Siete errores de contexto: el fallo de dialecto y el umbral de ApplicationContext eran consecuencias del rechazo de conexión. Buscamos la primera causa en Surefire, en vez de agregar un dialecto para esconderla. El verify final y los XML acreditan 13 pruebas aprobadas.
+- CHECK y excepciones: MySQL rechazó cuota -1 con 3819/HY000 y ck_actividad_cuota. La base funcionaba, pero el test esperaba DataIntegrityViolationException y Spring devolvió UncategorizedSQLException. Codex corrigió las aserciones para exigir causa SQL, código, SQLSTATE y CHECK específico, conservando monto y estado inválidos. El usuario validó el resultado con Maven.
+- Variables de PowerShell: viven en una terminal y sus procesos hijos. El usuario propuso .env para facilitar el trabajo entre equipos; Codex programó la plantilla y load-env.ps1. El usuario completó sus claves y probó. No se deben confundir propuesta humana, programación automática y validación humana.
+- Arranque de desarrollo: verify usa socioclub_tests, mientras la aplicación usa socioclub_app. Esta última cuenta también devolvió 1045; tras corregir las claves locales, el usuario confirmó arranque completo conectado a socioclub. No hubo que modificar tablas.
+
+Para explicarlo al profesor: Hibernate transforma entidades en operaciones SQL; ddl-auto=validate comprueba compatibilidad sin crear tablas. Los tests trabajan únicamente sobre socioclub_test con rollback y una comprobación del catálogo. .env guarda configuración local fuera de Git; el script la carga en el proceso PowerShell sin ejecutar su contenido ni mostrar claves. .env.example permite reproducir la configuración con claves propias en otra computadora.
+
+Evidencia y autoría: [seis incidentes detallados](bitacora-ia.md#cierre-de-incidentes-y-supervisión-humana--2026-11-08), [resultados finales](validacion-modelo-datos.md) y [registro humano](registro-trabajo.md). Los cambios actuales aún no tienen commit; se comparan con 5217d1c5e301bd129719d829255c149255e9a5d4. La confirmación ampliada permite registrar AH-1, AH-2 y AH-3 como ajustes humanos de configuración, operación y diseño; no demuestra tres correcciones manuales de código fuente. Ver Cómo defender los tres ajustes humanos. La implementación Java/PowerShell fue de Codex. Confirmar HTTP GET / sigue pendiente antes de afirmar validación web completa.
+
+## Cómo defender los tres ajustes humanos
+
+La confirmación ampliada del usuario permite identificar tres ajustes en configuración, operación y diseño. Esta clasificación sustituye la frase anterior sobre no identificar tres ajustes generales; permanece la diferencia con tres correcciones manuales del código generado por IA. Ver la [tabla de trazabilidad](bitacora-ia.md#trazabilidad-de-tres-ajustes-humanos--confirmación-ampliada-del-2026-11-08).
+
+**AH-1 — Configuración de testing.** «Cuando MySQL rechazó socioclub_tests con error 1045, revisé la cuenta en Workbench, restablecí su contraseña y comprobé la conexión con el cliente MySQL. Luego pudimos ejecutar las pruebas. Codex interpretó el error y agregó una protección para no heredar credenciales de desarrollo; ese código lo generó Codex. La suite final acredita siete pruebas aprobadas». La primera corrida tras resolver autenticación tuvo todavía un fallo de aserción CHECK, corregido por Codex; no afirmar que cambiar la contraseña resolvió ese otro problema.
+
+**AH-2 — Corrección operativa de desarrollo.** «Los tests usaban otra cuenta. Al iniciar Spring Boot apareció 1045 para socioclub_app; revisé y corregí sus credenciales locales. Comprobé el arranque: conexión a socioclub, JPA inicializado y Tomcat en 8080». Evidencia: log del fallo y confirmación humana del arranque. No presentar una respuesta HTTP como verificada ni afirmar una modificación de Java para arreglar la contraseña.
+
+**AH-3 — Decisión de diseño del entorno.** «Propuse conservar la configuración en un .env local, con una plantilla pública y un cargador, porque las variables se perdían al cerrar la terminal. Definí que no se versionaran claves y se mantuvieran separadas las dos bases. Codex programó el script y yo completé la configuración local». Evidencia: petición humana, archivos implementados, carga exitosa en el log y comprobaciones automáticas del parser con datos ficticios y de Git. No afirmar que el equipo escribió el script ni que se probó ya toda la migración en otra computadora.
+
+**Riesgo académico.** Se pueden defender como tres ajustes humanos distintos por su objetivo y naturaleza. Si la rúbrica pide tres modificaciones manuales del código generado, estos casos no demuestran ese requisito. También puede agrupar los dos problemas de contraseñas o no contar una propuesta de diseño. Para las próximas etapas, aprovechar defectos reales detectados al revisar reglas, consultas o transacciones: un integrante debe realizar personalmente la corrección, explicar el cambio y guardar prueba antes/después y commit. No son ajustes ya realizados ni se fabricarán errores o autorías.
+
+## Confirmación final de la página MVC — 2026-11-08
+
+El usuario confirmó HTTP GET / con respuesta 200. Junto al arranque completo comunicado y las 13 pruebas aprobadas en los XML, completa la validación de esta etapa. La petición HTTP fue una comprobación humana, no una ejecución de Codex. Los pendientes HTTP mencionados anteriormente quedan cerrados. Antes de merge corresponde revisar el PR; RN1–RN5 y API quedan para una etapa posterior. Se mantienen las limitaciones académicas documentadas.
