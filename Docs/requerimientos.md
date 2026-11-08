@@ -1,5 +1,7 @@
 # Requerimientos y trazabilidad — SocioClub
 
+Actualización de etapa RN1–RN5 (2026-11-08): la persistencia anterior fue validada e integrada por PR #3. Ahora InscripcionService implementa las reglas con bloqueos pesimistas y transacción READ_COMMITTED. Verify final: 36 aprobadas, 0 fallos/errores/omisiones, incluidas las 19 unitarias del servicio y 11 MySQL. Ejecución autenticada confirmada por el usuario y XML inspeccionados por Codex. Ver [detalle](reglas-negocio.md). Los estados históricos siguientes describen la preparación anterior; RF6 no se considera integralmente completo sin controladores e integración.
+
 Fuente principal: [TPIntegradorSocioClubEnunciado.pdf](Enunciado/TPIntegradorSocioClubEnunciado.pdf), leído íntegramente (14 páginas) el 2026-11-02.
 
 Estado actualizado al 2026-11-08: PR #1 (sitio público) y #2 (React) integrados y preservados. Modelo JPA, repositorios, esquema y seed implementados. El usuario confirmó MySQL operativo y preparación manual de bases, cuentas, tablas y datos; la persistencia real JPA sigue pendiente porque las credenciales no están disponibles para la ejecución de Codex. Maven: 6 aprobadas/7 omitidas; React: build exitoso y 20 aprobadas. Los RF que dependen del backend continúan sin cumplimiento integral; no hay integración con API ni pruebas de sistema ejecutadas.
@@ -27,11 +29,11 @@ Componentes: A sitio público; B secretaría Thymeleaf; C API REST; D app React;
 
 | Código | Requisito o regla | Componente responsable | Implementación pendiente | Prueba prevista | Estado |
 | --- | --- | --- | --- | --- | --- |
-| RN1 | Activos no superan cupo máximo. | Servicio de inscripciones | Rechazo: «La actividad no tiene cupo disponible». | Aceptar último lugar, rechazar siguiente y prever solicitudes simultáneas. | Pendiente |
-| RN2 | Sin dos ACTIVAS del mismo socio en una actividad. | Servicio de inscripciones | Rechazo: «El socio ya está inscripto en esta actividad». | Repetir alta activa y comprobar ausencia de duplicación. | Pendiente |
-| RN3 | Edad actual entre mínimo y máximo inclusive. | Servicio de inscripciones | Calcular desde nacimiento a fecha de hoy; rechazo indicando rango. | Límites, fuera de rango y cumpleaños pendiente/cumplido. | Pendiente |
-| RN4 | MOROSO no puede inscribirse; sí consultar y darse de baja. | Servicio de inscripciones | Rechazo: «Debe regularizar su cuota en secretaría». | Rechazar inscripción; permitir consulta y baja a MOROSO. | Pendiente |
-| RN5 | Máximo 3 ACTIVAS por socio. | Servicio de inscripciones | Rechazo: «Alcanzó el máximo de 3 actividades». | Aceptar tercera, rechazar cuarta y permitir nueva tras baja. | Pendiente |
+| RN1 | Activos no superan cupo máximo. | InscripcionService | «La actividad no tiene cupo disponible»; bloqueo de actividad. | Último lugar y cupo completo probados; simultaneidad MySQL pendiente. | Servicio implementado; integración pendiente |
+| RN2 | Sin dos ACTIVAS del mismo socio en una actividad. | InscripcionService | «El socio ya está inscripto en esta actividad»; conserva BAJA. | Duplicado y reinscripción unitarios aprobados; concurrencia MySQL pendiente. | Servicio implementado; integración pendiente |
+| RN3 | Edad actual entre mínimo y máximo inclusive. | InscripcionService | Period y Clock; rango inclusivo confirmado por el usuario. | Límites, cumpleaños y 29/02 unitarios aprobados. | Servicio implementado; integración pendiente |
+| RN4 | MOROSO no puede inscribirse; sí consultar y darse de baja. | InscripcionService | «Debe regularizar su cuota en secretaría». | Rechazo unitario aprobado; consulta/baja no implementadas en esta etapa. | Alta implementada; consulta/baja e integración pendientes |
+| RN5 | Máximo 3 ACTIVAS por socio. | InscripcionService | «Alcanzó el máximo de 3 actividades»; bloqueo de socio. | Tercera/cuarta unitarios aprobados; BAJA y simultaneidad MySQL pendientes. | Servicio implementado; integración pendiente |
 | RN6 | Sumar cuotas activas: 10 % de descuento con 2 y 15 % con 3. | D: calcularCuotaMensual y ResumenCuota | Función pura JavaScript y Jest. | 0, 1, 2 y 3 actividades; descuentos y total. | Implementada en React local; integración pendiente |
 | RN7 | DNI de 7 u 8 dígitos numéricos sin puntos. | A: cliente; D: esDniValido | Bloquear envío y error junto al campo; función pura con Jest. | Aceptar 7/8; rechazar puntos, letras, 6 y 9 dígitos. | Implementada en React local; integración pendiente |
 
@@ -58,3 +60,7 @@ Prompt 01 autorizó la inicialización. La solicitud del 2026-11-07 autorizó mo
 ## Requisito adicional de alojamiento
 
 Preparación para Cloudflare Pages (frontends), Render (Spring Boot y Thymeleaf) y Aiven MySQL. Configuración por entorno, Dockerfile, blueprint Render y fallback SPA preparados, sin despliegue. TLS, credenciales, dominios, conexión a Aiven e imagen Docker requieren validación futura. Ver [arquitectura](arquitectura.md), [alojamiento](alojamiento.md) y [validación inicial](validacion-inicial.md).
+
+## Resultado final de la etapa RN1–RN5 — 2026-11-08
+
+El usuario ejecutó las suites MySQL y verify exitosamente. Codex verificó XML: 36 aprobadas, 0 fallos, 0 errores, 0 omitidas, incluyendo las cuatro pruebas de integración del servicio (BAJA/historial y tres escenarios de concurrencia). Quedan superados los pendientes de ejecución MySQL de la matriz de esta etapa. RN1–RN5 implementadas y probadas a nivel servicio; RF integrales siguen requiriendo controladores e integración. No se implementaron consulta/baja de RN4 ni nuevos endpoints. Ver reglas-negocio.md para evidencia y límites.

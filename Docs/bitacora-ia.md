@@ -233,3 +233,27 @@ El usuario confirmó HTTP GET / 200 y autorizó auditoría, commit/push de featu
 Incidente adicional: plantilla con CLAVE_DESARROLLO/CLAVE_PRUEBAS mientras el cargador rechaza COMPLETAR_CLAVE_DESARROLLO/COMPLETAR_CLAVE_PRUEBAS. Codex detectó la discrepancia y detuvo la publicación. El usuario corrigió manualmente la plantilla y confirmó continuar; Codex verificó su alineación. No se atribuye esta corrección manual a Codex ni se garantiza que compute como modificación manual de código fuente según la rúbrica. No se alteran AH-1/AH-2/AH-3 ni el historial.
 
 Se revisan cambios de tests, plantilla, cargador y documentación, exclusión de .env, archivos no rastreados y patrones de secretos, sin imprimir claves. git diff --check aprobado antes de preparar staging. Se actualizó origin mediante fetch sin modificar main/dev. Commit, push y revisión de conflictos se informan con su resultado real al finalizar; no se anticipan. No se modifica MySQL ni se implementan nuevas funcionalidades.
+
+## Entrada 13 — Servicio de inscripción RN1–RN5 — 2026-11-08
+
+Solicitud humana: implementar InscripcionService, reglas, pruebas y documentación sin controladores, cambios de frontends, esquema, commits o publicación. Rama inicial limpia feature/backend-reglas-negocio, commit f0633c0, merge del PR #3 de persistencia. Codex revisó entidades, enums, repositorios y documentación. El usuario confirmó por consulta explícita el rango completo de edad y continuar con mensajes claros de la consigna; son decisiones humanas, no correcciones manuales de código.
+
+Implementación automática: InscripcionService con Clock, errores por código, búsqueda con PESSIMISTIC_WRITE de socio y actividad (siempre en ese orden) y transacción READ_COMMITTED; reutilización de consultas de ACTIVAS y alta nueva sin reactivar BAJA. Configuración FechaConfig y excepciones. Sin cambios de esquema ni dependencias. Se agregaron 19 casos unitarios y 4 MySQL para BAJA/historial y carreras por cupo/duplicado/tercer lugar, reutilizando la configuración exclusiva de ensayo de PersistenciaMySqlTests.
+
+Decisión de prueba relevante: las carreras necesitan fixtures confirmadas entre conexiones. Las nuevas pruebas exigen socioclub_test vacía y verifican catálogo antes de crear/limpiar; borran solo sus IDs al finalizar, sin DDL/seed ni limpieza de datos previos. Una interrupción puede dejar fixtures, lo que se documenta para detenerse e inspeccionar. No se ejecutaron con credenciales ni se leyó .env.
+
+Problema real de entorno: el primer Maven offline no pudo abrir archivos .locks en la caché del usuario desde el sandbox. Codex repitió con aprobación fuera del sandbox usando la distribución Maven 3.10.0 ya instalada por el wrapper. No se cambió wrapper ni se atribuye al usuario una corrección de código. Mockito emitió advertencia de agente dinámico Java 25, sin fallo. No se fabricaron defectos de negocio.
+
+Resultados reales: prueba del servicio 19 aprobadas, 0 fallos/errores/omisiones. Verify offline completo BUILD SUCCESS, 36 casos: 25 aprobados, 0 fallos, 0 errores y 11 omitidos (7 de persistencia existentes y 4 nuevos MySQL). Compilación y JAR aprobados; concurrencia real y verify autenticado siguen pendientes. Los 13 aprobados de la etapa anterior son evidencia histórica y no se presentan como resultado nuevo. Reportes actuales en backend/target/surefire-reports.
+
+Documentación: reglas-negocio.md, documento-maestro-proyecto.md, guía, requerimientos, validación y registro humano. Codex implementó el código; AH-1/AH-2/AH-3 conservan su autoría y límites. Se identifican oportunidades para revisión humana sin afirmar modificaciones que no ocurrieron. No hubo consultas/mutaciones de MySQL, commit, push, merge o despliegue.
+
+## Entrada 14 — Auditoría y cierre de InscripcionService — 2026-11-08
+
+Intervención humana real: el usuario confirmó aprobación de todas las pruebas MySQL y Maven verify y autorizó commit/push de feature/backend-reglas-negocio y PR hacia dev, sin merge. No comunicó nuevas modificaciones manuales de código; la validación y autorización no se presentan como programación humana.
+
+Codex revisó servicio, consultas de bloqueo, Clock/Period, excepciones, suites unitarias/integración y guardias de catálogo. Los XML finales acreditan 36 aprobadas: 19 servicio, 5 integridad, 1 MVC, 7 persistencia y 4 integración de servicio; 0 fallos/errores/omisiones. Se actualizan los documentos vigentes y se conserva la primera ejecución 25/11 como antecedente histórico. No se ejecutó SQL ni se abrió .env en el cierre.
+
+Resultado de revisión: sin impedimentos detectados para presentar el PR. Se documenta que todas las altas deben usar el bean Spring/protocolo de bloqueos y no heredar aislamiento incompatible; las pruebas cubren los escenarios implementados, no todos los intercalados posibles. Sin modificaciones nuevas de código en la auditoría. Se revisa exclusión de .env y se inspeccionan archivos publicables, sin imprimir secretos. No se alteran bases, esquema, dependencias o frontends.
+
+Commit/push y PR se preparan con autorización explícita; sus resultados se comprueban al final, sin anticipar éxito ni hash. Mensaje previsto: feat(backend): implement transactional enrollment business rules. El usuario revisará el PR antes de cualquier merge.

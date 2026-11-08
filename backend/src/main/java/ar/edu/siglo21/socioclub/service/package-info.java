@@ -1,2 +1,2 @@
-/** Servicios compartidos por MVC y REST; RN1–RN5 pendientes. */
+/** Servicios transaccionales compartidos por futuros controladores MVC y REST. */
 package ar.edu.siglo21.socioclub.service;

@@ -55,3 +55,15 @@ Los tres ajustes se vinculan con la tabla de trazabilidad de bitacora-ia.md, sec
 ## Autorización de publicación y corrección manual de plantilla — 2026-11-08
 
 El usuario confirmó HTTP GET / con respuesta 200 y autorizó commit/push de feature/backend-modelo-datos y PR hacia dev, prohibiendo merge y cambios de main/dev. Ante la discrepancia de marcadores detectada por Codex, el usuario corrigió manualmente backend/.env.example a COMPLETAR_CLAVE_DESARROLLO/COMPLETAR_CLAVE_PRUEBAS y confirmó continuar. Codex verificó el archivo público sin abrir .env. Se registra como corrección real de configuración pública; no se inventa edición Java/PowerShell ni aceptación académica. La publicación se ejecuta por delegación explícita y su resultado se verifica al cierre. El commit de este registro se identifica por el mensaje fix(backend): validate MySQL persistence and document local setup; no se anticipa un hash antes de crearlo.
+
+## Decisiones humanas de la etapa RN1–RN5 — 2026-11-08
+
+El usuario solicitó implementar servicios/reglas/pruebas en feature/backend-reglas-negocio después de integrar el modelo mediante PR #3. Ante la diferencia entre el pedido inicial (mínima) y la consigna documentada (rango), confirmó aplicar mínimo y máximo inclusivos. También eligió continuar con mensajes claros de la consigna en vez de dejar su edición pendiente. No realizó una modificación manual de Java/PowerShell en esta etapa según la evidencia recibida; no se contabilizan estas decisiones como correcciones manuales del código.
+
+Codex implementó y verificó: 19 tests unitarios nuevos aprobados; verify actual BUILD SUCCESS con 25 aprobadas, 0 fallos, 0 errores y 11 MySQL omitidas. El usuario aún debe ejecutar las pruebas autenticadas desde su terminal y aportar resultados; no se anticipan. Las oportunidades de revisión de fechas, errores y bloqueos se describen en reglas-negocio.md. Solo se registrará un nuevo ajuste manual cuando efectivamente se realice y valide. Sin commit asociado a esta etapa.
+
+## Validación y autorización de cierre InscripcionService — 2026-11-08
+
+El usuario confirmó todas las pruebas MySQL y verify exitosos, y autorizó auditoría, commit/push de feature/backend-reglas-negocio y preparación de PR hacia dev, sin merge. Codex corroboró 36 pruebas aprobadas en los XML Surefire con 0 fallos/errores/omisiones. La ejecución autenticada es humana y la inspección de reportes es automática. No se comunicó edición manual nueva de Java o de tests, por lo que no se agrega un ajuste humano ficticio. AH-1/AH-2/AH-3 conservan su alcance.
+
+Implementación de Codex de la etapa y su autoría se mantienen en la entrada 13; cierre automático en entrada 14. La publicación autorizada se identifica por el mensaje feat(backend): implement transactional enrollment business rules y por el hash informado al completar la operación. Se revisará el PR antes de merge; no se autoriza cambiar main/dev directamente.

@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-/** Consultas de inscripciones; no aplica todavía RN1–RN5 ni controla concurrencia. */
+/** Consultas de inscripciones; el servicio aplica las reglas y coordina los bloqueos. */
 public interface InscripcionRepository extends JpaRepository<Inscripcion, Long> {
     /** Para consultas de vigentes, pasar EstadoInscripcion.ACTIVA; BAJA permite revisar historial. */
     Page<Inscripcion> findBySocioIdAndEstado(Long socioId, EstadoInscripcion estado, Pageable pageable);
