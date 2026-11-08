@@ -183,3 +183,7 @@ Validación real React: npm ci desde lock existente; 58 pruebas aprobadas, 0 fal
 ## Resultado efectivo de validación React
 
 npm.cmd test -- --watchAll=false --runInBand: 58 aprobadas, 0 fallidas, 0 omitidas, cinco suites, sin MySQL. npm.cmd run build con CI=true: exit 0, Compiled successfully (bundle JS gzip 80.08 kB, CSS 2.51 kB). El aviso Node DEP0176/fs.F_OK procede del stack de herramientas existente y no impidió compilar; no se migró CRA ni se cambiaron dependencias para ocultarlo. npm ci mantuvo package.json y package-lock.json sin modificaciones. Logs/resultados locales en .cache ignorado; build y node_modules no se publican. No hubo pruebas reales en navegador, solicitudes contra MySQL ni despliegue. Esos pendientes están descritos en react-integracion-api.md.
+
+## Commit de integración React creado
+
+Commit 5771ffe551613b56c6da126f5819ff27f76c5487 en feature/react-integracion-api: 27 archivos, conexión Axios real, tests y documentación. Validación previa: 58 pruebas aprobadas y build Compiled successfully. No cambió package.json/package-lock.json, backend, database o sitio-publico respecto de dev. Esta feature no se fusionó con dev. La publicación remota se realizará después de este registro; su resultado se informa al cierre, sin anticiparlo aquí.

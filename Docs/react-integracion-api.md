@@ -42,6 +42,7 @@ No se arrancaron backend ni navegador contra bases por Codex en esta etapa. Los 
 ```powershell
 .\scripts\load-env.ps1
 if (-not $?) { throw 'No se cargó el entorno.' }
+$env:PORT = '8080'
 .\mvnw.cmd spring-boot:run
 ```
 
