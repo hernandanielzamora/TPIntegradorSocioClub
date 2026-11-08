@@ -3,7 +3,7 @@
 <head th:replace="~{fragments/comunes :: cabecera('Nueva inscripción')}">
 </head>
 <body>
-<header th:replace="~{fragments/comunes :: encabezado}">
+<header th:replace="~{fragments/comunes :: encabezado('inscripciones')}">
 </header>
 <main id="contenido">
 <div th:replace="~{fragments/comunes :: mensajes}">
@@ -39,7 +39,7 @@
 <p class="ayuda" th:if="${socios.empty or actividades.empty}">Para inscribir, primero registrá al menos un socio y una actividad.</p>
 <div class="acciones">
 <button th:disabled="${socios.empty or actividades.empty}">Confirmar inscripción</button>
-<a th:href="@{/secretaria/inscripciones}">Cancelar</a>
+<a class="enlace-secundario" th:href="@{/secretaria/inscripciones}">Cancelar</a>
 </div>
 </form>
 </main>
