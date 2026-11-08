@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 /** Consultas de inscripciones; el servicio aplica las reglas y coordina los bloqueos. */
 public interface InscripcionRepository extends JpaRepository<Inscripcion, Long> {
+    java.util.List<Inscripcion> findBySocioIdAndEstadoOrderByIdDesc(Long socioId, EstadoInscripcion estado);
     long countByEstado(EstadoInscripcion estado);
     boolean existsByActividadId(Long actividadId);
 

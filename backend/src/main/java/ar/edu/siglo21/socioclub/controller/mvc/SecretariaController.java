@@ -54,6 +54,17 @@ public class SecretariaController {
         model.addAttribute("formulario", socios.obtener(id));
         return formularioSocio(id, model);
     }
+    @GetMapping("/socios/{id}/baja")
+    public String confirmarBajaSocio(@PathVariable Long id, Model model) {
+        model.addAttribute("socio", socios.prepararBaja(id));
+        return "secretaria/socio-baja";
+    }
+    @PostMapping("/socios/{id}/baja")
+    public String bajaSocio(@PathVariable Long id, RedirectAttributes redirect) {
+        socios.darDeBaja(id);
+        redirect.addFlashAttribute("exito", "Socio inactivo; sus inscripciones activas fueron dadas de baja y se conserva el historial");
+        return "redirect:/secretaria/socios";
+    }
 
     @PostMapping({"/socios", "/socios/{id}"})
     public String guardarSocio(@PathVariable(required = false) Long id,
@@ -148,7 +159,7 @@ public class SecretariaController {
             BindingResult errores, Model model, RedirectAttributes redirect) {
         if (!errores.hasErrors()) {
             try { inscripciones.inscribir(formulario.socioId(), formulario.actividadId()); }
-            catch (ReglaNegocioException | RecursoNoEncontradoException e) { errores.reject("inscripcion", e.getMessage()); }
+            catch (ReglaNegocioException | RecursoNoEncontradoException | SocioInactivoException e) { errores.reject("inscripcion", e.getMessage()); }
         }
         if (errores.hasErrors()) { return formularioInscripcion(model); }
         redirect.addFlashAttribute("exito", "Inscripción realizada correctamente");

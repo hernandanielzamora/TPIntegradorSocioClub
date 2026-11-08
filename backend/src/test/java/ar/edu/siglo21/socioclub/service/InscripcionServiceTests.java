@@ -46,6 +46,14 @@ class InscripcionServiceTests {
     }
 
     @Test
+    void inactivoAlDiaNoSePuedeInscribir() {
+        socio.setEstadoSocio(EstadoSocio.INACTIVO);
+        assertThrows(ar.edu.siglo21.socioclub.exception.SocioInactivoException.class,
+                () -> servicio.inscribir(1L, 2L));
+        verify(inscripciones, never()).save(any());
+    }
+
+    @Test
     void inscripcionValidaConCupoDisponible() {
         Inscripcion resultado = servicio.inscribir(1L, 2L);
         assertSame(socio, resultado.getSocio());

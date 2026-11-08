@@ -1,5 +1,16 @@
 # Guía de defensa técnica — modelo y persistencia
 
+> Cierre actualizado: el usuario confirmó la carga manual mediante SQL convencional y el ensayo correcto desde Secretaría en testing:8081. Los procedimientos/delimitadores fallidos se conservan al final como historial, NO como instrucciones vigentes. HTTP 409/codigo, idempotencia, conservación exacta, cupos finales y Postman siguen pendientes de evidencia específica. No repetir MySQL/verify que exige testing vacío: ahora contiene el fixture.
+> Actualización vigente — 2026-11-08: el usuario confirmó respaldos independientes mediante mysqldump, migración manual de socioclub_test, Maven verify con 128 aprobadas/0 fallos/0 errores/0 omitidas y migración posterior autorizada de socioclub mediante Workbench. Codex corroboró los diez XML, sin ejecutar Maven ni SQL. No hay evidencia de restauración de prueba. Auditoría detallada de datos de desarrollo, arranque/HTTP posteriores y recorrido manual de baja siguen pendientes. Procedimiento vigente: [validacion-manual-baja-socios.md](validacion-manual-baja-socios.md). No volver a ejecutar la migración para seguir ese procedimiento.
+
+## Antecedentes previos a esta confirmación
+
+Las referencias siguientes a migración no ejecutada/no autorizada y a 111 aprobadas/17 omitidas describen el estado anterior. Se conservan como historial, no como estado vigente. La confirmación actual y sus límites están registrados al final de este documento.
+
+Actualización vigente: baja lógica de socios preparada por aprobación del usuario; ejecución de migraciones NO autorizada en ninguna base. Verify actual sin MySQL: 111 aprobadas, 0 fallos/errores, 17 omitidas. Código nuevo requiere migrar el catálogo antes de usar JPA. Script completo en database/migrations/001_estado_socio.sql y efectos/instrucciones en baja-logica-socios.md. Sin commit/push/merge.
+
+Etapa REST actual: nueve endpoints del Anexo A comprobado en el PDF original, DTOs JSON y servicios compartidos con MVC. Verify: 95 aprobadas, 0 fallos/errores, 14 MySQL omitidas. Ver [API REST](api-rest.md) para contrato, pruebas y seguridad; no se afirma ejecución de Postman o integración Axios.
+
 Etapa MVC: los reportes actuales acreditan 71 aprobadas sin fallos/errores/omisiones; Codex repitió las 58 pruebas sin MySQL con éxito. El resultado inicial 58/13 se conserva como histórico. No confundir con las 36 aprobadas de la etapa anterior del servicio. Rutas, recorrido y preguntas específicas en [modulo-mvc.md](modulo-mvc.md). Las pruebas MySQL nuevas figuran aprobadas en los reportes; falta confirmar verify completo y la revisión visual del navegador.
 
 Etapa actual: capa Service RN1–RN5 implementada en feature/backend-reglas-negocio. La explicación completa, transacciones, excepciones, matriz de pruebas y comandos están en [reglas de negocio](reglas-negocio.md). Verify final de esta etapa: 36 aprobadas, 0 fallos, 0 errores y 0 omitidas; el usuario ejecutó y Codex inspeccionó los XML. El cierre de 13 aprobadas mencionado abajo corresponde a la etapa anterior integrada por PR #3, no a una validación autenticada del servicio nuevo.
@@ -209,3 +220,82 @@ El usuario confirmó BUILD SUCCESS de Maven verify después de la auditoría. Co
 Se continúa con el flujo individual autorizado: commit y push en feature/backend-mvc-thymeleaf, sincronización de dev, merge commit sin forzar y validación pertinente del árbol integrado antes de publicar origin/dev. Los hashes y resultados reales se informarán al completar cada operación; no se anticipa éxito en este registro. main queda fuera de alcance y la feature se conserva. No hay PR obligatorio.
 
 Sin nuevas ediciones manuales de código confirmadas; AH-1/AH-2/AH-3 mantienen su alcance académico. Continúan los límites de seguridad: no hay autenticación/autorización ni protección CSRF implementada; el módulo no está preparado para exposición pública. La comprobación visual completa sigue pendiente. No se agregan funcionalidades ni se alteran bases o frontends.
+
+## Defensa de la API REST — 2026-11-08
+
+El Anexo A original (página 13) exige nueve endpoints: listado/detalle/alta/edición/eliminación de actividades, socio por DNI, ACTIVAS por socio, inscripción y baja por PUT. No se implementa CRUD de socios por suposición. Las respuestas de actividades incluyen cupoDisponible y las inscripciones llevan actividad anidada para React.
+
+ApiController solo adapta HTTP. ApiConsultaService coordina transacciones/mapeo y delega escrituras a ActividadService e InscripcionService. Los DTOs de entrada reutilizan las restricciones de los formularios existentes; los de salida son records explícitos sin referencias inversas JPA. No se reproduce un ciclo para inventar un incidente: se evita serializar las entidades. RN1–RN5 y los bloqueos no se duplican.
+
+GET/PUT devuelven 200, POST 201, DELETE de actividad 204 vacío, entrada inválida 400, ausencia 404 y conflicto de negocio 409 con error/regla/detalles. No se compara el texto del error para identificar RN. El advice JSON está limitado al controlador API y no reemplaza los errores HTML. SocioResponse omite contacto; la búsqueda por DNI no autentica identidad.
+
+CORS usa únicamente los orígenes locales configurados y no se habilita *. No hay autenticación/autorización ni protección CSRF específica y no se desactivó protección alguna. Demostración local, sin exposición pública hasta incorporar seguridad.
+
+Pruebas reales: 30 REST y 7 unitarias de fachada nuevas aprobadas; verify completo 95 aprobadas, 0 fallos, 0 errores y 14 MySQL omitidas. Las 24 MVC anteriores (23 Secretaría y 1 raíz) siguen aprobadas. Una prueba nueva MySQL del flujo de servicios API solo compiló; no se ejecutó autenticada. Postman tiene 18 requests y JSON válido, pero no fue ejecutado. React se revisó en lectura y permanece sin cambios.
+
+Revisión humana propuesta: selección de campos personales de SocioResponse y contrato de error para Axios; política de eliminación con historial. Son oportunidades, no ajustes manuales ya realizados. AH-1/AH-2/AH-3 mantienen sus límites. Explicaciones y comandos en api-rest.md.
+
+## Propuesta humana de baja de socios — 2026-11-08
+
+El usuario confirmó manualmente que GET /api/actividades devuelve JSON y propuso incorporar baja lógica de socios al detectar que solo existía baja de inscripciones. Es una decisión funcional humana de mejora voluntaria: RF5 de la consigna exige alta/modificación/listado de socios y RF9 baja de inscripción; el Anexo A no exige baja del socio. Codex realizó el análisis, no una implementación aprobada de esta mejora.
+
+Socio solo posee estadoCuota (AL_DIA/MOROSO). Para ACTIVO/INACTIVO se necesita una columna y enum separados. Se detiene la implementación dependiente por instrucción expresa del usuario; no se modifican entidades, esquema, seed, servicios, controladores o tests para la nueva baja. Diseño, SQL de migración conservadora, transacción, alternativas PUT/PATCH, impacto y pruebas propuestas en propuesta-baja-socios.md. No hay migración ejecutada ni endpoint nuevo disponible.
+
+Los XML disponibles en esta auditoría acreditan 109 aprobadas, 0 fallos, 0 errores y 0 omitidas, incluidas las 14 MySQL. No son una ejecución autenticada nueva de Codex ni acreditan la funcionalidad propuesta. El verify anterior de Codex fue 95 aprobadas/14 omitidas. No se infiere el éxito del goal verify actual solo de los XML. Postman conserva nueve endpoints y 18 requests, sin runner confirmado. Se mantiene ausencia de autenticación/CSRF y uso local. AH-1/AH-2/AH-3 siguen con sus límites; propuesta funcional no se registra como edición manual de código.
+
+Pendiente de aprobación: EstadoSocio y migración aditiva en socioclub/socioclub_test; baja atómica de ACTIVAS con INACTIVO; PUT idempotente y confirmación POST en MVC; rechazo 409 con código SOCIO_INACTIVO independiente de RN1–RN5. No se hace commit, push o merge ni se considera esta mejora lista para integrar.
+
+## Baja lógica de socios aprobada y preparada — 2026-11-08
+
+El usuario aprobó la mejora voluntaria que propuso al revisar la API: EstadoSocio ACTIVO/INACTIVO separado de cuota, baja automática atómica de ACTIVAS, rechazo de nuevas altas, PUT idempotente y confirmación MVC. Autorizó código, pruebas y scripts, pero NO ejecutar migraciones en socioclub ni socioclub_test. Codex implementó; no se atribuye al usuario programación manual y AH-1/AH-2/AH-3 conservan sus límites.
+
+Implementación actual: SocioService bloquea socio y actividades distintas por ID, cambia solo ACTIVAS a BAJA e INACTIVO en una transacción READ_COMMITTED; conserva fechas/vínculos/cuota e historial. Edición general no reactiva; selector de nuevas altas excluye INACTIVOS. API agrega PUT /api/socios/{id}/baja, estadoSocio y codigo SOCIO_INACTIVO independiente de RN1–RN5. MVC agrega confirmación GET sin mutación y POST/PRG. React no se modifica y deberá tratar el campo/código nuevo al integrarse.
+
+Evidencia nueva: verify offline con MySQL explícitamente desactivado, BUILD SUCCESS y JAR, 128 casos: 111 aprobadas, 0 fallos, 0 errores y 17 omitidas. Las pruebas MySQL nuevas de historial/liberación, rollback real y concurrencia, junto con el seed ampliado, solo compilaron. No se ejecutó SQL, backup, migración ni backend JPA contra las bases actuales. Los 109 aprobados previos no acreditan el modelo con estadoSocio.
+
+Script completo preparado: database/migrations/001_estado_socio.sql. schema.sql actualizado solo para instalaciones nuevas; seed omite el campo y conserva registros existentes. Las bases actuales necesitan migración autorizada antes de usar el código nuevo con ddl-auto=validate. No ejecutar MySQL/Postman ni arrancar JPA antes de ese paso. Postman tiene 22 requests y diez endpoints (nueve obligatorios + mejora), JSON válido sin runner ejecutado.
+
+Diseño, efectos, guardas SQL, respaldo, repetición e instrucciones controladas en baja-logica-socios.md; propuesta anterior conservada como histórica. Pendiente revisar script y aprobar explícitamente su ejecución por catálogo, luego validar ensayo y desarrollo. Sin autenticación/autorización/CSRF: sigue siendo demostración local. No está listo para integrar hasta validar el esquema y la suite autenticada. Sin commit, push o merge.
+
+## Defensa del plan de migración — 2026-11-08
+
+Plan operativo vigente: [plan-migracion-estado-socio.md](plan-migracion-estado-socio.md). Estado: auditado estáticamente y preparado, no ejecutado. No se generó ni restauró un respaldo y no se abrieron conexiones SQL durante esta revisión.
+
+Para explicar al profesor: «Agregamos una columna de vigencia, independiente de la deuda, sin borrar socios ni inscripciones. Primero respaldamos estructura y datos y comprobamos una recuperación aislada; luego migramos testing y ejecutamos las pruebas reales. Solo si aprueban y se autoriza, repetimos en desarrollo». La conservación de historia fue propuesta y aprobada por el usuario; el código y el SQL fueron escritos por Codex.
+
+Problema real detectado en revisión: el CHECK original comparaba usando una collation que podía considerar iguales ACTIVO y activo, aunque el enum Java necesita el nombre exacto. Codex preparó comparación binaria en el script y schema.sql y aserciones SQL para valores no canónicos, pendientes de MySQL. También exigió declarar el catálogo esperado en la misma conexión: una lista con ambas bases permitidas no bastaba para expresar la intención de migrar testing primero. No fueron errores observados al ejecutar la migración ni correcciones manuales humanas.
+
+«¿Se puede deshacer con ROLLBACK?» No: ALTER tiene commits implícitos. Detenemos escritores y mantenemos respaldo recuperable; una restauración es otra operación que requiere autorización. «¿Repetir el script reactiva socios?» No, omite el ALTER si encuentra columna o CHECK; pero eso obliga a revisar su definición y no prueba por sí solo que la migración esté correcta. «¿Está validado?» Solo está revisado estáticamente; las 17 pruebas MySQL siguen omitidas y los 111 éxitos anteriores no prueban el nuevo esquema ni el CHECK endurecido.
+
+Los respaldos y exportaciones con datos quedan fuera de Git. La prueba funcional de baja se planifica solo en testing, con datos ficticios y un proceso en puerto 8081 conectado expresamente a socioclub_test; no sobre socios de desarrollo. AH-1/AH-2/AH-3 conservan sus límites académicos y no se inventan ediciones manuales de código ni validaciones realizadas.
+
+## Confirmación humana de migraciones y validación — 2026-11-08
+
+La necesidad de EstadoSocio surgió de la propuesta funcional humana de dar de baja socios preservando el historial. No se podía reutilizar estadoCuota: vigencia ACTIVO/INACTIVO y deuda AL_DIA/MOROSO son independientes. Codex implementó el enum, transacción de servicio, API/MVC, scripts y pruebas; no se atribuye ese código al usuario.
+
+Secuencia comunicada por el usuario:
+
+1. Generó manualmente respaldos independientes de socioclub_test y socioclub mediante mysqldump antes de migrar. No se recibieron ni inspeccionaron los dumps y no consta una restauración de ensayo.
+2. Aplicó y validó manualmente database/migrations/001_estado_socio.sql primero en socioclub_test.
+3. Ejecutó Maven verify autenticado y confirmó BUILD SUCCESS: 128 aprobadas, 0 fallos, 0 errores, 0 omitidas.
+4. Posteriormente autorizó expresamente migrar socioclub y ejecutó manualmente la migración mediante MySQL Workbench; comunicó que quedó todo en orden. No se atribuye ejecución de ninguna migración a Codex.
+
+Codex inspeccionó los diez XML actuales de backend/target/surefire-reports: 34 ApiControllerTests, 26 SecretariaControllerTests, 5 IntegridadModeloTests, 10 InscripcionServiceMySqlTests, 7 PersistenciaMySqlTests, 7 ApiConsultaServiceTests, 20 InscripcionServiceTests, 10 SecretariaServiceTests, 8 SocioBajaServiceTests y 1 SocioClubApplicationTests: 128 aprobadas, cero fallos/errores/omisiones. Los XML corroboran resultados de pruebas, no el goal verify por sí solos: BUILD SUCCESS es confirmación humana. Codex no repitió Maven ni abrió .env o conexiones SQL en esta actualización. Los 111/17 anteriores quedan como evidencia histórica.
+
+Pendientes independientes: ejecutar/compartir la auditoría de solo lectura de socioclub (columna/default/CHECK ENFORCED, 21 socios ACTIVO, 8 actividades, 19 inscripciones, 2 morosos y FK/relaciones conservadas); no se deducen esos números de los tests en testing. Confirmar arranque y HTTP posteriores a esta migración en desarrollo; realizar el recorrido MVC/API de baja exclusivamente en testing, puerto 8081. No consta aún prueba visual, HTTP 409/SOCIO_INACTIVO manual ni ejecución de Postman. Recuperabilidad de los respaldos no demostrada por una restauración de prueba.
+
+Procedimiento exacto y fixtures controlados: [validacion-manual-baja-socios.md](validacion-manual-baja-socios.md). Incluye comparación de una BAJA histórica, dos ACTIVAS, confirmación GET sin mutación, POST, cupos, rechazo 409 e idempotencia. Los fixtures se crean solo después de verify en socioclub_test; no se borran ni reactivan. Si permanecen datos manuales, las suites que exigen testing vacío no deben ejecutarse sin acordar preparación segura. No usar desarrollo para pruebas que escriban.
+
+Se mantienen los riesgos DDL: ALTER puede bloquear y genera commits implícitos; no se deshace con ROLLBACK. Haber aprobado testing no demuestra conservación de todos los campos en desarrollo: contrastar evidencia previa/posterior y respaldo. No reejecutar ni revertir migraciones automáticamente. Se conservan historial/fechas/vínculos y separación de vigencia y cuota como decisiones funcionales; la validación específica posterior sigue siendo necesaria.
+
+Intervención humana adicional IH-MIG-01: respaldo, ejecución operativa de las dos migraciones y validación autenticada. Se vincula con AH-1 (credenciales de ensayo), AH-2 (configuración de desarrollo) y AH-3 (.env/cargador), conservando sus alcances y límites académicos. No se cuenta automáticamente como edición manual de código generado por IA ni se garantiza aceptación por la rúbrica. No consta un diff manual humano del SQL o Java. Esta actividad no reemplaza las tres intervenciones anteriores ni inventa ajustes de fuente.
+
+La regresión automatizada cubre los nueve endpoints del Anexo A, MVC y RN1–RN5; la baja de socio es mejora adicional. Contrato React aditivo con estadoSocio independiente y codigo SOCIO_INACTIVO; integración Axios/React pendiente y sin cambios frontend. Sigue sin autenticación/autorización/CSRF; solo uso local. El cierre funcional/merge queda pendiente de las comprobaciones manuales preparadas. En esta actualización no se ejecutaron operaciones de datos, migraciones, bajas, commit, push ni merge.
+
+## Cierre API y ensayo humano confirmado — 2026-11-08
+
+El usuario confirmó carga del fixture mediante SQL convencional con transacción y COMMIT manual, y ensayo de baja correcto desde Secretaría con backend de testing en 127.0.0.1:8081. Se preservan como antecedentes los errores 1064 (near '' y luego near '//' en línea 127) al intentar el procedimiento. No existe evidencia suficiente para atribuir causa raíz definitiva al delimitador. La alternativa convencional funcionó según ejecución humana; Codex sustituyó database/fixtures/ensayo-baja-socio.sql para reflejarla, sin procedimientos/DDL, con guardas y decisión explícita COMMIT/ROLLBACK. Codex no ejecutó SQL ni alteró bases.
+
+Pruebas completas válidas: 128 aprobadas, cero fallos/errores/omisiones, verify BUILD SUCCESS confirmado, ejecutado ANTES del fixture manual. Ahora socioclub_test contiene registros: NO repetir las suites que exigen vacío ni limpiar automáticamente. El ensayo correcto de Secretaría no demuestra por sí solo HTTP 409/SOCIO_INACTIVO, idempotencia, conservación exacta de filas, cupos finales o Postman; siguen pendientes de evidencia específica. La confirmación humana funcional es suficiente para continuar el cierre autorizado con estas limitaciones declaradas; no se inventa validación adicional.
+
+Se mantienen IH-MIG-01 y AH-1–AH-3: migraciones/respaldos manuales y decisiones de configuración no equivalen automáticamente a ediciones de fuente. La alternativa SQL fue propuesta/aplicada por el usuario; el archivo versionable fue reescrito por Codex, no consta que el usuario lo editara. Sin autenticación/autorización/CSRF ni restauración de backups demostrada. Contrato y separación de capas en api-rest.md; fixture e instrucciones vigentes en validacion-manual-baja-socios.md. No es un despliegue público. Git se integra solo tras auditoría, sin PR y sin tocar main; hashes reales se registrarán después de ejecutarse.

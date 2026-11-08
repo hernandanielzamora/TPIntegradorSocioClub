@@ -43,7 +43,7 @@ public class ActividadService {
     }
 
     @Transactional
-    public void guardar(Long id, @Valid ActividadFormulario f) {
+    public Long guardar(Long id, @Valid ActividadFormulario f) {
         Actividad a = id == null ? new Actividad() : bloqueada(id);
         if (id != null && f.cupoMaximo() < inscripciones.contarActivasDeActividad(id)) {
             throw new ValidacionSecretariaException("El cupo no puede ser menor que la cantidad de inscripciones activas");
@@ -52,6 +52,7 @@ public class ActividadService {
         a.setDias(f.dias()); a.setHorario(f.horario()); a.setEdadMinima(f.edadMinima());
         a.setEdadMaxima(f.edadMaxima()); a.setCupoMaximo(f.cupoMaximo()); a.setCuotaMensual(f.cuotaMensual());
         actividades.saveAndFlush(a);
+        return a.getId();
     }
 
     @Transactional

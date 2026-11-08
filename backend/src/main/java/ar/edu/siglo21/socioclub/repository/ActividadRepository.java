@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 /** Acceso al catálogo de actividades, sin reglas de inscripción. */
 public interface ActividadRepository extends JpaRepository<Actividad, Long> {
+    java.util.List<Actividad> findByDisciplina(String disciplina, org.springframework.data.domain.Sort sort);
     /** Serializa las altas de una actividad para reservar el último cupo sin sobrepasarlo. */
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select a from Actividad a where a.id = :id")

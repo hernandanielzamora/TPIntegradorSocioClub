@@ -9,10 +9,12 @@ CREATE TABLE IF NOT EXISTS socio (
     email VARCHAR(150) NOT NULL,
     telefono VARCHAR(30) NOT NULL,
     estado_cuota VARCHAR(16) NOT NULL,
+    estado VARCHAR(8) NOT NULL DEFAULT 'ACTIVO',
     PRIMARY KEY (id),
     CONSTRAINT uk_socio_dni UNIQUE (dni),
     CONSTRAINT ck_socio_dni CHECK (REGEXP_LIKE(dni, '^[0-9]{7,8}$', 'c')),
     CONSTRAINT ck_socio_estado CHECK (estado_cuota IN ('AL_DIA', 'MOROSO')),
+    CONSTRAINT ck_socio_vigencia CHECK (CAST(estado AS BINARY) IN ('ACTIVO', 'INACTIVO')),
     INDEX ix_socio_apellido (apellido)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 

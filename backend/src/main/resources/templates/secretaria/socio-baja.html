@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/comunes :: cabecera('Confirmar baja de socio')}"></head>
+<body>
+<header th:replace="~{fragments/comunes :: encabezado}"></header>
+<main id="contenido">
+  <h1>Confirmar baja de socio</h1>
+  <p th:text="${socio.nombre}"></p>
+  <p>La baja conserva los datos y el historial. No cambia el estado de cuota.</p>
+  <p th:text="${'Se darán de baja ' + socio.inscripcionesActivas + ' inscripciones activas para liberar sus cupos.'}"></p>
+  <p th:if="${socio.estadoSocio.name() == 'INACTIVO'}">El socio ya está inactivo. Confirmar nuevamente no lo reactiva.</p>
+  <form method="post" th:action="@{/secretaria/socios/{id}/baja(id=${socio.id})}">
+    <button>Confirmar baja del socio y sus inscripciones activas</button>
+    <a th:href="@{/secretaria/socios}">Cancelar</a>
+  </form>
+</main>
+<footer th:replace="~{fragments/comunes :: pie}"></footer>
+</body>
+</html>

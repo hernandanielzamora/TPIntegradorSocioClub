@@ -1,5 +1,12 @@
 # Registro de trabajo manual
 
+> Cierre actualizado: el usuario confirmó la carga manual mediante SQL convencional y el ensayo correcto desde Secretaría en testing:8081. Los procedimientos/delimitadores fallidos se conservan al final como historial, NO como instrucciones vigentes. HTTP 409/codigo, idempotencia, conservación exacta, cupos finales y Postman siguen pendientes de evidencia específica. No repetir MySQL/verify que exige testing vacío: ahora contiene el fixture.
+> Actualización vigente — 2026-11-08: el usuario confirmó respaldos independientes mediante mysqldump, migración manual de socioclub_test, Maven verify con 128 aprobadas/0 fallos/0 errores/0 omitidas y migración posterior autorizada de socioclub mediante Workbench. Codex corroboró los diez XML, sin ejecutar Maven ni SQL. No hay evidencia de restauración de prueba. Auditoría detallada de datos de desarrollo, arranque/HTTP posteriores y recorrido manual de baja siguen pendientes. Procedimiento vigente: [validacion-manual-baja-socios.md](validacion-manual-baja-socios.md). No volver a ejecutar la migración para seguir ese procedimiento.
+
+## Antecedentes previos a esta confirmación
+
+Las referencias siguientes a migración no ejecutada/no autorizada y a 111 aprobadas/17 omitidas describen el estado anterior. Se conservan como historial, no como estado vigente. La confirmación actual y sus límites están registrados al final de este documento.
+
 ## Confirmaciones humanas y cierre — 2026-11-08
 
 El usuario solicitante confirmó que configuró MySQL 8.4 con Workbench, creó socioclub y socioclub_test y las cuentas locales socioclub_app/socioclub_tests. En el pedido de cierre confirmó tablas creadas mediante schema.sql y preparación manual de datos/pruebas. No aportó resultados definitivos de JPA, por lo que no se registra esa suite como aprobada ni se infiere ejecución de casos concretos.
@@ -87,3 +94,76 @@ El usuario confirmó BUILD SUCCESS de Maven verify después de la auditoría. Co
 Se continúa con el flujo individual autorizado: commit y push en feature/backend-mvc-thymeleaf, sincronización de dev, merge commit sin forzar y validación pertinente del árbol integrado antes de publicar origin/dev. Los hashes y resultados reales se informarán al completar cada operación; no se anticipa éxito en este registro. main queda fuera de alcance y la feature se conserva. No hay PR obligatorio.
 
 Sin nuevas ediciones manuales de código confirmadas; AH-1/AH-2/AH-3 mantienen su alcance académico. Continúan los límites de seguridad: no hay autenticación/autorización ni protección CSRF implementada; el módulo no está preparado para exposición pública. La comprobación visual completa sigue pendiente. No se agregan funcionalidades ni se alteran bases o frontends.
+
+## Pedido humano de API REST — 2026-11-08
+
+El usuario solicitó desarrollar la API de la consigna en feature/backend-api-rest y preparar integración futura con React, sin cambiar frontends/esquema, publicar o desplegar. Codex realizó implementación y documentación. No se comunicó una edición manual de código durante esta etapa: no se añade un AH nuevo ni se atribuyen las correcciones de ejemplos o herramientas a una persona.
+
+Validación automática real: 95 aprobadas, 0 fallos, 0 errores, 14 MySQL omitidas, verify BUILD SUCCESS. Las 30 REST y 7 unitarias nuevas aprobaron y MVC siguió compatible. Una nueva prueba JPA solo compiló. Colección/entorno Postman con JSON válido, sin ejecución manual/runner. Se solicita al usuario ejecutar verify con su configuración local y probar endpoints/colección; no se anticipa aprobación. Oportunidades humanas futuras: campos personales del DTO y contrato de errores para Axios. Sin commit asociado a esta etapa; AH-1/AH-2/AH-3 conservan límites académicos.
+
+## Decisión funcional humana propuesta: baja de socios — 2026-11-08
+
+El usuario confirmó haber consultado GET /api/actividades y recibido JSON correctamente. Durante su revisión detectó ausencia de baja explícita de socios y propuso personalmente incorporarla preservando historial. Solicitó analizar y detenerse si requería esquema, antes de implementarlo. Es una mejora funcional voluntaria del usuario; no consta que haya escrito código o ejecutado una migración.
+
+Codex constató que falta estado de vigencia independiente de estadoCuota y preparó propuesta-baja-socios.md. ACTIVO/INACTIVO, baja automática de ACTIVAS en una transacción, PUT idempotente, confirmación MVC y código SOCIO_INACTIVO son alternativas/recomendaciones pendientes de aprobación humana explícita. El SQL está solo documentado, no aplicado. No se registra como ajuste manual de código ni como funcionalidad terminada. AH-1/AH-2/AH-3 conservan sus límites académicos. Sin commit asociado a esta mejora.
+
+## Aprobación humana y límites de ejecución — baja lógica de socios — 2026-11-08
+
+El usuario aprobó expresamente el diseño de su mejora: vigencia separada, baja atómica de inscripciones ACTIVAS, idempotencia, API/MVC, DTOs, validaciones, pruebas y preparación de schema/migración/documentación. Negó autorización para ejecutar migraciones sobre socioclub o socioclub_test y pidió revisar primero el script. Esa autorización pendiente no se infiere de permitir escribir el archivo.
+
+El código, tests y SQL fueron implementados por Codex, no editados manualmente por el usuario en la evidencia disponible. La propuesta y aprobación son decisiones funcionales humanas. No se registra una prueba manual nueva de la baja o ejecución de la migración. Resultado automático real: verify sin MySQL, 111 aprobadas, 0 fallos, 0 errores y 17 omitidas. El usuario revisará database/migrations/001_estado_socio.sql y Docs/baja-logica-socios.md antes de aprobar cualquier DDL. AH-1/AH-2/AH-3 conservan sus límites; no se crea un ajuste de código ficticio. Sin commit asociado a esta mejora.
+
+## Preparación operativa de migración, sin ejecución — 2026-11-08
+
+El usuario solicitó auditoría del SQL y un plan de backup/ejecución primero en socioclub_test, con desarrollo condicionado a pruebas satisfactorias y autorización específica. No autorizó SQL ni modificaciones de bases. Se mantiene su autoría de la propuesta funcional de baja y preservación de historial; no hay una nueva edición manual humana de código confirmada.
+
+Codex revisó el archivo completo y preparó dos mejoras: destino esperado explícito en la misma sesión y CHECK binario alineado con el enum (también en schema.sql). Amplió las aserciones SQL de vigencia, aún no ejecutadas. Plan detallado en plan-migracion-estado-socio.md, actualización de implementación, maestro y defensa. Ningún respaldo, restauración, SQL o prueba autenticada se ejecutó. Reportes previos inspeccionados: 111 aprobadas, 0 fallos/errores y 17 omitidas; no acreditan los últimos cambios de CHECK/aserciones. No se volvió a ejecutar Maven en esta auditoría. Pendiente aprobación humana tras preparar respaldo recuperable y validar el destino, luego ensayo y pruebas antes de considerar desarrollo. AH-1/AH-2/AH-3 conservan sus límites; cambios de archivos realizados por Codex, sin commit asociado ni publicación.
+
+## Confirmación humana de migraciones y validación — 2026-11-08
+
+La necesidad de EstadoSocio surgió de la propuesta funcional humana de dar de baja socios preservando el historial. No se podía reutilizar estadoCuota: vigencia ACTIVO/INACTIVO y deuda AL_DIA/MOROSO son independientes. Codex implementó el enum, transacción de servicio, API/MVC, scripts y pruebas; no se atribuye ese código al usuario.
+
+Secuencia comunicada por el usuario:
+
+1. Generó manualmente respaldos independientes de socioclub_test y socioclub mediante mysqldump antes de migrar. No se recibieron ni inspeccionaron los dumps y no consta una restauración de ensayo.
+2. Aplicó y validó manualmente database/migrations/001_estado_socio.sql primero en socioclub_test.
+3. Ejecutó Maven verify autenticado y confirmó BUILD SUCCESS: 128 aprobadas, 0 fallos, 0 errores, 0 omitidas.
+4. Posteriormente autorizó expresamente migrar socioclub y ejecutó manualmente la migración mediante MySQL Workbench; comunicó que quedó todo en orden. No se atribuye ejecución de ninguna migración a Codex.
+
+Codex inspeccionó los diez XML actuales de backend/target/surefire-reports: 34 ApiControllerTests, 26 SecretariaControllerTests, 5 IntegridadModeloTests, 10 InscripcionServiceMySqlTests, 7 PersistenciaMySqlTests, 7 ApiConsultaServiceTests, 20 InscripcionServiceTests, 10 SecretariaServiceTests, 8 SocioBajaServiceTests y 1 SocioClubApplicationTests: 128 aprobadas, cero fallos/errores/omisiones. Los XML corroboran resultados de pruebas, no el goal verify por sí solos: BUILD SUCCESS es confirmación humana. Codex no repitió Maven ni abrió .env o conexiones SQL en esta actualización. Los 111/17 anteriores quedan como evidencia histórica.
+
+Pendientes independientes: ejecutar/compartir la auditoría de solo lectura de socioclub (columna/default/CHECK ENFORCED, 21 socios ACTIVO, 8 actividades, 19 inscripciones, 2 morosos y FK/relaciones conservadas); no se deducen esos números de los tests en testing. Confirmar arranque y HTTP posteriores a esta migración en desarrollo; realizar el recorrido MVC/API de baja exclusivamente en testing, puerto 8081. No consta aún prueba visual, HTTP 409/SOCIO_INACTIVO manual ni ejecución de Postman. Recuperabilidad de los respaldos no demostrada por una restauración de prueba.
+
+Procedimiento exacto y fixtures controlados: [validacion-manual-baja-socios.md](validacion-manual-baja-socios.md). Incluye comparación de una BAJA histórica, dos ACTIVAS, confirmación GET sin mutación, POST, cupos, rechazo 409 e idempotencia. Los fixtures se crean solo después de verify en socioclub_test; no se borran ni reactivan. Si permanecen datos manuales, las suites que exigen testing vacío no deben ejecutarse sin acordar preparación segura. No usar desarrollo para pruebas que escriban.
+
+Se mantienen los riesgos DDL: ALTER puede bloquear y genera commits implícitos; no se deshace con ROLLBACK. Haber aprobado testing no demuestra conservación de todos los campos en desarrollo: contrastar evidencia previa/posterior y respaldo. No reejecutar ni revertir migraciones automáticamente. Se conservan historial/fechas/vínculos y separación de vigencia y cuota como decisiones funcionales; la validación específica posterior sigue siendo necesaria.
+
+Intervención humana adicional IH-MIG-01: respaldo, ejecución operativa de las dos migraciones y validación autenticada. Se vincula con AH-1 (credenciales de ensayo), AH-2 (configuración de desarrollo) y AH-3 (.env/cargador), conservando sus alcances y límites académicos. No se cuenta automáticamente como edición manual de código generado por IA ni se garantiza aceptación por la rúbrica. No consta un diff manual humano del SQL o Java. Esta actividad no reemplaza las tres intervenciones anteriores ni inventa ajustes de fuente.
+
+La regresión automatizada cubre los nueve endpoints del Anexo A, MVC y RN1–RN5; la baja de socio es mejora adicional. Contrato React aditivo con estadoSocio independiente y codigo SOCIO_INACTIVO; integración Axios/React pendiente y sin cambios frontend. Sigue sin autenticación/autorización/CSRF; solo uso local. El cierre funcional/merge queda pendiente de las comprobaciones manuales preparadas. En esta actualización no se ejecutaron operaciones de datos, migraciones, bajas, commit, push ni merge.
+
+## Incidente del fixture: CREATE PROCEDURE rechazado con 1064 — 2026-11-08
+
+Intento humano real: cargar el fixture de baja lógica mediante Workbench en socioclub_test, servidor local 3306, conexión administradora. Resultado comunicado: error 1064 en CREATE PROCEDURE; datos no visibles y sin evidencia de INSERT exitosos. Codex revisó íntegramente el archivo, schema.sql y documentación oficial; no ejecutó SQL ni encontró todavía una línea inválida demostrable. Se solicitó mensaje completo «near ... at line ...» y modo de ejecución (archivo/selección). Causa pendiente; no se culpa al delimitador, permisos, orden de características o al usuario sin evidencia.
+
+No se aplicó una modificación SQL especulativa ni se afirma corrección validada. Se evaluó eliminar el auxiliar, descartándolo para no perder rollback automático ante error de INSERT. Procedimiento de aislamiento de CREATE y SELECT de comprobación en validacion-manual-baja-socios.md. Aprendizaje: revisión estática no acredita aceptación por el parser del servidor; el texto exacto del error y la sentencia enviada son necesarios para diagnosticar. Código original generado por Codex; intento de ejecución del usuario. Sin cambio de bases, Maven, React, commit/push/merge por Codex.
+
+### Evidencia ampliada y ajuste de delimitación del fixture
+
+El usuario aportó el mensaje completo: «MySQL Error (1064) ... near '' at line 127», con siete sentencias informadas y un error. No indicó todavía si se envió todo el archivo o una selección. En el archivo previo al ajuste, CREATE comenzaba en la línea 20 y terminaba en la 146: el cierre END$$ era exactamente la línea 127 relativa al CREATE. La coincidencia es comprobable por lectura del archivo; no prueba por sí sola qué texto envió el cliente ni la causa raíz.
+
+Interpretación limitada: el mensaje sitúa el rechazo al final del texto que el parser recibió. La hipótesis de delimitación/envío incompleto gana relevancia, pero no queda demostrada. No se identificó un DECLARE fuera de lugar ni se cambió el orden de características, permitido por la gramática. El número de sentencias reportado tampoco identifica por sí solo el programa cliente ni demuestra ejecución de CALL/INSERT.
+
+Codex preparó un ajuste conservador de compatibilidad: DELIMITER // y cierre END // con separación explícita, manteniendo intactos el cuerpo, handlers, protección de catálogo, seis INSERT, IDs y resultados. $$ también es un delimitador válido cuando el cliente lo procesa correctamente; no se afirma que usarlo fuera un defecto de MySQL. Este cambio y el modo de envío deben validarse manualmente; no se registra el error como resuelto. No se ejecutó SQL.
+
+Para el siguiente intento controlado, usar Workbench y una conexión nueva, consultar primero ausencia de rutina/datos con los SELECT anteriores. Si no hay auxiliar ni fixture, abrir el archivo actualizado y seleccionar desde SET NAMES utf8mb4 hasta DELIMITER ; inclusive después de END //, excluyendo CALL y DROP. Ejecutar la selección completa como script. No usar ejecutar sentencia actual dentro del cuerpo. DELIMITER es una directiva del cliente, no una sentencia que deba enviarse al servidor. Si esta fase falla, detenerse sin CALL y conservar el texto SQL efectivo que muestre el cliente junto con el error. Si la creación funciona, inspeccionar SHOW CREATE PROCEDURE socioclub_test.fixture_ensayo_baja_socio_v1; solo después, en esa misma conexión y con el catálogo correcto, ejecutar CALL del archivo y verificar las salidas. Retirar luego únicamente el auxiliar mediante el DROP PROCEDURE final. Si quedó un auxiliar de otro intento, detenerse y revisar su definición antes de retirarlo o reutilizarlo; no eliminarlo automáticamente.
+
+Resultado esperado sin cambios: Martín Prueba Baja ACTIVO/AL_DIA, dos actividades con cupo máximo 5, una BAJA histórica en Yoga y dos ACTIVAS, una por actividad; cupo disponible 4 en ambas. La comprobación real y la causa definitiva siguen pendientes del siguiente resultado. Fuente: [ejemplo oficial de delimitación de procedimientos](https://dev.mysql.com/doc/refman/8.4/en/create-procedure.html).
+
+## Cierre API y ensayo humano confirmado — 2026-11-08
+
+El usuario confirmó carga del fixture mediante SQL convencional con transacción y COMMIT manual, y ensayo de baja correcto desde Secretaría con backend de testing en 127.0.0.1:8081. Se preservan como antecedentes los errores 1064 (near '' y luego near '//' en línea 127) al intentar el procedimiento. No existe evidencia suficiente para atribuir causa raíz definitiva al delimitador. La alternativa convencional funcionó según ejecución humana; Codex sustituyó database/fixtures/ensayo-baja-socio.sql para reflejarla, sin procedimientos/DDL, con guardas y decisión explícita COMMIT/ROLLBACK. Codex no ejecutó SQL ni alteró bases.
+
+Pruebas completas válidas: 128 aprobadas, cero fallos/errores/omisiones, verify BUILD SUCCESS confirmado, ejecutado ANTES del fixture manual. Ahora socioclub_test contiene registros: NO repetir las suites que exigen vacío ni limpiar automáticamente. El ensayo correcto de Secretaría no demuestra por sí solo HTTP 409/SOCIO_INACTIVO, idempotencia, conservación exacta de filas, cupos finales o Postman; siguen pendientes de evidencia específica. La confirmación humana funcional es suficiente para continuar el cierre autorizado con estas limitaciones declaradas; no se inventa validación adicional.
+
+Se mantienen IH-MIG-01 y AH-1–AH-3: migraciones/respaldos manuales y decisiones de configuración no equivalen automáticamente a ediciones de fuente. La alternativa SQL fue propuesta/aplicada por el usuario; el archivo versionable fue reescrito por Codex, no consta que el usuario lo editara. Sin autenticación/autorización/CSRF ni restauración de backups demostrada. Contrato y separación de capas en api-rest.md; fixture e instrucciones vigentes en validacion-manual-baja-socios.md. No es un despliegue público. Git se integra solo tras auditoría, sin PR y sin tocar main; hashes reales se registrarán después de ejecutarse.
