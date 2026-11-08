@@ -1,2 +1,2 @@
-/** Formularios y vistas planas de Secretaría; DTOs de la API REST todavía fuera de alcance. */
+/** Formularios compartidos, vistas de Secretaría y responses explícitos de la API REST. */
 package ar.edu.siglo21.socioclub.dto;

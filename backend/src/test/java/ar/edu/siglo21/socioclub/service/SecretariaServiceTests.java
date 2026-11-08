@@ -25,7 +25,7 @@ class SecretariaServiceTests {
     private InscripcionService inscripcionService;
 
     @BeforeEach void preparar() {
-        socioService = new SocioService(socios);
+        socioService = new SocioService(socios, actividades, inscripciones);
         actividadService = new ActividadService(actividades, inscripciones);
         inscripcionService = new InscripcionService(socios, actividades, inscripciones, Clock.systemDefaultZone());
     }

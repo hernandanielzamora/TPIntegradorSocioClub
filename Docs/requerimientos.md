@@ -70,3 +70,13 @@ El usuario ejecutó las suites MySQL y verify exitosamente. Codex verificó XML:
 Se implementó el lado MVC de RF4–RF7 y la baja lógica RF9: ABM de actividades (sin eliminar historial), alta/edición/listado/búsqueda por apellido de socios, inscripción mediante RN1–RN5, consulta por actividad/estado y cupos. Los listados se paginan. Los filtros de edad del catálogo público/React y la API siguen fuera de esta etapa; no se declara cumplimiento integral de los RF que requieren esos componentes.
 
 Verify actual sin MySQL: 58 aprobadas, 0 fallos, 0 errores y 13 omitidas, BUILD SUCCESS. Los resultados anteriores se conservan como historia. Dos pruebas MySQL nuevas de baja/consulta y administración están compiladas pero pendientes de ejecución autenticada junto con las anteriores. Sin cambios de esquema, datos de desarrollo, frontends o despliegue. Ver modulo-mvc.md para rutas, validación, diseño, límites y revisión humana.
+
+## Etapa API REST — 2026-11-08
+
+Se contrastó el PDF original, Anexo A página 13, y se implementaron sus nueve endpoints exactos. CRUD de actividades, socio por DNI, ACTIVAS por socio, alta con RN1–RN5 y baja lógica PUT. DTOs explícitos evitan ciclos; servicios compartidos preservan reglas y MVC. La API no incorpora CRUD de socios adicional. Filtros/JSON permiten sustituir posteriormente datos simulados de React, pero no se lo modificó ni se afirma integración ejecutada.
+
+Verify actual: 95 aprobadas, 0 fallos/errores y 14 MySQL omitidas; BUILD SUCCESS. Postman tiene colección importable y entorno, sin ejecución todavía. RF integrales que dependen de Axios y pruebas de sistema continúan parciales; no confundir disponibilidad de endpoints con integración final. API sin autenticación/CSRF, uso local. Contrato y evidencia en api-rest.md. No hay commit/push/merge o despliegue en esta etapa.
+
+## Mejora voluntaria: vigencia del socio — preparada el 2026-11-08
+
+RF5 no exige baja del socio; RF9 es baja de inscripción. La mejora de EstadoSocio y baja con historial fue propuesta y aprobada por el usuario. Nueve endpoints del anexo más PUT /api/socios/{id}/baja; no se renumeran RN1–RN5. El código adicional y schema/migración están preparados por Codex; ejecución de DDL expresamente no autorizada. React no cambia. Verify actual sin MySQL: 111 aprobadas, 0 fallos/errores, 17 omitidas. Esquema nuevo y pruebas autenticadas pendientes; ver baja-logica-socios.md.

@@ -42,11 +42,30 @@ class SecretariaControllerTests {
                 .andExpect(content().string(containsString("Socios registrados")))
                 .andExpect(content().string(containsString("21")));
     }
+    @Test void confirmarBajaSocioGETNoModificaYPOSTRedirige() throws Exception {
+        when(socios.prepararBaja(1L)).thenReturn(new SocioBajaVista(1L, "Ana Prueba", EstadoSocio.ACTIVO, 2));
+        mvc.perform(get("/secretaria/socios/1/baja")).andExpect(status().isOk())
+                .andExpect(content().string(containsString("Confirmar baja del socio")))
+                .andExpect(content().string(containsString("2 inscripciones activas")));
+        verify(socios, never()).darDeBaja(anyLong());
+        mvc.perform(post("/secretaria/socios/1/baja")).andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/secretaria/socios")).andExpect(flash().attributeExists("exito"));
+        verify(socios).darDeBaja(1L);
+    }
+    @Test void confirmarSocioInexistente404() throws Exception {
+        when(socios.prepararBaja(99L)).thenThrow(new RecursoNoEncontradoException("Socio", 99L));
+        mvc.perform(get("/secretaria/socios/99/baja")).andExpect(status().isNotFound());
+    }
+    @Test void inactivoEnFormularioMuestraMensaje() throws Exception {
+        when(inscripciones.inscribir(1L, 2L)).thenThrow(new SocioInactivoException());
+        mvc.perform(post("/secretaria/inscripciones").param("socioId", "1").param("actividadId", "2"))
+                .andExpect(status().isOk()).andExpect(content().string(containsString("socio está inactivo")));
+    }
 
     @Test void sociosConDatosPersonalesBusquedaYPaginacion() throws Exception {
         var f = new SocioFormulario("99000001", "Ana", "Prueba", LocalDate.of(2000, 1, 1),
                 "ana@example.invalid", "PRUEBA", EstadoCuota.MOROSO);
-        when(socios.listar("pru", 1)).thenReturn(new PageImpl<>(List.of(new SocioVista(1L, f)),
+        when(socios.listar("pru", 1)).thenReturn(new PageImpl<>(List.of(new SocioVista(1L, f, EstadoSocio.ACTIVO)),
                 PageRequest.of(1, 10), 21));
         mvc.perform(get("/secretaria/socios").param("apellido", "pru").param("pagina", "1"))
                 .andExpect(status().isOk()).andExpect(content().string(containsString("ana@example.invalid")))

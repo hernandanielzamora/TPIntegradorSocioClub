@@ -1,0 +1,1425 @@
+{
+  "info": {
+    "name": "SocioClub - API REST Anexo A",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Nueve endpoints; incluye filtros, ejemplos y casos inválidos. IDs son ejemplos: revisar variables y requisitos de escenarios. Las escrituras modifican datos del backend elegido. Casos RN deben ejecutarse individualmente con fixtures deliberadas; no se ha ejecutado esta colección. Mejora voluntaria: décima ruta de baja lógica de socios preparada en código, pendiente de migración autorizada. No ejecutar hasta revisar/aplicar la migración en la base elegida; socioBajaId debe ser un socio ficticio seleccionado deliberadamente. No existe reactivación."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "dni",
+      "value": "30111222"
+    },
+    {
+      "key": "socioId",
+      "value": "1"
+    },
+    {
+      "key": "actividadId",
+      "value": "8"
+    },
+    {
+      "key": "actividadCreadaId",
+      "value": ""
+    },
+    {
+      "key": "inscripcionCreadaId",
+      "value": ""
+    },
+    {
+      "key": "rn1SocioId",
+      "value": ""
+    },
+    {
+      "key": "rn1ActividadId",
+      "value": ""
+    },
+    {
+      "key": "rn2SocioId",
+      "value": ""
+    },
+    {
+      "key": "rn2ActividadId",
+      "value": ""
+    },
+    {
+      "key": "rn3SocioId",
+      "value": ""
+    },
+    {
+      "key": "rn3ActividadId",
+      "value": ""
+    },
+    {
+      "key": "rn4SocioId",
+      "value": ""
+    },
+    {
+      "key": "rn4ActividadId",
+      "value": ""
+    },
+    {
+      "key": "rn5SocioId",
+      "value": ""
+    },
+    {
+      "key": "rn5ActividadId",
+      "value": ""
+    },
+    {
+      "key": "socioBajaId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Consultas",
+      "item": [
+        {
+          "name": "Listar actividades",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/actividades"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Ejemplo HTTP 200",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/actividades"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 8,\n    \"nombre\": \"Actividad API manual\",\n    \"disciplina\": \"Ensayo API\",\n    \"profesor\": \"Docente\",\n    \"dias\": \"Lunes\",\n    \"horario\": \"10:00\",\n    \"edadMinima\": 18,\n    \"edadMaxima\": 99,\n    \"cupoMaximo\": 10,\n    \"cuotaMensual\": 100.25,\n    \"cupoDisponible\": 10\n  }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Filtrar disciplina",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/actividades?disciplina=Bienestar"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Ejemplo HTTP 200",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/actividades?disciplina=Bienestar"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[]"
+            }
+          ]
+        },
+        {
+          "name": "Detalle de actividad",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/actividades/{{actividadId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Ejemplo HTTP 200",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/actividades/{{actividadId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 8,\n  \"nombre\": \"Actividad API manual\",\n  \"disciplina\": \"Ensayo API\",\n  \"profesor\": \"Docente\",\n  \"dias\": \"Lunes\",\n  \"horario\": \"10:00\",\n  \"edadMinima\": 18,\n  \"edadMaxima\": 99,\n  \"cupoMaximo\": 10,\n  \"cuotaMensual\": 100.25,\n  \"cupoDisponible\": 10\n}"
+            }
+          ]
+        },
+        {
+          "name": "Socio por DNI",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/socios/dni/{{dni}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Ejemplo HTTP 200",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/socios/dni/{{dni}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"dni\": \"30111222\",\n  \"nombre\": \"Juan\",\n  \"apellido\": \"Pérez\",\n  \"fechaNacimiento\": \"2001-05-15\",\n  \"estadoCuota\": \"AL_DIA\",\n  \"estadoSocio\": \"ACTIVO\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Inscripciones ACTIVAS del socio",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/socios/{{socioId}}/inscripciones"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Ejemplo HTTP 200",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/socios/{{socioId}}/inscripciones"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 99,\n    \"socioId\": 1,\n    \"actividadId\": 8,\n    \"fechaInscripcion\": \"2026-11-08\",\n    \"estado\": \"ACTIVA\",\n    \"actividad\": {\n      \"id\": 8,\n      \"nombre\": \"Actividad API manual\",\n      \"disciplina\": \"Ensayo API\",\n      \"profesor\": \"Docente\",\n      \"dias\": \"Lunes\",\n      \"horario\": \"10:00\",\n      \"edadMinima\": 18,\n      \"edadMaxima\": 99,\n      \"cupoMaximo\": 10,\n      \"cuotaMensual\": 100.25,\n      \"cupoDisponible\": 10\n    }\n  }\n]"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ABM actividad propia de ensayo",
+      "item": [
+        {
+          "name": "Crear actividad de ensayo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/actividades",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Actividad API manual\",\n  \"disciplina\": \"Ensayo API\",\n  \"profesor\": \"Docente\",\n  \"dias\": \"Lunes\",\n  \"horario\": \"10:00\",\n  \"edadMinima\": 18,\n  \"edadMaxima\": 99,\n  \"cupoMaximo\": 10,\n  \"cuotaMensual\": 100.25\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"actividadCreadaId\", String(pm.response.json().id)); }"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Ejemplo HTTP 201",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/actividades",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Actividad API manual\",\n  \"disciplina\": \"Ensayo API\",\n  \"profesor\": \"Docente\",\n  \"dias\": \"Lunes\",\n  \"horario\": \"10:00\",\n  \"edadMinima\": 18,\n  \"edadMaxima\": 99,\n  \"cupoMaximo\": 10,\n  \"cuotaMensual\": 100.25\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 50,\n  \"nombre\": \"Actividad API manual\",\n  \"disciplina\": \"Ensayo API\",\n  \"profesor\": \"Docente\",\n  \"dias\": \"Lunes\",\n  \"horario\": \"10:00\",\n  \"edadMinima\": 18,\n  \"edadMaxima\": 99,\n  \"cupoMaximo\": 10,\n  \"cuotaMensual\": 100.25,\n  \"cupoDisponible\": 10\n}"
+            }
+          ]
+        },
+        {
+          "name": "Editar actividad creada",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/actividades/{{actividadCreadaId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Actividad API manual\",\n  \"disciplina\": \"Ensayo API\",\n  \"profesor\": \"Docente\",\n  \"dias\": \"Lunes\",\n  \"horario\": \"10:00\",\n  \"edadMinima\": 18,\n  \"edadMaxima\": 99,\n  \"cupoMaximo\": 10,\n  \"cuotaMensual\": 100.25\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Ejemplo HTTP 200",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/actividades/{{actividadCreadaId}}",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Actividad API manual\",\n  \"disciplina\": \"Ensayo API\",\n  \"profesor\": \"Docente\",\n  \"dias\": \"Lunes\",\n  \"horario\": \"10:00\",\n  \"edadMinima\": 18,\n  \"edadMaxima\": 99,\n  \"cupoMaximo\": 10,\n  \"cuotaMensual\": 100.25\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 50,\n  \"nombre\": \"Actividad API manual\",\n  \"disciplina\": \"Ensayo API\",\n  \"profesor\": \"Docente\",\n  \"dias\": \"Lunes\",\n  \"horario\": \"10:00\",\n  \"edadMinima\": 18,\n  \"edadMaxima\": 99,\n  \"cupoMaximo\": 10,\n  \"cuotaMensual\": 100.25,\n  \"cupoDisponible\": 10\n}"
+            }
+          ]
+        },
+        {
+          "name": "Eliminar actividad creada sin inscripciones",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/actividades/{{actividadCreadaId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 204\", function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Ejemplo HTTP 204",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/actividades/{{actividadCreadaId}}"
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [],
+              "body": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Alta y baja (datos controlados)",
+      "item": [
+        {
+          "name": "Inscripción válida (requiere socio apto y cupo)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/inscripciones",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"socioId\": {{socioId}}, \"actividadId\": {{actividadId}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"inscripcionCreadaId\", String(pm.response.json().id)); }"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Ejemplo HTTP 201",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/inscripciones",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"socioId\": {{socioId}}, \"actividadId\": {{actividadId}}}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 99,\n  \"socioId\": 1,\n  \"actividadId\": 8,\n  \"fechaInscripcion\": \"2026-11-08\",\n  \"estado\": \"ACTIVA\",\n  \"actividad\": {\n    \"id\": 8,\n    \"nombre\": \"Actividad API manual\",\n    \"disciplina\": \"Ensayo API\",\n    \"profesor\": \"Docente\",\n    \"dias\": \"Lunes\",\n    \"horario\": \"10:00\",\n    \"edadMinima\": 18,\n    \"edadMaxima\": 99,\n    \"cupoMaximo\": 10,\n    \"cuotaMensual\": 100.25,\n    \"cupoDisponible\": 10\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Baja lógica de inscripción creada",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/inscripciones/{{inscripcionCreadaId}}/baja"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Ejemplo HTTP 200",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/inscripciones/{{inscripcionCreadaId}}/baja"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 99,\n  \"socioId\": 1,\n  \"actividadId\": 8,\n  \"fechaInscripcion\": \"2026-11-08\",\n  \"estado\": \"BAJA\",\n  \"actividad\": {\n    \"id\": 8,\n    \"nombre\": \"Actividad API manual\",\n    \"disciplina\": \"Ensayo API\",\n    \"profesor\": \"Docente\",\n    \"dias\": \"Lunes\",\n    \"horario\": \"10:00\",\n    \"edadMinima\": 18,\n    \"edadMaxima\": 99,\n    \"cupoMaximo\": 10,\n    \"cuotaMensual\": 100.25,\n    \"cupoDisponible\": 10\n  }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Errores y reglas (requieren escenarios)",
+      "item": [
+        {
+          "name": "DNI inválido",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/socios/dni/123"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Ejemplo HTTP 400",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/socios/dni/123"
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"El cuerpo, los identificadores o los filtros son inválidos\",\n  \"regla\": null,\n  \"detalles\": [],\n  \"codigo\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Actividad inexistente",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/actividades/999999999"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Ejemplo HTTP 404",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/actividades/999999999"
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"El recurso solicitado no existe\",\n  \"regla\": null,\n  \"detalles\": [],\n  \"codigo\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Request incompleto",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/inscripciones",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Ejemplo HTTP 400",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/inscripciones",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Revisá los datos enviados\",\n  \"regla\": null,\n  \"detalles\": [],\n  \"codigo\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "RN1 - preparar escenario antes de enviar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/inscripciones",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"socioId\": {{rn1SocioId}}, \"actividadId\": {{rn1ActividadId}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", function () { pm.response.to.have.status(409); });",
+                  "pm.test(\"Regla RN1\", function () { pm.expect(pm.response.json().regla).to.eql(\"RN1\"); });"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Ejemplo HTTP 409",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/inscripciones",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"socioId\": {{rn1SocioId}}, \"actividadId\": {{rn1ActividadId}}}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"La actividad no tiene cupo disponible\",\n  \"regla\": \"RN1\",\n  \"detalles\": [],\n  \"codigo\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "RN2 - preparar escenario antes de enviar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/inscripciones",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"socioId\": {{rn2SocioId}}, \"actividadId\": {{rn2ActividadId}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", function () { pm.response.to.have.status(409); });",
+                  "pm.test(\"Regla RN2\", function () { pm.expect(pm.response.json().regla).to.eql(\"RN2\"); });"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Ejemplo HTTP 409",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/inscripciones",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"socioId\": {{rn2SocioId}}, \"actividadId\": {{rn2ActividadId}}}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"El socio ya está inscripto en esta actividad\",\n  \"regla\": \"RN2\",\n  \"detalles\": [],\n  \"codigo\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "RN3 - preparar escenario antes de enviar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/inscripciones",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"socioId\": {{rn3SocioId}}, \"actividadId\": {{rn3ActividadId}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", function () { pm.response.to.have.status(409); });",
+                  "pm.test(\"Regla RN3\", function () { pm.expect(pm.response.json().regla).to.eql(\"RN3\"); });"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Ejemplo HTTP 409",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/inscripciones",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"socioId\": {{rn3SocioId}}, \"actividadId\": {{rn3ActividadId}}}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"La edad debe estar entre 18 y 65 años inclusive\",\n  \"regla\": \"RN3\",\n  \"detalles\": [],\n  \"codigo\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "RN4 - preparar escenario antes de enviar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/inscripciones",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"socioId\": {{rn4SocioId}}, \"actividadId\": {{rn4ActividadId}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", function () { pm.response.to.have.status(409); });",
+                  "pm.test(\"Regla RN4\", function () { pm.expect(pm.response.json().regla).to.eql(\"RN4\"); });"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Ejemplo HTTP 409",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/inscripciones",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"socioId\": {{rn4SocioId}}, \"actividadId\": {{rn4ActividadId}}}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Debe regularizar su cuota en secretaría\",\n  \"regla\": \"RN4\",\n  \"detalles\": [],\n  \"codigo\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "RN5 - preparar escenario antes de enviar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/inscripciones",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"socioId\": {{rn5SocioId}}, \"actividadId\": {{rn5ActividadId}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", function () { pm.response.to.have.status(409); });",
+                  "pm.test(\"Regla RN5\", function () { pm.expect(pm.response.json().regla).to.eql(\"RN5\"); });"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Ejemplo HTTP 409",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/inscripciones",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"socioId\": {{rn5SocioId}}, \"actividadId\": {{rn5ActividadId}}}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Alcanzó el máximo de 3 actividades\",\n  \"regla\": \"RN5\",\n  \"detalles\": [],\n  \"codigo\": null\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mejora voluntaria: baja socio (solo tras migración y con datos elegidos)",
+      "item": [
+        {
+          "name": "Dar de baja socio y ACTIVAS",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/socios/{{socioBajaId}}/baja"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Socio INACTIVO\", function () { pm.expect(pm.response.json().estadoSocio).to.eql(\"INACTIVO\"); });"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Ejemplo 200",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/socios/{{socioBajaId}}/baja"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"dni\": \"99000001\",\n  \"nombre\": \"Ana\",\n  \"apellido\": \"Prueba\",\n  \"fechaNacimiento\": \"2000-01-01\",\n  \"estadoCuota\": \"AL_DIA\",\n  \"estadoSocio\": \"INACTIVO\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Repetir baja idempotente",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/socios/{{socioBajaId}}/baja"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Socio INACTIVO\", function () { pm.expect(pm.response.json().estadoSocio).to.eql(\"INACTIVO\"); });"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Ejemplo 200",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/socios/{{socioBajaId}}/baja"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"dni\": \"99000001\",\n  \"nombre\": \"Ana\",\n  \"apellido\": \"Prueba\",\n  \"fechaNacimiento\": \"2000-01-01\",\n  \"estadoCuota\": \"AL_DIA\",\n  \"estadoSocio\": \"INACTIVO\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Baja socio inexistente",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/socios/999999999/baja"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Ejemplo 404",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/socios/999999999/baja"
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"El recurso solicitado no existe\",\n  \"regla\": null,\n  \"detalles\": [],\n  \"codigo\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Rechazar nueva inscripción de INACTIVO",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/inscripciones",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"socioId\": {{socioBajaId}}, \"actividadId\": {{actividadId}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", function () { pm.response.to.have.status(409); });",
+                  "pm.test(\"Código independiente de RN\", function () { pm.expect(pm.response.json().codigo).to.eql(\"SOCIO_INACTIVO\"); });"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Ejemplo 409",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/inscripciones",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"socioId\": {{socioBajaId}}, \"actividadId\": {{actividadId}}}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"El socio está inactivo y no puede realizar nuevas inscripciones\",\n  \"regla\": null,\n  \"detalles\": [],\n  \"codigo\": \"SOCIO_INACTIVO\"\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

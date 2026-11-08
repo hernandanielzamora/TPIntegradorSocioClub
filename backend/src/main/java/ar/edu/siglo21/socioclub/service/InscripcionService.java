@@ -60,6 +60,9 @@ public class InscripcionService {
     }
 
     private void validarSocio(Socio socio, Actividad actividad, LocalDate hoy) {
+        if (socio.getEstadoSocio() == EstadoSocio.INACTIVO) {
+            throw new ar.edu.siglo21.socioclub.exception.SocioInactivoException();
+        }
         if (socio.getEstadoCuota() == EstadoCuota.MOROSO) {
             throw new ReglaNegocioException(SOCIO_MOROSO, "Debe regularizar su cuota en secretaría");
         }

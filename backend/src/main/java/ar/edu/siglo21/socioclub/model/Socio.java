@@ -52,6 +52,15 @@ public class Socio {
     @Column(name = "estado_cuota", nullable = false, length = 16)
     private EstadoCuota estadoCuota;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @org.hibernate.annotations.JdbcTypeCode(org.hibernate.type.SqlTypes.VARCHAR)
+    @Column(name = "estado", nullable = false, length = 8)
+    private EstadoSocio estadoSocio = EstadoSocio.ACTIVO;
+
+    public EstadoSocio getEstadoSocio() { return estadoSocio; }
+    public void setEstadoSocio(EstadoSocio estadoSocio) { this.estadoSocio = estadoSocio; }
+
     @OneToMany(mappedBy = "socio")
     private List<Inscripcion> inscripciones = new ArrayList<>();
 

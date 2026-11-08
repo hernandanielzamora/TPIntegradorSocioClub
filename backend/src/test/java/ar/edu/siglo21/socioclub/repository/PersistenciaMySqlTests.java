@@ -183,6 +183,10 @@ class PersistenciaMySqlTests {
         Socio socio = guardarSocio("99000006", "Estado");
         comprobarViolacionCheck("ck_socio_estado", () -> jdbc.update(
                 "UPDATE socio SET estado_cuota = 'INVENTADO' WHERE id = ?", socio.getId()));
+        for (String estado : new String[] {"OTRO", "activo", "INACTÍVO", "ACTIVO "}) {
+            comprobarViolacionCheck("ck_socio_vigencia", () -> jdbc.update(
+                    "UPDATE socio SET estado = ? WHERE id = ?", estado, socio.getId()));
+        }
     }
 
     /** MySQL comunica CHECK con HY000; la categoría traducida por Spring puede variar. */
@@ -224,10 +228,13 @@ class PersistenciaMySqlTests {
                 "SELECT MIN(id) FROM inscripcion WHERE actividad_id = ?", Long.class, yogaId);
         jdbc.update("UPDATE inscripcion SET estado = 'BAJA' WHERE id = ?", inscripcionId);
         jdbc.update("UPDATE socio SET nombre = 'Edicion conservada' WHERE dni = '30111222'");
+        jdbc.update("UPDATE socio SET estado = 'INACTIVO' WHERE dni = '30111222'");
         carga.execute(dataSource);
         assertEquals(19, inscripciones.count());
         assertEquals(13, inscripciones.contarActivasDeActividad(yogaId));
         assertEquals("Edicion conservada", jdbc.queryForObject(
                 "SELECT nombre FROM socio WHERE dni = '30111222'", String.class));
+        assertEquals("INACTIVO", jdbc.queryForObject(
+                "SELECT estado FROM socio WHERE dni = '30111222'", String.class));
     }
 }

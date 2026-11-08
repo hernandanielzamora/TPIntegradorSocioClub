@@ -26,6 +26,8 @@ class InscripcionServiceMySqlTests {
     @Autowired InscripcionService servicio;
     @Autowired ar.edu.siglo21.socioclub.service.ConsultaSecretariaService consultas;
     @Autowired ar.edu.siglo21.socioclub.service.ActividadService actividadService;
+    @Autowired ar.edu.siglo21.socioclub.service.ApiConsultaService api;
+    @Autowired ar.edu.siglo21.socioclub.service.SocioService gestionSocios;
     @Autowired SocioRepository socios;
     @Autowired ActividadRepository actividades;
     @Autowired InscripcionRepository inscripciones;
@@ -81,6 +83,101 @@ class InscripcionServiceMySqlTests {
                 }
             }
         });
+    }
+
+    @Test
+    void bajaSocioPersisteLiberaCuposYConservaHistorial() {
+        preparar(1, true);
+        Long socioId = sociosCreados.getFirst();
+        transaccion().executeWithoutResult(estado -> {
+            comprobarCatalogo();
+            inscripciones.saveAndFlush(new Inscripcion(socios.findById(socioId).orElseThrow(),
+                    actividades.findById(actividadesCreadas.get(2)).orElseThrow(),
+                    LocalDate.of(2025, 1, 1), EstadoInscripcion.BAJA));
+        });
+        var original = socios.findById(socioId).orElseThrow();
+        var baja = api.bajaSocio(socioId);
+        assertEquals(EstadoSocio.INACTIVO, baja.estadoSocio());
+        assertEquals(original.getEstadoCuota(), baja.estadoCuota());
+        assertEquals(original.getDni(), baja.dni());
+        assertEquals(3, inscripciones.countBySocioIdAndEstado(socioId, EstadoInscripcion.BAJA));
+        assertEquals(0, inscripciones.countBySocioIdAndEstado(socioId, EstadoInscripcion.ACTIVA));
+        for (Long id : actividadesCreadas) { assertEquals(0, inscripciones.contarActivasDeActividad(id)); }
+        gestionSocios.darDeBaja(socioId);
+        assertEquals(3, inscripciones.countBySocioIdAndEstado(socioId, EstadoInscripcion.BAJA));
+        assertEquals(1L, jdbc.queryForObject("SELECT COUNT(*) FROM inscripcion WHERE socio_id = ? AND fecha_inscripcion = '2025-01-01'", Long.class, socioId));
+        assertThrows(ar.edu.siglo21.socioclub.exception.SocioInactivoException.class,
+                () -> servicio.inscribir(socioId, actividadesCreadas.get(3)));
+    }
+
+    @Test
+    void falloSQLAntesDelCommitRevierteVigenciaYBajasYaFlusheadas() {
+        preparar(1, true);
+        Long socioId = sociosCreados.getFirst();
+        var tx = transaccion();
+        tx.setIsolationLevel(org.springframework.transaction.TransactionDefinition.ISOLATION_READ_COMMITTED);
+        assertThrows(org.springframework.dao.DataIntegrityViolationException.class, () -> tx.executeWithoutResult(estado -> {
+            comprobarCatalogo();
+            gestionSocios.darDeBaja(socioId); // Flush real en la misma transacción, todavía sin commit.
+            jdbc.update("INSERT INTO inscripcion (socio_id, actividad_id, fecha_inscripcion, estado) VALUES (?, ?, CURRENT_DATE, 'ACTIVA')",
+                    Long.MAX_VALUE, actividadesCreadas.get(3));
+        }));
+        assertEquals(EstadoSocio.ACTIVO, socios.findById(socioId).orElseThrow().getEstadoSocio());
+        assertEquals(2, inscripciones.countBySocioIdAndEstado(socioId, EstadoInscripcion.ACTIVA));
+        assertEquals(0, inscripciones.countBySocioIdAndEstado(socioId, EstadoInscripcion.BAJA));
+    }
+
+    @Test
+    void altaYBajaSocioSimultaneasNoDejanInactivoConActivas() throws Exception {
+        preparar(1, false);
+        Long socioId = sociosCreados.getFirst();
+        ExecutorService ejecutor = Executors.newFixedThreadPool(2);
+        CountDownLatch listos = new CountDownLatch(2);
+        CountDownLatch salida = new CountDownLatch(1);
+        try {
+            Future<String> alta = ejecutor.submit(() -> {
+                listos.countDown();
+                if (!salida.await(5, TimeUnit.SECONDS)) { throw new IllegalStateException("Sin salida"); }
+                try { servicio.inscribir(socioId, actividadesCreadas.getFirst()); return "ALTA"; }
+                catch (ar.edu.siglo21.socioclub.exception.SocioInactivoException e) { return "INACTIVO"; }
+            });
+            Future<?> baja = ejecutor.submit(() -> {
+                listos.countDown();
+                if (!salida.await(5, TimeUnit.SECONDS)) { throw new IllegalStateException("Sin salida"); }
+                gestionSocios.darDeBaja(socioId);
+                return null;
+            });
+            assertTrue(listos.await(5, TimeUnit.SECONDS)); salida.countDown();
+            assertTrue(List.of("ALTA", "INACTIVO").contains(alta.get(20, TimeUnit.SECONDS)));
+            baja.get(20, TimeUnit.SECONDS);
+        } finally {
+            salida.countDown(); ejecutor.shutdownNow();
+            assertTrue(ejecutor.awaitTermination(20, TimeUnit.SECONDS));
+        }
+        assertEquals(EstadoSocio.INACTIVO, socios.findById(socioId).orElseThrow().getEstadoSocio());
+        assertEquals(0, inscripciones.countBySocioIdAndEstado(socioId, EstadoInscripcion.ACTIVA));
+    }
+
+    @Test
+    void contratoApiConsultaAltaBajaYActividadPersistida() {
+        preparar(1, false);
+        var socio = api.socioPorDni("98000000");
+        assertEquals(sociosCreados.getFirst(), socio.id());
+        var creada = api.guardarActividad(null,
+                new ar.edu.siglo21.socioclub.dto.SecretariaDtos.ActividadFormulario(
+                        "API Ensayo", "API", "Docente", "Lun", "9:00", 18, 99, 1, java.math.BigDecimal.TEN));
+        actividadesCreadas.add(creada.id());
+        assertEquals(1, api.actividades("API").size());
+        assertEquals(1, creada.cupoDisponible());
+        var alta = api.inscribir(socio.id(), actividadesCreadas.getFirst());
+        assertEquals(0, alta.actividad().cupoDisponible());
+        assertEquals(1, api.inscripciones(socio.id()).size());
+        var baja = api.baja(alta.id());
+        assertEquals(EstadoInscripcion.BAJA, baja.estado());
+        assertEquals(1, baja.actividad().cupoDisponible());
+        assertTrue(api.inscripciones(socio.id()).isEmpty());
+        api.eliminarActividad(creada.id());
+        assertFalse(actividades.existsById(creada.id()));
     }
 
     @Test

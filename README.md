@@ -6,24 +6,9 @@ Sistema destinado al Club Social y Deportivo Los Algarrobos, Córdoba.
 
 ## Estado actual del proyecto
 
-**Etapa actual: modelo de datos y repositorios (2026-11-07), preparada para revisión.**
+Backend JPA/MySQL, RN1–RN5, MVC de Secretaría y nueve endpoints REST del Anexo A implementados; baja lógica de socios adicional, con vigencia independiente de cuota y conservación del historial. Migración aplicada manualmente a testing y desarrollo tras respaldos mysqldump. Verify autenticado confirmado: **128 aprobadas, 0 fallos, 0 errores, 0 omitidas**, antes de cargar el fixture manual. El usuario confirmó el ensayo de Secretaría sobre testing:8081; HTTP 409, idempotencia y valores finales exactos aún requieren evidencia específica. No ejecutar nuevamente suites MySQL que exigen tablas vacías: testing contiene el fixture, no limpiarlo automáticamente.
 
-PR #1 (sitio público) y PR #2 (React con datos locales) integrados. Se implementaron Socio, Actividad, Inscripcion, sus enums y tres JpaRepository, con búsquedas paginadas y conteos de ACTIVAS. Hay esquema MySQL y seed con ocho actividades del PDF y 21 socios ficticios (dos MOROSOS y Yoga con 14/15 plazas).
-
-**Cierre del 2026-11-08:** Maven verify finalizó con 6 aprobadas, 7 omitidas y 0 fallos/errores. React compiló y sus 20 pruebas aprobaron. El usuario confirmó MySQL operativo, bases/cuentas separadas, tablas creadas y preparación manual de datos. Las credenciales no están disponibles para Codex; las siete pruebas JPA reales, Hibernate validate contra MySQL y el arranque completo siguen pendientes. Ver [validación](Docs/validacion-modelo-datos.md).
-
-Para continuar desde otra computadora, seguir [instalación desde cero en Windows](Docs/instalacion-desde-cero.md): herramientas, clonación de esta rama, cuentas, scripts, variables y arranque de las tres aplicaciones.
-
-Todavía faltan los servicios RN1–RN5, CRUD, API REST, pantallas de gestión e integración Axios. El sitio público conserva sus pendientes de JavaScript. Los frontends existentes no se modificaron. El usuario autorizó publicar esta rama con sus límites de validación documentados; confirmar commit y push en el historial de Git y en el remoto.
-
-Ver [guía de defensa técnica](Docs/guia-defensa-tecnica.md), [datos y DNI de prueba](Docs/datos-modelo.md) e [instrucciones MySQL para Windows](Docs/mysql-local.md).
-
-No se realizaron despliegues.
-
-Repositorio: [TPIntegradorSocioClub](https://github.com/hernandanielzamora/TPIntegradorSocioClub).
-
-La publicación y los commits deben verificarse en el historial de Git del repositorio.
-
+Contrato: [API REST](Docs/api-rest.md). [Ensayo manual y fixture convencional](Docs/validacion-manual-baja-socios.md). [Configuración privada MySQL](Docs/mysql-local.md). No hay autenticación/autorización/CSRF: demostración académica local, sin exposición pública ni despliegue. Respaldos fuera de Git, sin restauración de ensayo confirmada. React existente usa datos locales; su integración Axios es la siguiente etapa y conservará el trabajo del equipo. El sitio público no cambia.
 ## Propósito
 
 SocioClub es un proyecto académico que busca desarrollar un sistema para gestionar las actividades y los socios de un club deportivo.
@@ -40,7 +25,7 @@ La implementación se realizará por etapas, siguiendo los requisitos funcionale
 ├── backend/            Maven Wrapper, Spring Boot, MVC/REST y Thymeleaf
 ├── app-socios/         Create React App
 ├── database/           schema.sql y seed.sql, carga manual
-├── postman/            colección pendiente
+├── postman/            colección REST y entorno local
 ├── Docs/               enunciado, trazabilidad y registros
 ├── .vscode/            recomendaciones de extensiones
 ├── .editorconfig

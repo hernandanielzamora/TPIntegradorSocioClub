@@ -33,6 +33,7 @@
 <th scope="col">Nacimiento</th>
 <th scope="col">Contacto</th>
 <th scope="col">Cuota</th>
+<th scope="col">Vigencia</th>
 <th scope="col">Acciones</th>
 </tr>
 </thead>
@@ -58,8 +59,10 @@
 <span class="estado" th:text="${s.datos.estadoCuota}">
 </span>
 </td>
+<td th:text="${s.estadoSocio}"></td>
 <td>
 <a th:href="@{/secretaria/socios/{id}/editar(id=${s.id})}" th:aria-label="${'Editar socio ' + s.datos.apellido}">Editar</a>
+<a th:if="${s.estadoSocio.name() == 'ACTIVO'}" th:href="@{/secretaria/socios/{id}/baja(id=${s.id})}">Dar de baja</a>
 </td>
 </tr>
 </tbody>

@@ -45,7 +45,8 @@ public final class SecretariaDtos {
     }
 
     public record InscripcionFormulario(@NotNull @Positive Long socioId, @NotNull @Positive Long actividadId) { }
-    public record SocioVista(Long id, SocioFormulario datos) { }
+    public record SocioVista(Long id, SocioFormulario datos, EstadoSocio estadoSocio) { }
+    public record SocioBajaVista(Long id, String nombre, EstadoSocio estadoSocio, long inscripcionesActivas) { }
     public record ActividadVista(Long id, ActividadFormulario datos, long activas, long disponibles) { }
     public record InscripcionVista(Long id, String socio, String actividad, LocalDate fecha, EstadoInscripcion estado) { }
     public record Opcion(Long id, String etiqueta) { }
