@@ -106,3 +106,13 @@ Se mantienen IH-MIG-01 y AH-1–AH-3: migraciones/respaldos manuales y decisione
 ## Etapa vigente: React + Axios — feature/react-integracion-api
 
 Backend integrado y publicado en dev: commit d58094c, merge 3ace199 y registro 08d7c40; regresión posterior segura 111/0/0/0 sin MySQL, además del verify humano anterior 128/0/0/0. React parte de dev actualizado 08d7c40 y conserva componentes/rutas/CSS del equipo. Ingreso, catálogo/detalle, consulta/alta/baja de inscripciones conectados a API real, sin fallback local. Cliente configurable, errores por regla/código, sesión con solo DNI y RN6 con centavos. Tests Axios/RTL: 58 aprobadas, cero fallos/omisiones; build de producción aprobado (Compiled successfully). Sin ejecución HTTP integrada contra bases por Codex; recorrido navegador/CORS y escrituras autorizadas pendientes. Esta feature NO se fusiona a dev. Arquitectura/trazabilidad/comandos en react-integracion-api.md.
+
+## Ampliaciones propuestas: FE-ADMIN-01 y RN8 — Prompt 21
+
+El usuario propuso administración React con autenticación/rol ADMIN y prevención de conflictos horarios como EXTRAS, sin reemplazar RF1–RF10/RN1–RN7. Auditoría/diseño/SQL revisables en [propuesta-admin-rn8.md](propuesta-admin-rn8.md). Se comprobó que dias es texto libre, horario solo contiene inicio y no existe parser/duración; tampoco hay seguridad administrativa ni CSRF. No se consultaron datos vivos ni se asumieron horas de fin.
+
+Codex preparó 002_cuenta_administrativa.sql y 003_actividad_horario.sql, sin ejecutarlas ni agregar código de aplicación o dependencias. La condición expresa del pedido obliga a detenerse porque la integración necesita alterar el esquema. Administración protegida y RN8 NO están implementadas todavía; la aplicación actual conserva sus limitaciones de seguridad. Pendiente aprobación humana del modelo, inventario real y horas fin, provisión privada de cuenta y pruebas de las funciones nuevas. Los éxitos anteriores de tests no acreditan estas EXTRAS. Propuesta humana; diseño/DDL/documentación Codex, sin ediciones manuales ficticias ni cambio de AH-1–AH-3/IH-MIG-01. Sin commit/push/merge ni modificación de bases.
+
+## Cierre obligatorio — decisión de alcance del usuario
+
+Se postergan FE-ADMIN-01/RN8, sin implementarlas ni ejecutar su SQL. Se conserva auditoría; archivos reubicados en database/propuestas y detalles en [mejoras-futuras.md](mejoras-futuras.md). La decisión de priorizar requisitos/entrega es humana; reubicación/documentación de Codex. Las aprobaciones de tests anteriores son antecedentes, no pruebas nuevas de este cierre. No se borra trabajo del equipo.

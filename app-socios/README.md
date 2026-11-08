@@ -10,6 +10,8 @@ Desde la carpeta `app-socios`:
 
 ```powershell
 npm.cmd ci
+$env:PORT = '3000'
+$env:REACT_APP_API_URL = 'http://localhost:8080/api'
 npm.cmd start
 ```
 
