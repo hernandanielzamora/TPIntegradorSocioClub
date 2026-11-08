@@ -76,3 +76,7 @@ Pruebas reproducibles sin base: comandos en README; sitio con node --test sitio-
 - [ ] Regla rechazada: screenshot del aviso y Network/Postman con HTTP 409 y regla RNx, junto a estado previo/posterior del caso. No incluir claves, cookies o información real de personas.
 
 No llenar casillas por tener tests automatizados. Exportar capturas reales seleccionadas para informe, no logs/dumps privados. La aceptación de ajustes humanos por la rúbrica debe comprobarse: AH-1/AH-2 son correcciones operativas de cuentas, AH-3 diseño de entorno, IH-MIG-01 ejecución de migraciones y validaciones; no son automáticamente tres modificaciones manuales de Java/React. La corrección manual de plantilla y la alternativa SQL comunicadas se registran con ese alcance, sin inventar edición del archivo generado.
+
+## Integración comprobada
+
+React: commit e09dffe6572b726a5e5a072496b80f9cac97ed19 y merge bb7d51fd6bdada67d02f646503c02e6064b8090a; sitio: commit 7bb4f0201d8008a781233be1381c9fe3ff45854f y merge e7fe985927c27e31af675d05874a1f7adb556cf0. Ambos sin conflictos, ramas conservadas y main intacta. Pruebas postmerge del sitio 25/0 y backend/React idénticos al árbol recién validado. Publicación final de dev se comprueba en Git tras el commit documental. Veredicto: LISTO CON VALIDACIONES MANUALES PENDIENTES, con los límites explícitos de este documento.
