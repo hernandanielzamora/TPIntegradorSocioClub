@@ -257,3 +257,35 @@ Codex revisó servicio, consultas de bloqueo, Clock/Period, excepciones, suites 
 Resultado de revisión: sin impedimentos detectados para presentar el PR. Se documenta que todas las altas deben usar el bean Spring/protocolo de bloqueos y no heredar aislamiento incompatible; las pruebas cubren los escenarios implementados, no todos los intercalados posibles. Sin modificaciones nuevas de código en la auditoría. Se revisa exclusión de .env y se inspeccionan archivos publicables, sin imprimir secretos. No se alteran bases, esquema, dependencias o frontends.
 
 Commit/push y PR se preparan con autorización explícita; sus resultados se comprueban al final, sin anticipar éxito ni hash. Mensaje previsto: feat(backend): implement transactional enrollment business rules. El usuario revisará el PR antes de cualquier merge.
+
+## Entrada 15 — Secretaría MVC y Thymeleaf — 2026-11-08
+
+Pedido humano: desarrollar el módulo administrativo en feature/backend-mvc-thymeleaf, reutilizando RN1–RN5, con DTOs, validaciones, pruebas, documentación y dos oportunidades de revisión manual; sin API, cambios de frontends/esquema, publicación o despliegue. Rama inicial limpia; modelo/servicio previo integrado a dev en a6b83dc. Codex revisó los requisitos equivalentes en requerimientos.md y los componentes reales.
+
+Implementación de Codex: SecretariaController y advice de errores, DTOs record con Bean Validation, SocioService, ActividadService y ConsultaSecretariaService, baja lógica idempotente en InscripcionService, consultas paginadas para nómina/historial, ocho vistas y fragmentos/CSS, mensajes en español. GET / preservado, panel bajo /secretaria. Los controladores no inyectan repositorios ni repiten reglas. Los cambios usan POST y PRG en éxito. La administración conserva FK/historial y coordina cupos con bloqueo de actividad; baja mantiene socio→actividad y permite MOROSO.
+
+Problemas reales y solución automática: los acentos de templates se degradaron al generar HTML mediante tubería PowerShell/Python; el test existente del título falló y Codex restauró UTF-8 sin relajar la aserción. Además, un test pedía simultáneamente error de conversión y validación de otro campo en un record no construible; Codex separó las dos solicitudes inválidas, conservando ambas verificaciones. Primer ensayo: 24 casos con 2 fallos; segundo ensayo: 34 casos con 1 fallo por un texto de título aún pendiente; después verify final aprobado. Se revisó el rótulo de cupo y se agregaron mensajes de conversión/Bean Validation en español. No se atribuyen estas correcciones a un integrante.
+
+Resultado final ejecutado: Maven 3.10.0 offline con la distribución/caché del wrapper, sin cargar .env ni activar MySQL, con autorización para los locks de caché fuera del sandbox. Verify BUILD SUCCESS, JAR generado, 71 casos: 58 aprobados, 0 fallos, 0 errores y 13 omitidos. Desglose aprobado: 23 MVC nuevas, 10 unitarias administrativas, 19 de inscripción previas, 5 integridad y 1 MVC raíz. Omitidas: 7 persistencia y 6 integración de servicio (incluye 2 nuevas de baja/consulta y administración). No hay SQL autenticado ni verificación visual del navegador en esta etapa.
+
+Documentación: modulo-mvc.md, maestro, guía, requerimientos y registros. Revisión humana futura justificada: baja transaccional e idempotente y política de edición/eliminación de actividad con historial. Ninguna modificación manual humana nueva fue comunicada; no se agrega un AH ficticio. Límites: API/React no integrados, sin autenticación/CSRF específica y sin despliegue. No se hicieron commits, push o merge ni se alteraron bases o schema/seed.
+
+## Entrada 16 — Auditoría MVC y cambio de flujo individual — 2026-11-08
+
+Decisión humana comunicada: continuar el desarrollo individual y conservar feature/*/dev sin PR obligatorio; integrar MVC directamente solo después de validar, con commit/push de feature y merge commit hacia dev, sin tocar main y deteniéndose ante conflictos. El usuario indicó expresamente esperar confirmación si verify requiere su terminal con MySQL. No se registra una edición manual humana de Java/HTML en este cierre.
+
+Trabajo de Codex: inspección de rama, cambios, reutilización del servicio, reportes, .gitignore y configuración de seguridad. Los XML disponibles al comenzar acreditan 71 aprobadas, 0 fallos/errores/omisiones; los 13 MySQL están ejecutados. Se guardan metadatos/fechas/hashes en .cache/mvc-cierre-evidencia-reportes.json antes de repetir las 58 pruebas sin MySQL. No se abre .env ni se ejecuta SQL autenticado. El goal verify completo requiere confirmación final del usuario; no se infiere su éxito solo de los XML.
+
+Estado de seguridad corroborado: sin Spring Security, login/autorización, SecurityFilterChain, token CSRF o validación equivalente en formularios. CORS se configura solo para /api/** y no equivale a CSRF. POST/PRG no protegen esas operaciones contra CSRF. Se documenta uso local y necesidad de medidas adicionales antes de exposición pública, sin añadir funcionalidades fuera de alcance.
+
+Sin problemas técnicos nuevos detectados para uso local; diff --check y exclusión de .env aprobados, sin secretos o temporales detectados en archivos publicables. Documentación actualizada en maestro, módulo, guía y registros. No se hace commit/push/merge antes de la confirmación pendiente ni se inventan ajustes humanos; AH-1/AH-2/AH-3 siguen identificados.
+
+Resultado posterior de la repetición propia de esta auditoría: goal test con selección explícita de las cinco suites sin MySQL, 58 aprobadas, 0 fallos, 0 errores, 0 omitidas, BUILD SUCCESS. No equivale a repetir verify completo; no sobrescribe la evidencia de las 13 MySQL disponibles. Log ignorado .cache/mvc-cierre-test.log. Se espera confirmación del usuario antes de publicar o integrar.
+
+## Confirmación de verify e integración autorizada — 2026-11-08
+
+El usuario confirmó BUILD SUCCESS de Maven verify después de la auditoría. Codex volvió a inspeccionar los siete XML: 71 aprobadas, 0 fallos, 0 errores y 0 omitidas. Esto cierra la espera de confirmación de verify de las secciones anteriores. La ejecución autenticada fue del usuario; no se atribuye a Codex ni implica una revisión visual del navegador no comunicada.
+
+Se continúa con el flujo individual autorizado: commit y push en feature/backend-mvc-thymeleaf, sincronización de dev, merge commit sin forzar y validación pertinente del árbol integrado antes de publicar origin/dev. Los hashes y resultados reales se informarán al completar cada operación; no se anticipa éxito en este registro. main queda fuera de alcance y la feature se conserva. No hay PR obligatorio.
+
+Sin nuevas ediciones manuales de código confirmadas; AH-1/AH-2/AH-3 mantienen su alcance académico. Continúan los límites de seguridad: no hay autenticación/autorización ni protección CSRF implementada; el módulo no está preparado para exposición pública. La comprobación visual completa sigue pendiente. No se agregan funcionalidades ni se alteran bases o frontends.

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/comunes :: cabecera('Actividades')}">
+</head>
+<body>
+<header th:replace="~{fragments/comunes :: encabezado}">
+</header>
+<main id="contenido">
+<div th:replace="~{fragments/comunes :: mensajes}">
+</div>
+<div class="titulo">
+<div>
+<p class="etiqueta">Secretaría / Actividades</p>
+<h1>Actividades</h1>
+</div>
+<a class="boton" th:href="@{/secretaria/actividades/nueva}">Nueva actividad</a>
+</div>
+<form class="filtros" method="get" th:action="@{/secretaria/actividades}">
+<div>
+<label for="disciplina">Disciplina (nombre exacto)</label>
+<input id="disciplina" name="disciplina" th:value="${disciplina}">
+</div>
+<button>Filtrar</button>
+<a th:href="@{/secretaria/actividades}">Limpiar</a>
+</form>
+<p class="vacio" th:if="${pagina.empty}">No se encontraron actividades.</p>
+<div class="tabla" th:unless="${pagina.empty}">
+<table>
+<caption>Catálogo y cupos disponibles</caption>
+<thead>
+<tr>
+<th scope="col">Actividad</th>
+<th scope="col">Horario / Profesor</th>
+<th scope="col">Edades</th>
+<th scope="col">Cuota mensual</th>
+<th scope="col">Cupo</th>
+<th scope="col">Acciones</th>
+</tr>
+</thead>
+<tbody>
+<tr th:each="a : ${pagina.content}">
+<td>
+<strong th:text="${a.datos.nombre}">
+</strong>
+<br>
+<span th:text="${a.datos.disciplina}">
+</span>
+</td>
+<td>
+<span th:text="${a.datos.dias + ' · ' + a.datos.horario}">
+</span>
+<br>
+<span th:text="${a.datos.profesor}">
+</span>
+</td>
+<td th:text="${a.datos.edadMinima + ' a ' + a.datos.edadMaxima + ' años'}">
+</td>
+<td th:text="${'$ ' + #numbers.formatDecimal(a.datos.cuotaMensual,1,2)}">
+</td>
+<td>
+<strong th:text="${a.disponibles + ' disponibles'}">
+</strong>
+<br>
+<span th:text="${a.activas + ' activas / ' + a.datos.cupoMaximo + ' plazas'}">
+</span>
+<br>
+<a th:href="@{/secretaria/inscripciones(actividadId=${a.id},estado='ACTIVA')}">Ver inscriptos</a>
+</td>
+<td>
+<a th:href="@{/secretaria/actividades/{id}/editar(id=${a.id})}">Editar</a>
+<form method="post" th:action="@{/secretaria/actividades/{id}/eliminar(id=${a.id})}">
+<button class="secundario" th:aria-label="${'Eliminar actividad ' + a.datos.nombre}">Eliminar</button>
+</form>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="ayuda">Solo se eliminan actividades sin inscripciones. Las que tienen historial se conservan.</p>
+<nav class="paginacion" aria-label="Paginación" th:if="${pagina.totalPages > 0}">
+<a th:if="${pagina.hasPrevious()}" th:href="@{/secretaria/actividades(pagina=${pagina.number - 1},disciplina=${disciplina})}">Anterior</a>
+<span th:text="${'Página ' + (pagina.number + 1) + ' de ' + pagina.totalPages}">
+</span>
+<a th:if="${pagina.hasNext()}" th:href="@{/secretaria/actividades(pagina=${pagina.number + 1},disciplina=${disciplina})}">Siguiente</a>
+</nav>
+</main>
+<footer th:replace="~{fragments/comunes :: pie}">
+</footer>
+</body>
+</html>

@@ -24,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @EnabledIf(value = "mysqlConfigurado", disabledReason = "MySQL no configurado; concurrencia no validada")
 class InscripcionServiceMySqlTests {
     @Autowired InscripcionService servicio;
+    @Autowired ar.edu.siglo21.socioclub.service.ConsultaSecretariaService consultas;
+    @Autowired ar.edu.siglo21.socioclub.service.ActividadService actividadService;
     @Autowired SocioRepository socios;
     @Autowired ActividadRepository actividades;
     @Autowired InscripcionRepository inscripciones;
@@ -79,6 +81,52 @@ class InscripcionServiceMySqlTests {
                 }
             }
         });
+    }
+
+    @Test
+    void consultaYBajaPersistidasParaSocioMoroso() {
+        preparar(1, false);
+        Long socioId = sociosCreados.getFirst();
+        Long actividadId = actividadesCreadas.getFirst();
+        Long id = servicio.inscribir(socioId, actividadId).getId();
+        transaccion().executeWithoutResult(estado -> {
+            comprobarCatalogo();
+            Socio socio = socios.findById(socioId).orElseThrow();
+            socio.setEstadoCuota(EstadoCuota.MOROSO);
+        });
+        servicio.darDeBaja(id);
+        servicio.darDeBaja(id);
+        assertEquals(0, consultas.listar(actividadId, EstadoInscripcion.ACTIVA, 0).getTotalElements());
+        var bajas = consultas.listar(actividadId, EstadoInscripcion.BAJA, 0);
+        assertEquals(1, bajas.getTotalElements());
+        assertEquals(EstadoInscripcion.BAJA, bajas.getContent().getFirst().estado());
+        assertEquals(0, inscripciones.contarActivasDeActividad(actividadId));
+        assertEquals(0, consultas.resumen().activas());
+    }
+
+    @Test
+    void administracionProtegeCupoHistorialYPermiteEliminarSinVinculos() {
+        preparar(10, false);
+        Long actividadId = actividadesCreadas.getFirst();
+        Long inscripcionId = servicio.inscribir(sociosCreados.get(0), actividadId).getId();
+        servicio.inscribir(sociosCreados.get(1), actividadId);
+        var original = actividadService.obtener(actividadId);
+        var reducido = new ar.edu.siglo21.socioclub.dto.SecretariaDtos.ActividadFormulario(
+                original.nombre(), original.disciplina(), original.profesor(), original.dias(),
+                original.horario(), original.edadMinima(), original.edadMaxima(), 1, original.cuotaMensual());
+        assertThrows(ar.edu.siglo21.socioclub.exception.ValidacionSecretariaException.class,
+                () -> actividadService.guardar(actividadId, reducido));
+        assertEquals(10, actividadService.obtener(actividadId).cupoMaximo());
+        assertThrows(ar.edu.siglo21.socioclub.exception.ValidacionSecretariaException.class,
+                () -> actividadService.eliminar(actividadId));
+        servicio.darDeBaja(inscripcionId);
+        Long segunda = inscripciones.findBySocioIdAndEstado(sociosCreados.get(1), EstadoInscripcion.ACTIVA,
+                org.springframework.data.domain.PageRequest.of(0, 10)).getContent().getFirst().getId();
+        servicio.darDeBaja(segunda);
+        assertThrows(ar.edu.siglo21.socioclub.exception.ValidacionSecretariaException.class,
+                () -> actividadService.eliminar(actividadId));
+        actividadService.eliminar(actividadesCreadas.get(3));
+        assertFalse(actividades.existsById(actividadesCreadas.get(3)));
     }
 
     @Test

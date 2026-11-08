@@ -1,3 +1,274 @@
-body { font-family: system-ui, sans-serif; margin: 2rem auto; padding: 0 1rem; max-width: 64rem; color: #183c2e; background: #f5f7f3; }
-header, footer { padding: 1rem; background: #e1ebdf; }
-main { min-height: 55vh; }
+* {
+  box-sizing:border-box
+}
+body {
+  margin:0;
+  font:16px/1.55 system-ui,sans-serif;
+  color:#203b38;
+  background:#f3f5f2
+}
+a {
+  color:#165d51;
+  text-underline-offset:.2em
+}
+a:hover {
+  text-decoration-thickness:2px
+}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible {
+  outline:3px solid #ba7d22;
+  outline-offset:3px
+}
+header {
+  background:#153e37;
+  color:white;
+  padding:1.4rem max(1rem,calc((100% - 1200px)/2))
+}
+header a {
+  color:white
+}
+.marca {
+  display:flex;
+  gap:1rem;
+  align-items:baseline;
+  flex-wrap:wrap
+}
+.marca>a {
+  font-size:1.6rem;
+  font-weight:750;
+  text-decoration:none
+}
+.marca span {
+  color:#d2e3db
+}
+nav {
+  display:flex;
+  gap:1.5rem;
+  flex-wrap:wrap;
+  margin-top:1rem
+}
+main {
+  max-width:1200px;
+  margin:2rem auto;
+  padding:0 1.2rem;
+  min-height:65vh
+}
+h1 {
+  font-size:2rem;
+  line-height:1.2;
+  margin:.4rem 0 1rem
+}
+h2 {
+  font-size:1.25rem
+}
+.etiqueta {
+  font-size:.85rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:#52716b
+}
+.titulo {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  flex-wrap:wrap
+}
+.resumen,.accesos {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:1rem;
+  margin:1.8rem 0
+}
+article {
+  background:white;
+  border:1px solid #d4dfd8;
+  padding:1.5rem;
+  border-radius:8px
+}
+.resumen strong {
+  display:block;
+  font-size:2.2rem
+}
+.resumen span {
+  color:#52716b
+}
+.accesos a {
+  display:inline-block;
+  margin:.3rem .6rem .3rem 0
+}
+button,.boton {
+  font:inherit;
+  display:inline-block;
+  background:#205c4e;
+  color:white;
+  border:1px solid #205c4e;
+  border-radius:5px;
+  padding:.6rem 1rem;
+  text-decoration:none;
+  cursor:pointer
+}
+button:hover,.boton:hover {
+  background:#164537;
+  color:white
+}
+.secundario {
+  background:white;
+  color:#8a392e;
+  border-color:#b5c3bb;
+  padding:.3rem .6rem
+}
+button:disabled {
+  opacity:.55;
+  cursor:not-allowed
+}
+.filtros {
+  display:flex;
+  gap:1rem;
+  align-items:end;
+  flex-wrap:wrap;
+  margin:1.5rem 0
+}
+.filtros>div {
+  min-width:200px
+}
+.formulario {
+  max-width:850px;
+  padding:1.5rem;
+  background:white;
+  border:1px solid #d4dfd8;
+  border-radius:8px
+}
+.campos {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1.1rem
+}
+label {
+  display:block;
+  font-weight:650;
+  margin-bottom:.3rem
+}
+input,select {
+  font:inherit;
+  width:100%;
+  padding:.6rem;
+  border:1px solid #91a79e;
+  background:white;
+  border-radius:4px
+}
+input[aria-invalid=true] {
+  border-color:#963e32
+}
+.acciones {
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  margin-top:1.5rem
+}
+.tabla {
+  overflow:auto;
+  border:1px solid #d4dfd8;
+  background:white;
+  border-radius:6px
+}
+table {
+  width:100%;
+  border-collapse:collapse;
+  text-align:left;
+  min-width:650px
+}
+caption {
+  text-align:left;
+  padding:1rem;
+  font-weight:600
+}
+th,td {
+  padding:.9rem 1rem;
+  border-top:1px solid #dce4de;
+  vertical-align:top
+}
+thead {
+  background:#e6eee7
+}
+td form {
+  margin-top:.5rem
+}
+.estado {
+  display:inline-block;
+  padding:.15rem .5rem;
+  background:#edf0e6;
+  border-radius:4px;
+  font-size:.85rem
+}
+.aviso {
+  padding:1rem 1.2rem;
+  margin:1rem 0;
+  border-left:4px solid
+}
+.exito {
+  background:#e0f0e5;
+  border-color:#32794e
+}
+.error {
+  background:#fbece6;
+  border-color:#a84533;
+  color:#7c2c1f
+}
+.error-campo {
+  color:#923526;
+  display:block
+}
+.ayuda,.vacio {
+  color:#52716b
+}
+.vacio {
+  padding:2rem;
+  background:white;
+  border:1px dashed #a6b9ae
+}
+.paginacion {
+  align-items:center;
+  justify-content:center;
+  margin:1.5rem 0
+}
+footer {
+  padding:1rem;
+  text-align:center;
+  border-top:1px solid #d4dfd8;
+  color:#52716b;
+  font-size:.85rem
+}
+.saltar {
+  position:absolute;
+  left:-10000px
+}
+.saltar:focus {
+  left:1rem;
+  top:.2rem;
+  background:#153e37;
+  padding:.5rem
+}
+@media(max-width:720px) {
+  .resumen,.accesos,.campos {
+  grid-template-columns:1fr
+}
+.filtros {
+  align-items:stretch
+}
+.filtros>div {
+  width:100%
+}
+.titulo>.boton {
+  margin-bottom:1rem
+}
+nav {
+  gap:1rem
+}
+h1 {
+  font-size:1.65rem
+}
+.formulario {
+  padding:1rem
+}
+
+}

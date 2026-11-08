@@ -1,5 +1,7 @@
 # Guía de defensa técnica — modelo y persistencia
 
+Etapa MVC: los reportes actuales acreditan 71 aprobadas sin fallos/errores/omisiones; Codex repitió las 58 pruebas sin MySQL con éxito. El resultado inicial 58/13 se conserva como histórico. No confundir con las 36 aprobadas de la etapa anterior del servicio. Rutas, recorrido y preguntas específicas en [modulo-mvc.md](modulo-mvc.md). Las pruebas MySQL nuevas figuran aprobadas en los reportes; falta confirmar verify completo y la revisión visual del navegador.
+
 Etapa actual: capa Service RN1–RN5 implementada en feature/backend-reglas-negocio. La explicación completa, transacciones, excepciones, matriz de pruebas y comandos están en [reglas de negocio](reglas-negocio.md). Verify final de esta etapa: 36 aprobadas, 0 fallos, 0 errores y 0 omitidas; el usuario ejecutó y Codex inspeccionó los XML. El cierre de 13 aprobadas mencionado abajo corresponde a la etapa anterior integrada por PR #3, no a una validación autenticada del servicio nuevo.
 
 Estado final 2026-11-08: los reportes Surefire locales acreditan 13 pruebas aprobadas (5 de integridad, 7 de persistencia MySQL y 1 MVC), 0 fallidas, 0 errores y 0 omitidas. El usuario confirmó Maven verify con BUILD SUCCESS y arranque completo contra socioclub: MySQL 8.4.13, EntityManagerFactory inicializado, Tomcat 8080 y Started SocioClubApplication. Codex revisó los reportes; no ejecutó el arranque con credenciales ni verificó HTTP GET /. Ver [instalación en otra computadora](instalacion-desde-cero.md).
@@ -181,3 +183,29 @@ Resultado vigente que sustituye el pendiente MySQL de la implementación inicial
 La revisión no detectó impedimentos técnicos para presentar el PR: reglas en servicio, edad inclusiva calculada con Period y Clock, errores identificables y transacción READ_COMMITTED con orden de bloqueos socio/actividad. La garantía se limita a escritores que usan ese protocolo y al bean Spring sin transacción externa incompatible. No equivale a probar todas las situaciones concurrentes posibles ni elimina errores de bloqueo. Los futuros controladores reutilizarán el servicio; no se implementan aquí.
 
 No hubo ajustes manuales de código confirmados en este cierre. El usuario validó las pruebas y autorizó auditoría/publicación; implementación y actualización documental de Codex. AH-1/AH-2/AH-3 conservan sus límites académicos. PR para revisión, sin merge.
+
+## Defensa del módulo MVC — 2026-11-08
+
+El recorrido es formulario HTML → Controller con @Valid y BindingResult → Service transaccional → Repository → Hibernate/JDBC → MySQL. El controlador no conoce repositorios ni repite RN1–RN5. Formularios y vistas planas limitan campos enlazables y evitan proxies/relaciones circulares. El alta reutiliza InscripcionService; el servicio nuevo darDeBaja cambia solo estado, mantiene fecha y vínculo, permite MOROSO y conserva el orden de bloqueos socio→actividad.
+
+Un POST exitoso redirige al listado y lleva mensaje flash; una entrada inválida conserva formulario/opciones y muestra errores sin ejecutar el alta. Mensajes de validación y conversión están en español. Las consultas se paginan, las vistas vacías se explican y el panel mantiene GET / además de /secretaria. ActividadService bloquea la actividad al editar/eliminar: no permite reducir cupo por debajo de activas ni eliminar con inscripciones o historial. La FK no se modifica.
+
+Pruebas actuales: 23 MVC nuevas, 10 unitarias administrativas, 19 unitarias previas, 5 integridad y 1 GET / aprobadas: 58; 13 MySQL omitidas (7 persistencia y 6 integración de servicio, dos de ellas nuevas). Verify BUILD SUCCESS y JAR generado. No se afirma una prueba visual ni SQL autenticado del módulo. MockMvc prueba renderizado, binding, códigos RN, redirecciones, estados y ausencia de SQL en errores públicos; no sustituye MySQL.
+
+Dos puntos para revisión humana concreta: InscripcionService.darDeBaja (idempotencia, MOROSO y orden de bloqueos) y ActividadService.guardar/eliminar (cupo e historial frente a la consigna/FK). Si alguien modifica código, registrar motivo, diff y resultado antes/después. No ocurrió una edición manual humana durante esta implementación; el código y sus correcciones fueron de Codex. Preguntas y recorrido de navegador en modulo-mvc.md. No hay autenticación/CSRF específica; no se presenta como módulo público listo para producción.
+
+## Cierre individual y seguridad real del MVC — 2026-11-08
+
+El nuevo flujo acordado por el usuario conserva ramas feature/* y dev y elimina el PR obligatorio. La integración directa sigue condicionada a pruebas, auditoría y confirmación de verify; conflictos se informan antes de resolverlos. Los reportes disponibles acreditan 71 aprobadas y 0 fallos/errores/omisiones; el 58/13 anterior es histórico. No hay confirmación nueva del recorrido visual en navegador.
+
+Para la defensa: @Controller, Bean Validation y PRG no son mecanismos de autenticación ni de CSRF. El proyecto no incluye Spring Security ni un mecanismo propio de tokens CSRF o control de acceso. Las rutas POST aceptan operaciones sin token. La configuración CORS para /api/** no protege formularios de Secretaría. El módulo es local/académico y necesita autenticación/autorización y protección CSRF antes de exposición pública. Esta limitación se documenta, no se presenta como implementada ni se cambia código de seguridad sin otra etapa.
+
+La confirmación de pruebas no es una edición humana de código. AH-1/AH-2/AH-3 conservan sus límites; la revisión manual propuesta de baja y actividad continúa sin atribuirse como realizada.
+
+## Confirmación de verify e integración autorizada — 2026-11-08
+
+El usuario confirmó BUILD SUCCESS de Maven verify después de la auditoría. Codex volvió a inspeccionar los siete XML: 71 aprobadas, 0 fallos, 0 errores y 0 omitidas. Esto cierra la espera de confirmación de verify de las secciones anteriores. La ejecución autenticada fue del usuario; no se atribuye a Codex ni implica una revisión visual del navegador no comunicada.
+
+Se continúa con el flujo individual autorizado: commit y push en feature/backend-mvc-thymeleaf, sincronización de dev, merge commit sin forzar y validación pertinente del árbol integrado antes de publicar origin/dev. Los hashes y resultados reales se informarán al completar cada operación; no se anticipa éxito en este registro. main queda fuera de alcance y la feature se conserva. No hay PR obligatorio.
+
+Sin nuevas ediciones manuales de código confirmadas; AH-1/AH-2/AH-3 mantienen su alcance académico. Continúan los límites de seguridad: no hay autenticación/autorización ni protección CSRF implementada; el módulo no está preparado para exposición pública. La comprobación visual completa sigue pendiente. No se agregan funcionalidades ni se alteran bases o frontends.

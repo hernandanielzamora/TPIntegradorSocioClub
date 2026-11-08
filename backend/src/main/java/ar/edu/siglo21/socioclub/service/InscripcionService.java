@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import static ar.edu.siglo21.socioclub.exception.ReglaNegocioException.Codigo.*;
 
-/** Único punto de alta compartido por futuros controladores MVC y REST. */
+/** Alta y baja de inscripciones para Secretaría; reutilizable por la futura API REST. */
 @Service
 public class InscripcionService {
     private static final int MAXIMO_ACTIVIDADES = 3;
@@ -44,6 +44,19 @@ public class InscripcionService {
         validarInscripciones(socioId, actividad);
         // Una reinscripción es una fila nueva: no modifica ni reactiva el historial BAJA.
         return inscripciones.save(new Inscripcion(socio, actividad, hoy, EstadoInscripcion.ACTIVA));
+    }
+
+    /** Baja lógica idempotente, permitida también a MOROSO; conserva fecha y vínculo. */
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public void darDeBaja(Long id) {
+        Inscripcion i = inscripciones.findById(id)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Inscripción", id));
+        socios.buscarParaInscribir(i.getSocio().getId())
+                .orElseThrow(() -> new RecursoNoEncontradoException("Socio", i.getSocio().getId()));
+        actividades.buscarParaInscribir(i.getActividad().getId())
+                .orElseThrow(() -> new RecursoNoEncontradoException("Actividad", i.getActividad().getId()));
+        i.setEstado(EstadoInscripcion.BAJA);
+        // Dirty checking actualiza solo esta inscripción; no elimina filas del historial.
     }
 
     private void validarSocio(Socio socio, Actividad actividad, LocalDate hoy) {
