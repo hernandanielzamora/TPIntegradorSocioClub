@@ -236,3 +236,13 @@ El usuario confirmó manualmente HTTP GET / con respuesta 200, además de verify
 Durante la auditoría, Codex detectó que los marcadores CLAVE_DESARROLLO/CLAVE_PRUEBAS de la plantilla no coincidían con los que rechaza el cargador. Se detuvo la publicación; el usuario confirmó y realizó la corrección manual de backend/.env.example a COMPLETAR_CLAVE_DESARROLLO/COMPLETAR_CLAVE_PRUEBAS. Codex comprobó el archivo público y su alineación con el script, sin abrir .env. Esta corrección de configuración pública se registra como intervención humana adicional, sin afirmar aceptación por la rúbrica ni reescribir los tres ajustes anteriores.
 
 El usuario autorizó commit y push únicamente de feature/backend-modelo-datos y preparación/creación de PR hacia dev, sin merge ni modificaciones de dev/main. La operación se realizará después de revisar staging; su hash, publicación y enlace se informan al terminar, sin anticipar éxito en este registro. No hay dependencias, funcionalidades, migraciones o datos nuevos. El PR queda sujeto a revisión humana antes del merge.
+
+## Etapa posterior: reglas de inscripción — 2026-11-08
+
+El cierre anterior de persistencia (13 aprobadas, verify, arranque y HTTP 200) fue integrado por PR #3, merge f0633c0. En feature/backend-reglas-negocio se implementó InscripcionService y se añadieron consultas de bloqueo, sin cambios en entidades, schema.sql, seed.sql, bases ni credenciales.
+
+Validación nueva realizada por Codex: 19 tests unitarios del servicio aprobados; Maven verify BUILD SUCCESS con 25 aprobadas, 0 fallos, 0 errores y 11 MySQL omitidas. Incluye compilación de cuatro nuevas pruebas MySQL de concurrencia/historial; no se ejecutaron autenticadas ni se confirma todavía el arranque con el nuevo servicio. No confundir con el resultado histórico de 13 aprobadas. Detalle de diseño, limpieza exclusiva de fixtures y comandos en reglas-negocio.md. La implementación está sin commit; controladores e integración requieren otra etapa.
+
+## Cierre posterior de servicio validado — 2026-11-08
+
+El usuario confirmó aprobación MySQL y verify completo de InscripcionService. Codex inspeccionó XML: 36 aprobadas (19 unitarias nuevas, 5 integridad, 1 MVC, 7 persistencia y 4 integración nueva), 0 fallos, 0 errores y 0 omitidas. Queda cerrado el pendiente de ejecución de la sección anterior. El historial de 13 pruebas del modelo y 25/11 de la primera corrida del servicio no se elimina. La configuración de las dos suites MySQL fuerza socioclub_test y conserva credenciales exclusivas; sin cambios de socioclub o scripts. El alcance y límites del cierre se detallan en reglas-negocio.md. Commit/push y PR autorizados; merge pendiente de revisión humana.

@@ -1,5 +1,7 @@
 # Guía de defensa técnica — modelo y persistencia
 
+Etapa actual: capa Service RN1–RN5 implementada en feature/backend-reglas-negocio. La explicación completa, transacciones, excepciones, matriz de pruebas y comandos están en [reglas de negocio](reglas-negocio.md). Verify final de esta etapa: 36 aprobadas, 0 fallos, 0 errores y 0 omitidas; el usuario ejecutó y Codex inspeccionó los XML. El cierre de 13 aprobadas mencionado abajo corresponde a la etapa anterior integrada por PR #3, no a una validación autenticada del servicio nuevo.
+
 Estado final 2026-11-08: los reportes Surefire locales acreditan 13 pruebas aprobadas (5 de integridad, 7 de persistencia MySQL y 1 MVC), 0 fallidas, 0 errores y 0 omitidas. El usuario confirmó Maven verify con BUILD SUCCESS y arranque completo contra socioclub: MySQL 8.4.13, EntityManagerFactory inicializado, Tomcat 8080 y Started SocioClubApplication. Codex revisó los reportes; no ejecutó el arranque con credenciales ni verificó HTTP GET /. Ver [instalación en otra computadora](instalacion-desde-cero.md).
 
 Alcance de esta intervención (2026-11-07): entidades, repositorios, esquema y datos preparados. No hay servicios de inscripción ni API REST implementados. Las pruebas MySQL requieren un servidor operativo; no confundir preparación con ejecución.
@@ -154,3 +156,28 @@ La confirmación ampliada del usuario permite identificar tres ajustes en config
 ## Confirmación final de la página MVC — 2026-11-08
 
 El usuario confirmó HTTP GET / con respuesta 200. Junto al arranque completo comunicado y las 13 pruebas aprobadas en los XML, completa la validación de esta etapa. La petición HTTP fue una comprobación humana, no una ejecución de Codex. Los pendientes HTTP mencionados anteriormente quedan cerrados. Antes de merge corresponde revisar el PR; RN1–RN5 y API quedan para una etapa posterior. Se mantienen las limitaciones académicas documentadas.
+
+## Defensa de InscripcionService y RN1–RN5 — 2026-11-08
+
+El servicio reúne las decisiones de inscripción que compartirán MVC y REST. inscribir recibe IDs, comprueba existencia, valida morosidad/edad/duplicado/máximo/cupo y crea una ACTIVA con fecha del reloj. validarSocio y validarInscripciones separan responsabilidades. No se implementaron nuevos controladores ni lógica de negocio en vistas.
+
+RN1 cuenta solo ACTIVAS y acepta el último lugar; RN2 permite historial BAJA pero no otra ACTIVA; RN3 usa años completos entre mínimo y máximo inclusive, confirmado por el usuario; RN4 rechaza MOROSO; RN5 permite hasta tres ACTIVAS. Las excepciones distinguen referencias inexistentes de rechazos por regla y tienen códigos estables. El orden de validación informa el primer motivo de rechazo.
+
+Preguntas para responder:
+
+- ¿Por qué transacción y bloqueos? Dos solicitudes podrían contar el mismo cupo; PESSIMISTIC_WRITE de actividad serializa. Bloquear antes el socio también protege la tercera actividad y el duplicado. El orden fijo socio/actividad reduce ciclos de espera.
+- ¿Qué aporta READ_COMMITTED? Los conteos ven lo confirmado por quien liberó el bloqueo, sin conservar una vista de lectura antigua. Todas las altas deben pasar por el bean Spring del servicio.
+- ¿Cómo probamos edad? Clock fijo y Period, con casos antes/durante/después del cumpleaños, máximo inclusivo y 29/02. No se divide por 365.
+- ¿Qué pasa con BAJA? No se reactiva: se guarda una inscripción nueva y solo se cuentan ACTIVAS.
+- ¿Los 19 mocks acreditan concurrencia? No. Las cuatro nuevas pruebas MySQL compilaron pero siguen omitidas; deben ejecutarse con socioclub_test antes de afirmar esa validación.
+- ¿Por qué esas pruebas MySQL no usan rollback global? Dos conexiones deben ver fixtures confirmadas. Al finalizar se retiran solamente sus IDs, nunca se vacía una base preexistente; se exige socioclub_test vacía y sin escritores ajenos.
+
+Decisiones humanas nuevas: aplicar rango completo RN3 y continuar con mensajes de la consigna. Implementación de Java/tests por Codex; no se registra una edición humana de código que no ocurrió. Oportunidades reales de revisión: convención del 29/02, precedencia de errores y protocolo de bloqueos. Si un integrante cambia algo justificadamente, registrar diff, motivo y prueba; no generar errores artificiales. Detalle y comandos en reglas-negocio.md.
+
+## Cierre validado de InscripcionService — 2026-11-08
+
+Resultado vigente que sustituye el pendiente MySQL de la implementación inicial: 36 pruebas aprobadas, 0 fallos, 0 errores y 0 omitidas en XML Surefire inspeccionados por Codex. Desglose: 19 unitarias de servicio, 5 integridad, 1 MVC, 7 persistencia y 4 integración de servicio. El usuario confirmó ejecutar MySQL y verify con BUILD SUCCESS; Codex no abrió .env ni repitió esa ejecución. Las cuatro nuevas pruebas acreditan sus escenarios de BAJA y carreras por cupo/duplicado/tercera actividad.
+
+La revisión no detectó impedimentos técnicos para presentar el PR: reglas en servicio, edad inclusiva calculada con Period y Clock, errores identificables y transacción READ_COMMITTED con orden de bloqueos socio/actividad. La garantía se limita a escritores que usan ese protocolo y al bean Spring sin transacción externa incompatible. No equivale a probar todas las situaciones concurrentes posibles ni elimina errores de bloqueo. Los futuros controladores reutilizarán el servicio; no se implementan aquí.
+
+No hubo ajustes manuales de código confirmados en este cierre. El usuario validó las pruebas y autorizó auditoría/publicación; implementación y actualización documental de Codex. AH-1/AH-2/AH-3 conservan sus límites académicos. PR para revisión, sin merge.
