@@ -1,4 +1,20 @@
-# Arquitectura inicial — Prompt 01
+# Arquitectura — SocioClub
+
+## Modelo de persistencia — 2026-11-07
+
+Se implementaron Socio, Actividad e Inscripcion, EstadoCuota/EstadoInscripcion y tres JpaRepository. Incluyen consultas derivadas paginadas y JPQL para contar ACTIVAS. Ver [guía de defensa](guia-defensa-tecnica.md) para el diagrama y ejemplos reales.
+
+Las claves foráneas están en Inscripcion; los padres usan OneToMany con mappedBy. No hay cascadas de borrado ni unicidad absoluta socio/actividad, para conservar historial. LocalDate/DATE, BigDecimal/DECIMAL(10,2), estados STRING/VARCHAR y horario String/VARCHAR(5) mantienen correspondencia entre Java y MySQL.
+
+Bean Validation y SQL aseguran integridad básica. RN1–RN5 y concurrencia permanecen pendientes en servicios compartidos entre REST y MVC. No se agregaron controladores ni pantallas. La API futura usará DTOs para evitar ciclos y acceso a relaciones LAZY fuera de transacciones.
+
+Hibernate ahora usa ddl-auto=validate, sin creación ni reconstrucción de tablas y sin carga SQL automática. Los scripts se ejecutan manualmente. El seed agrega datos ausentes; no actualiza registros ni reactiva bajas. Ver [datos](datos-modelo.md), [MySQL local](mysql-local.md) y [validación](validacion-modelo-datos.md).
+
+Los PR #1 y #2 están integrados en la base de feature/backend-modelo-datos. React conserva sus datos locales y el sitio público sus archivos; no se modificaron sus implementaciones ni dependencias.
+
+Las secciones siguientes conservan el estado y decisiones históricos de Prompt 01. Su referencia a ddl-auto=none corresponde a aquella etapa, reemplazada ahora por validate.
+
+## Antecedente: Prompt 01
 
 ## Monorepo y responsabilidades
 

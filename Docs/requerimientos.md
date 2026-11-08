@@ -2,7 +2,9 @@
 
 Fuente principal: [TPIntegradorSocioClubEnunciado.pdf](Enunciado/TPIntegradorSocioClubEnunciado.pdf), leído íntegramente (14 páginas) el 2026-11-02.
 
-Estado: inicialización estructural según Prompt 01. Todos los RF y RN están **Pendientes** de implementación y prueba funcional. Las páginas iniciales y configuración no acreditan cumplimiento de requisitos de negocio.
+Estado actualizado al 2026-11-08: PR #1 (sitio público) y #2 (React) integrados y preservados. Modelo JPA, repositorios, esquema y seed implementados. El usuario confirmó MySQL operativo y preparación manual de bases, cuentas, tablas y datos; la persistencia real JPA sigue pendiente porque las credenciales no están disponibles para la ejecución de Codex. Maven: 6 aprobadas/7 omitidas; React: build exitoso y 20 aprobadas. Los RF que dependen del backend continúan sin cumplimiento integral; no hay integración con API ni pruebas de sistema ejecutadas.
+
+Esta etapa prepara RF4–RF9: tres entidades, tres JpaRepository, búsqueda por DNI/apellido, Pageable, filtro por disciplina, consultas por estado y conteos. El seed incluye ocho actividades exactas, 21 socios sintéticos, dos MOROSOS y Yoga con 14/15 plazas. Ver [validación](validacion-modelo-datos.md), [datos](datos-modelo.md) y [guía de defensa](guia-defensa-tecnica.md). En la matriz, Pendiente significa cumplimiento integral pendiente.
 
 Componentes: A sitio público; B secretaría Thymeleaf; C API REST; D app React; E pruebas; F documentación.
 
@@ -17,9 +19,9 @@ Componentes: A sitio público; B secretaría Thymeleaf; C API REST; D app React;
 | RF5 | Alta, modificación y listado de socios; búsqueda por apellido y paginación. | B: socios MVC, servicio y repositorio | Vistas, búsqueda por apellido y Pageable. | Crear/editar; buscar apellido parcial ignorando mayúsculas y recorrer páginas. | Pendiente |
 | RF6 | Inscribir socio aplicando reglas de negocio. | B/C: controladores; servicio de inscripciones; D: Axios | RN1–RN5 una sola vez en servicio; errores MVC y JSON 409. | Éxito y rechazo independiente por cada RN1–RN5. | Pendiente |
 | RF7 | Ver inscriptos activos y cupo disponible. | B: Thymeleaf y servicio; C/D: cupo | Consulta de activos y cálculo del cupo disponible. | Excluir BAJA del listado y conteo; comprobar cupo tras baja. | Pendiente |
-| RF8 | Ingresar con DNI y consultar inscripciones. | D: ingreso/contexto; C: API socios | Búsqueda DNI, contexto compartido e inscripciones ACTIVAS. | DNI existente/inexistente; navegación con contexto y lista vacía. | Pendiente |
-| RF9 | Baja lógica de inscripción en estado BAJA. | B/C: servicio; D: MisActividades | Conservar registro y cambiar estado; permitir baja a MOROSO. | Comprobar BAJA persistida, exclusión de activas y liberación de cupo. | Pendiente |
-| RF10 | Mostrar cuota mensual estimada. | D: ResumenCuota y src/utils | Suma de actividades activas y RN6; PropTypes. | Totales para 0, 1, 2 y 3 actividades; excluir bajas. | Pendiente |
+| RF8 | Ingresar con DNI y consultar inscripciones. | D: ingreso/contexto; C: API socios | Búsqueda DNI, contexto compartido e inscripciones ACTIVAS. | DNI existente/inexistente; navegación con contexto y lista vacía. | Parcial: React local; backend pendiente |
+| RF9 | Baja lógica de inscripción en estado BAJA. | B/C: servicio; D: MisActividades | Conservar registro y cambiar estado; permitir baja a MOROSO. | Comprobar BAJA persistida, exclusión de activas y liberación de cupo. | Parcial: React local; backend pendiente |
+| RF10 | Mostrar cuota mensual estimada. | D: ResumenCuota y src/utils | Suma de actividades activas y RN6; PropTypes. | Totales para 0, 1, 2 y 3 actividades; excluir bajas. | Parcial: React local; backend pendiente |
 
 ## Matriz de reglas — sección 3.2, página 3
 
@@ -30,19 +32,19 @@ Componentes: A sitio público; B secretaría Thymeleaf; C API REST; D app React;
 | RN3 | Edad actual entre mínimo y máximo inclusive. | Servicio de inscripciones | Calcular desde nacimiento a fecha de hoy; rechazo indicando rango. | Límites, fuera de rango y cumpleaños pendiente/cumplido. | Pendiente |
 | RN4 | MOROSO no puede inscribirse; sí consultar y darse de baja. | Servicio de inscripciones | Rechazo: «Debe regularizar su cuota en secretaría». | Rechazar inscripción; permitir consulta y baja a MOROSO. | Pendiente |
 | RN5 | Máximo 3 ACTIVAS por socio. | Servicio de inscripciones | Rechazo: «Alcanzó el máximo de 3 actividades». | Aceptar tercera, rechazar cuarta y permitir nueva tras baja. | Pendiente |
-| RN6 | Sumar cuotas activas: 10 % de descuento con 2 y 15 % con 3. | D: calcularCuotaMensual y ResumenCuota | Función pura JavaScript y Jest. | 0, 1, 2 y 3 actividades; descuentos y total. | Pendiente |
-| RN7 | DNI de 7 u 8 dígitos numéricos sin puntos. | A: cliente; D: esDniValido | Bloquear envío y error junto al campo; función pura con Jest. | Aceptar 7/8; rechazar puntos, letras, 6 y 9 dígitos. | Pendiente |
+| RN6 | Sumar cuotas activas: 10 % de descuento con 2 y 15 % con 3. | D: calcularCuotaMensual y ResumenCuota | Función pura JavaScript y Jest. | 0, 1, 2 y 3 actividades; descuentos y total. | Implementada en React local; integración pendiente |
+| RN7 | DNI de 7 u 8 dígitos numéricos sin puntos. | A: cliente; D: esDniValido | Bloquear envío y error junto al campo; función pura con Jest. | Aceptar 7/8; rechazar puntos, letras, 6 y 9 dígitos. | Implementada en React local; integración pendiente |
 
 ## Mínimos que condicionan la arquitectura y quedan pendientes
 
 - Secciones 4, 5 y 8: tres directorios de aplicación, un backend Maven y una base MySQL. MVC y REST comparten servicios. Paquetes separados, sin acceso directo de controlador o vista al repositorio. Estructura preparada; capas de negocio pendientes.
 - Parte A: tres páginas, HTML semántico, CSS externo responsivo, JS externo; catálogo con clase Actividad y método, DOM, eventos, filtros, validación y objeto del navegador justificado. Se crean páginas iniciales; catálogo, formularios y requisitos funcionales pendientes.
-- Parte B: Spring Initializr, Web MVC, Thymeleaf, JPA, MySQL; entidades Socio, Actividad e Inscripcion con anotaciones y relaciones JPA; repositorios con dos métodos derivados y una @Query; Pageable, RN1–RN5 y vistas con fragmentos y atributos Thymeleaf. Dependencias y pantalla inicial preparadas; modelo, repositorios y gestión pendientes.
+- Parte B: entidades, relaciones, repositorios derivados, @Query y Pageable implementados. Servicios RN1–RN5, gestión y pantallas de negocio pendientes. Pruebas MySQL preparadas, sin ejecución real.
 - Parte C/Anexo A: nueve endpoints con JSON, verbos y estados 200/201/204/404/409; CORS para localhost:3000 y colección Postman. Configuración CORS preparada; endpoints y pruebas pendientes. Resolver ciclos de serialización al implementar relaciones, sin afirmar que ya se observaron.
-- Parte D: CRA, BrowserRouter, Axios centralizado; rutas /, /actividades, /actividades/:id y /mis-actividades. Componentes Encabezado, Pie, TarjetaActividad, ListaActividades, DetalleActividad, MisActividades y ResumenCuota; props/PropTypes, useState, useEffect y contexto. Solo pantalla inicial y cliente Axios sin peticiones; resto pendiente.
-- Parte E: mínimo seis pruebas Jest de calcularCuotaMensual/esDniValido y todos los bordes pedidos; dos React Testing Library de TarjetaActividad, Postman y seis casos de sistema. Pendientes; ver [plantilla de sistema](pruebas-sistema.md). La prueba MVC de inicialización no sustituye estos mínimos.
-- Sección 3.3: cargar las ocho actividades exactas del PDF; al menos 15 socios con edades variadas, 2 MOROSOS como mínimo y una actividad casi completa. Pendiente: schema.sql y seed.sql tienen solo comentarios.
-- Parte F: README con integrantes, creación de base, ejecución y DNI de prueba; informe PDF de 8–12 páginas, arquitectura, modelo, endpoints, capturas, pruebas y conclusiones. Integrantes y DNI no informados; informe pendiente.
+- Parte D: rutas, componentes, props/PropTypes, hooks, contexto y gestión visual del PR #2 con datos locales. Conexión Axios a la API pendiente; no se alteró React.
+- Parte E: PR #2 aporta pruebas Jest y React Testing Library. Postman y seis escenarios de sistema pendientes; ver [casos](pruebas-sistema.md). Integridad Java y MVC no sustituyen esos mínimos ni acreditan persistencia.
+- Sección 3.3: schema.sql y seed.sql implementados con ocho actividades y 21 socios, dos MOROSOS, Yoga casi completa e historial BAJA. Preparación manual confirmada por el usuario; conteos y persistencia pendientes de comprobación autenticada por Codex.
+- Parte F: README con integrantes, creación de base, ejecución y DNI de prueba; informe PDF de 8–12 páginas, arquitectura, modelo, endpoints, capturas, pruebas y conclusiones. Integrantes pendientes de informar; DNI preparados en datos-modelo.md; informe pendiente.
 - Sección 7: cinco entradas reales de IA como mínimo, al menos tres con errores o ajustes detectados por el grupo. No completar con hechos ficticios; las correcciones automáticas no se atribuyen al grupo.
 
 ## Interpretaciones documentadas
@@ -51,7 +53,7 @@ La introducción de sección 3.2 ubica las reglas en backend salvo RN7, pero la 
 
 El formato de bitácora está en Anexo C, páginas 13–14. Las referencias a Anexo D en secciones 5 y 7 no coinciden con el anexo existente.
 
-El usuario proporcionó Prompt 01 en esta sesión: autoriza exclusivamente monorepo, tres aplicaciones mínimas, configuración y documentación. No autoriza CRUD, entidades, tablas, datos ni reglas.
+Prompt 01 autorizó la inicialización. La solicitud del 2026-11-07 autorizó modelo, repositorios, SQL, datos, pruebas y documentación. El cierre del 2026-11-08 autoriza commit y push de feature/backend-modelo-datos y PR hacia dev, sin merge, despliegue, servicios RN1–RN5, controladores nuevos ni cambios en frontends.
 
 ## Requisito adicional de alojamiento
 
