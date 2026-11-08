@@ -1,55 +1,41 @@
 import { createContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { buscarSocioPorDni } from '../servicios/api';
+import { esDniValido } from '../utils/esDniValido';
+import { mensajeDeError } from '../utils/mensajeDeError';
 
-// Contexto del socio que ingresó a la app.
-// Cualquier componente que esté adentro de <SocioProvider> puede leer el socio
-// con useContext(SocioContext), sin pasarlo por props de componente en componente.
 export const SocioContext = createContext(null);
-
-const CLAVE_GUARDADO = 'miclub-socio';
-
-// sessionStorage (objeto del navegador) guarda el socio mientras la pestaña
-// esté abierta, así no se pierde el ingreso al recargar la página.
-function leerSocioGuardado() {
+const CLAVE = 'miclub-socio-dni';
+function leerDni() {
   try {
-    const guardado = window.sessionStorage.getItem(CLAVE_GUARDADO);
-    return guardado ? JSON.parse(guardado) : null;
-  } catch (error) {
-    return null;
-  }
+    window.sessionStorage.removeItem('miclub-socio'); // Retirar objetos personales de la version local anterior.
+    const dni = window.sessionStorage.getItem(CLAVE);
+    return esDniValido(dni) ? dni : null;
+  } catch { return null; }
 }
-
 export function SocioProvider({ children }) {
-  // Estado con el socio que ingresó (null si nadie ingresó).
-  const [socio, setSocio] = useState(leerSocioGuardado);
-
-  // Cada vez que cambia el socio (dependencia [socio]) se actualiza lo guardado.
+  const [dniInicial] = useState(leerDni);
+  const [socio, setSocio] = useState(null);
+  const [cargandoSesion, setCargandoSesion] = useState(Boolean(dniInicial));
+  const [errorSesion, setErrorSesion] = useState('');
   useEffect(() => {
-    try {
-      if (socio) {
-        window.sessionStorage.setItem(CLAVE_GUARDADO, JSON.stringify(socio));
-      } else {
-        window.sessionStorage.removeItem(CLAVE_GUARDADO);
-      }
-    } catch (error) {
-      // Si el navegador no permite guardar, la app sigue funcionando igual.
+    let vigente = true;
+    if (dniInicial) {
+      buscarSocioPorDni(dniInicial).then((s) => { if (vigente) setSocio(s); })
+        .catch((e) => { if (vigente) setErrorSesion(mensajeDeError(e)); })
+        .finally(() => { if (vigente) setCargandoSesion(false); });
     }
-  }, [socio]);
-
-  function ingresar(socioEncontrado) {
-    setSocio(socioEncontrado);
-  }
-
-  function salir() {
-    setSocio(null);
-  }
-
-  // value es lo que reciben los componentes que usan useContext(SocioContext).
-  return (
-    <SocioContext.Provider value={{ socio, ingresar, salir }}>{children}</SocioContext.Provider>
-  );
+    return () => { vigente = false; };
+  }, [dniInicial]);
+  useEffect(() => {
+    if (cargandoSesion) return;
+    try {
+      if (socio) window.sessionStorage.setItem(CLAVE, socio.dni);
+      else window.sessionStorage.removeItem(CLAVE);
+    } catch { /* La identificacion en memoria sigue disponible. */ }
+  }, [socio, cargandoSesion]);
+  function ingresar(s) { setErrorSesion(''); setSocio(s); }
+  function salir() { setErrorSesion(''); setSocio(null); }
+  return <SocioContext.Provider value={{ socio, ingresar, salir, cargandoSesion, errorSesion }}>{children}</SocioContext.Provider>;
 }
-
-SocioProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+SocioProvider.propTypes = { children: PropTypes.node.isRequired };

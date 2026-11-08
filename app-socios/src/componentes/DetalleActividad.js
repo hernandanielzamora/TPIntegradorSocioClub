@@ -3,7 +3,7 @@ import { actividadPropType } from './tiposActividad';
 import { formatearPesos } from '../utils/formatearPesos';
 
 // Muestra todos los datos de una actividad y el botón «Inscribirme».
-function DetalleActividad({ actividad, onInscribir }) {
+function DetalleActividad({ actividad, onInscribir, bloqueado = false }) {
   const sinCupo = actividad.cupoDisponible <= 0;
   const ocupados = actividad.cupoMaximo - actividad.cupoDisponible;
   const porcentajeOcupado = Math.round((ocupados / actividad.cupoMaximo) * 100);
@@ -66,7 +66,7 @@ function DetalleActividad({ actividad, onInscribir }) {
       <button
         type="button"
         className="boton boton-grande"
-        disabled={sinCupo}
+        disabled={sinCupo || bloqueado}
         onClick={() => onInscribir(actividad)}
       >
         Inscribirme
@@ -78,6 +78,7 @@ function DetalleActividad({ actividad, onInscribir }) {
 DetalleActividad.propTypes = {
   actividad: actividadPropType.isRequired,
   onInscribir: PropTypes.func.isRequired,
+  bloqueado: PropTypes.bool,
 };
 
 export default DetalleActividad;

@@ -24,15 +24,15 @@ export function calcularCuotaMensual(actividades) {
     return 0;
   }
 
-  const subtotal = actividades.reduce(
-    (suma, actividad) => suma + Number(actividad.cuotaMensual || 0),
+  const subtotalCentavos = actividades.reduce(
+    (suma, actividad) => suma + Math.round(Number(actividad.cuotaMensual || 0) * 100),
     0
   );
   const descuento = obtenerPorcentajeDescuento(actividades.length);
 
-  // Se multiplica por (100 - descuento) y se divide por 100 para evitar
-  // errores de redondeo de los decimales (por ejemplo 0.85 en JavaScript).
-  return Math.round((subtotal * (100 - descuento)) / 100);
+  // Se suma en centavos, se aplica el porcentaje y se redondea el resultado para evitar
+  // perder centavos al redondear prematuramente a pesos enteros.
+  return Math.round((subtotalCentavos * (100 - descuento)) / 100) / 100;
 }
 
 export default calcularCuotaMensual;

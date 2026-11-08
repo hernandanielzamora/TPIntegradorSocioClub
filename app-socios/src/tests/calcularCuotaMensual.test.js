@@ -37,6 +37,15 @@ describe('calcularCuotaMensual (RN6)', () => {
     calcularCuotaMensual(actividades);
     expect(actividades).toEqual([futbol, voley]);
   });
+
+  test('conserva centavos de una actividad real del backend', () => {
+    expect(calcularCuotaMensual([{ cuotaMensual: 10.25 }])).toBe(10.25);
+  });
+
+  test('redondea la bonificación a centavos, sin redondear a pesos enteros', () => {
+    expect(calcularCuotaMensual([{ cuotaMensual: 10.25 }, { cuotaMensual: 10.25 }])).toBe(18.45);
+    expect(calcularCuotaMensual([{ cuotaMensual: 10.25 }, { cuotaMensual: 10.25 }, { cuotaMensual: 10.25 }])).toBe(26.14);
+  });
 });
 
 describe('obtenerPorcentajeDescuento', () => {

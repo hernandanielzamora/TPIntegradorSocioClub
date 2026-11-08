@@ -6,7 +6,9 @@ import { SocioContext } from '../contexto/SocioContext';
 // Envuelve las pantallas que necesitan un socio ingresado.
 // Si nadie ingresó con su DNI, redirige a la pantalla de ingreso ("/").
 function RutaProtegida({ children }) {
-  const { socio } = useContext(SocioContext);
+  const { socio, cargandoSesion } = useContext(SocioContext);
+
+  if (cargandoSesion) return <p role="status">Recuperando identificación…</p>;
 
   if (!socio) {
     return <Navigate to="/" replace />;

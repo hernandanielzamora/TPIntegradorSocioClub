@@ -11,3 +11,6 @@ Ejecutar desde `app-socios`:
 ```powershell
 npm.cmd test -- --watchAll=false
 ```
+
+
+Integración Axios: api.test.js valida contratos/errores con mocks de Axios e integracionApi.test.js prueba ingreso, catálogo, detalle, alta, baja confirmada/cancelada y refresco. fixturesApi.js contiene solo datos sintéticos de tests. RN6 también cubre centavos. No se consulta MySQL ni se usa passWithNoTests. Comando completo: npm.cmd test -- --watchAll=false --runInBand.
