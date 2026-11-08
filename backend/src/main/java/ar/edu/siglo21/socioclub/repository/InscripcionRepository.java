@@ -10,6 +10,17 @@ import org.springframework.data.repository.query.Param;
 
 /** Consultas de inscripciones; el servicio aplica las reglas y coordina los bloqueos. */
 public interface InscripcionRepository extends JpaRepository<Inscripcion, Long> {
+    long countByEstado(EstadoInscripcion estado);
+    boolean existsByActividadId(Long actividadId);
+
+    @Query("""
+            select i from Inscripcion i
+            where (:actividadId is null or i.actividad.id = :actividadId)
+              and (:estado is null or i.estado = :estado)
+            """)
+    Page<Inscripcion> buscarSecretaria(@Param("actividadId") Long actividadId,
+            @Param("estado") EstadoInscripcion estado, Pageable pageable);
+
     /** Para consultas de vigentes, pasar EstadoInscripcion.ACTIVA; BAJA permite revisar historial. */
     Page<Inscripcion> findBySocioIdAndEstado(Long socioId, EstadoInscripcion estado, Pageable pageable);
 

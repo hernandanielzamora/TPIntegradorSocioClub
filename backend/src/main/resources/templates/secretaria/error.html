@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/comunes :: cabecera('No se pudo completar la operación')}">
+</head>
+<body>
+<header th:replace="~{fragments/comunes :: encabezado}">
+</header>
+<main id="contenido">
+<div th:replace="~{fragments/comunes :: mensajes}">
+</div>
+<h1>No se pudo completar la operación</h1>
+<p class="aviso error" role="alert" th:text="${mensaje}">
+</p>
+<a class="boton" th:href="@{/secretaria}">Volver al panel</a>
+</main>
+<footer th:replace="~{fragments/comunes :: pie}">
+</footer>
+</body>
+</html>

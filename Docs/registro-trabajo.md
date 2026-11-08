@@ -67,3 +67,23 @@ Codex implementó y verificó: 19 tests unitarios nuevos aprobados; verify actua
 El usuario confirmó todas las pruebas MySQL y verify exitosos, y autorizó auditoría, commit/push de feature/backend-reglas-negocio y preparación de PR hacia dev, sin merge. Codex corroboró 36 pruebas aprobadas en los XML Surefire con 0 fallos/errores/omisiones. La ejecución autenticada es humana y la inspección de reportes es automática. No se comunicó edición manual nueva de Java o de tests, por lo que no se agrega un ajuste humano ficticio. AH-1/AH-2/AH-3 conservan su alcance.
 
 Implementación de Codex de la etapa y su autoría se mantienen en la entrada 13; cierre automático en entrada 14. La publicación autorizada se identifica por el mensaje feat(backend): implement transactional enrollment business rules y por el hash informado al completar la operación. Se revisará el PR antes de merge; no se autoriza cambiar main/dev directamente.
+
+## Pedido humano de Secretaría MVC — 2026-11-08
+
+El usuario solicitó implementar el módulo administrativo bajo /secretaria en feature/backend-mvc-thymeleaf, reutilizar el servicio existente, probar y documentar, sin publicar ni avanzar a REST. También pidió al menos dos oportunidades reales para revisión manual de código. Codex implementó Java, HTML, CSS, mensajes, pruebas y documentación; no se recibió una edición manual humana durante esta etapa y no se registra una como realizada.
+
+Las correcciones de encoding y del test de entradas inválidas fueron automáticas y están en la entrada 15 de la bitácora. Verify ejecutado por Codex: 58 aprobadas, 0 fallos, 0 errores y 13 MySQL omitidas; BUILD SUCCESS. Las pruebas autenticadas y el recorrido en navegador quedan pendientes para la terminal del usuario. Puntos propuestos para revisar: InscripcionService.darDeBaja y ActividadService.guardar/eliminar. Se registrará cualquier intervención humana futura únicamente tras ocurrir y validarse. Sin commit asociado a esta implementación.
+
+## Decisión humana: desarrollo individual y merges directos — 2026-11-08
+
+El usuario informó que continuará individualmente y decidió mantener feature/* y dev sin crear PR obligatorios. Autorizó cerrar MVC mediante commit/push de feature y merge directo validado hacia dev, preferentemente con merge commit, sin force push, sobrescrituras, resolución automática de conflictos ni cambios de main. La autorización está condicionada a validación y confirmación necesaria; no se anticipa su ejecución.
+
+El usuario no confirmó en este pedido un resultado nuevo de verify ni una revisión visual del módulo. Codex inspeccionó reportes locales con 71 aprobadas, 0 fallos/errores/omisiones y solicitó confirmación final de verify en su terminal. Esa inspección no se atribuye al usuario como trabajo manual. No se registra modificación manual nueva de código ni se cambia el alcance de AH-1/AH-2/AH-3. Sin commit de cierre creado en este punto.
+
+## Confirmación de verify e integración autorizada — 2026-11-08
+
+El usuario confirmó BUILD SUCCESS de Maven verify después de la auditoría. Codex volvió a inspeccionar los siete XML: 71 aprobadas, 0 fallos, 0 errores y 0 omitidas. Esto cierra la espera de confirmación de verify de las secciones anteriores. La ejecución autenticada fue del usuario; no se atribuye a Codex ni implica una revisión visual del navegador no comunicada.
+
+Se continúa con el flujo individual autorizado: commit y push en feature/backend-mvc-thymeleaf, sincronización de dev, merge commit sin forzar y validación pertinente del árbol integrado antes de publicar origin/dev. Los hashes y resultados reales se informarán al completar cada operación; no se anticipa éxito en este registro. main queda fuera de alcance y la feature se conserva. No hay PR obligatorio.
+
+Sin nuevas ediciones manuales de código confirmadas; AH-1/AH-2/AH-3 mantienen su alcance académico. Continúan los límites de seguridad: no hay autenticación/autorización ni protección CSRF implementada; el módulo no está preparado para exposición pública. La comprobación visual completa sigue pendiente. No se agregan funcionalidades ni se alteran bases o frontends.

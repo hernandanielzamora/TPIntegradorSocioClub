@@ -1,14 +1,50 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Secretaría | SocioClub</title>
-  <link rel="stylesheet" th:href="@{/css/estilos.css}">
+<head th:replace="~{fragments/comunes :: cabecera('Secretaría')}">
 </head>
 <body>
-  <header th:replace="~{fragments/comunes :: encabezado}"></header>
-  <main><h1>Sistema de secretaría</h1><p>Estructura inicial. La gestión de socios, actividades e inscripciones se implementará en próximas etapas.</p></main>
-  <footer th:replace="~{fragments/comunes :: pie}"></footer>
+<header th:replace="~{fragments/comunes :: encabezado}">
+</header>
+<main id="contenido">
+<div th:replace="~{fragments/comunes :: mensajes}">
+</div>
+<p class="etiqueta">Administración del club</p>
+<h1>Sistema de secretaría</h1>
+<p>Gestioná socios, actividades e inscripciones desde un mismo lugar.</p>
+<section class="resumen" th:if="${resumen != null}" aria-label="Resumen del club">
+<article>
+<strong th:text="${resumen.socios}">0</strong>
+<span>Socios registrados</span>
+</article>
+<article>
+<strong th:text="${resumen.actividades}">0</strong>
+<span>Actividades</span>
+</article>
+<article>
+<strong th:text="${resumen.activas}">0</strong>
+<span>Inscripciones activas</span>
+</article>
+</section>
+<section class="accesos">
+<article>
+<h2>Socios</h2>
+<p>Datos personales, búsqueda por apellido y estado de cuota.</p>
+<a class="boton" th:href="@{/secretaria/socios}">Gestionar socios</a>
+</article>
+<article>
+<h2>Actividades</h2>
+<p>Horarios, edades, cuotas y disponibilidad.</p>
+<a class="boton" th:href="@{/secretaria/actividades}">Ver actividades</a>
+</article>
+<article>
+<h2>Inscripciones</h2>
+<p>Nuevas inscripciones, consulta de activos e historial de bajas.</p>
+<a class="boton" th:href="@{/secretaria/inscripciones/nueva}">Inscribir un socio</a>
+<a th:href="@{/secretaria/inscripciones}">Consultar historial</a>
+</article>
+</section>
+</main>
+<footer th:replace="~{fragments/comunes :: pie}">
+</footer>
 </body>
 </html>

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/comunes :: cabecera('Socio')}">
+</head>
+<body>
+<header th:replace="~{fragments/comunes :: encabezado}">
+</header>
+<main id="contenido">
+<div th:replace="~{fragments/comunes :: mensajes}">
+</div>
+<p class="etiqueta">Secretaría / Socios</p>
+<h1 th:text="${id == null ? 'Nuevo socio' : 'Editar socio'}">
+</h1>
+<p>Todos los campos son obligatorios.</p>
+<form class="formulario" method="post" th:object="${formulario}" th:action="${id == null} ? @{/secretaria/socios} : @{/secretaria/socios/{id}(id=${id})}">
+<div th:replace="~{fragments/comunes :: errores}">
+</div>
+<div class="campos">
+<div>
+<label for="dni">DNI sin puntos</label>
+<input id="dni" type="text" th:field="*{dni}" required inputmode="numeric" maxlength="8" pattern="[0-9]{7,8}" th:attr="aria-invalid=${#fields.hasErrors('dni')}">
+<small class="error-campo" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">
+</small>
+</div>
+<div>
+<label for="nombre">Nombre</label>
+<input id="nombre" type="text" th:field="*{nombre}" required maxlength="80" th:attr="aria-invalid=${#fields.hasErrors('nombre')}">
+<small class="error-campo" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">
+</small>
+</div>
+<div>
+<label for="apellido">Apellido</label>
+<input id="apellido" type="text" th:field="*{apellido}" required maxlength="80" th:attr="aria-invalid=${#fields.hasErrors('apellido')}">
+<small class="error-campo" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}">
+</small>
+</div>
+<div>
+<label for="fechaNacimiento">Fecha de nacimiento</label>
+<input id="fechaNacimiento" type="date" th:field="*{fechaNacimiento}" required th:attr="aria-invalid=${#fields.hasErrors('fechaNacimiento')}">
+<small class="error-campo" th:if="${#fields.hasErrors('fechaNacimiento')}" th:errors="*{fechaNacimiento}">
+</small>
+</div>
+<div>
+<label for="email">Correo electrónico</label>
+<input id="email" type="email" th:field="*{email}" required maxlength="150" th:attr="aria-invalid=${#fields.hasErrors('email')}">
+<small class="error-campo" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+</small>
+</div>
+<div>
+<label for="telefono">Teléfono</label>
+<input id="telefono" type="tel" th:field="*{telefono}" required maxlength="30" th:attr="aria-invalid=${#fields.hasErrors('telefono')}">
+<small class="error-campo" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}">
+</small>
+</div>
+<div>
+<label for="estadoCuota">Estado de cuota</label>
+<select id="estadoCuota" th:field="*{estadoCuota}" required>
+<option th:each="e : ${estadosCuota}" th:value="${e}" th:text="${e}">
+</option>
+</select>
+<small th:errors="*{estadoCuota}">
+</small>
+</div>
+</div>
+<div class="acciones">
+<button>Guardar socio</button>
+<a th:href="@{/secretaria/socios}">Cancelar</a>
+</div>
+</form>
+</main>
+<footer th:replace="~{fragments/comunes :: pie}">
+</footer>
+</body>
+</html>

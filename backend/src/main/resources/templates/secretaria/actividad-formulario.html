@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/comunes :: cabecera('Actividad')}">
+</head>
+<body>
+<header th:replace="~{fragments/comunes :: encabezado}">
+</header>
+<main id="contenido">
+<div th:replace="~{fragments/comunes :: mensajes}">
+</div>
+<p class="etiqueta">Secretaría / Actividades</p>
+<h1 th:text="${id == null ? 'Nueva actividad' : 'Editar actividad'}">
+</h1>
+<p>Todos los campos son obligatorios.</p>
+<form class="formulario" method="post" th:object="${formulario}" th:action="${id == null} ? @{/secretaria/actividades} : @{/secretaria/actividades/{id}(id=${id})}">
+<div th:replace="~{fragments/comunes :: errores}">
+</div>
+<div class="campos">
+<div>
+<label for="nombre">Nombre</label>
+<input id="nombre" type="text" th:field="*{nombre}" required maxlength="100" th:attr="aria-invalid=${#fields.hasErrors('nombre')}">
+<small class="error-campo" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">
+</small>
+</div>
+<div>
+<label for="disciplina">Disciplina</label>
+<input id="disciplina" type="text" th:field="*{disciplina}" required maxlength="100" th:attr="aria-invalid=${#fields.hasErrors('disciplina')}">
+<small class="error-campo" th:if="${#fields.hasErrors('disciplina')}" th:errors="*{disciplina}">
+</small>
+</div>
+<div>
+<label for="profesor">Profesor/a</label>
+<input id="profesor" type="text" th:field="*{profesor}" required maxlength="100" th:attr="aria-invalid=${#fields.hasErrors('profesor')}">
+<small class="error-campo" th:if="${#fields.hasErrors('profesor')}" th:errors="*{profesor}">
+</small>
+</div>
+<div>
+<label for="dias">Días</label>
+<input id="dias" type="text" th:field="*{dias}" required maxlength="50" th:attr="aria-invalid=${#fields.hasErrors('dias')}">
+<small class="error-campo" th:if="${#fields.hasErrors('dias')}" th:errors="*{dias}">
+</small>
+</div>
+<div>
+<label for="horario">Horario (H:mm o HH:mm)</label>
+<input id="horario" type="text" th:field="*{horario}" required placeholder="9:00" maxlength="5" th:attr="aria-invalid=${#fields.hasErrors('horario')}">
+<small class="error-campo" th:if="${#fields.hasErrors('horario')}" th:errors="*{horario}">
+</small>
+</div>
+<div>
+<label for="edadMinima">Edad mínima</label>
+<input id="edadMinima" type="number" th:field="*{edadMinima}" required min="0" th:attr="aria-invalid=${#fields.hasErrors('edadMinima')}">
+<small class="error-campo" th:if="${#fields.hasErrors('edadMinima')}" th:errors="*{edadMinima}">
+</small>
+</div>
+<div>
+<label for="edadMaxima">Edad máxima</label>
+<input id="edadMaxima" type="number" th:field="*{edadMaxima}" required min="0" th:attr="aria-invalid=${#fields.hasErrors('edadMaxima')}">
+<small class="error-campo" th:if="${#fields.hasErrors('edadMaxima')}" th:errors="*{edadMaxima}">
+</small>
+</div>
+<div>
+<label for="cupoMaximo">Cupo máximo</label>
+<input id="cupoMaximo" type="number" th:field="*{cupoMaximo}" required min="1" th:attr="aria-invalid=${#fields.hasErrors('cupoMaximo')}">
+<small class="error-campo" th:if="${#fields.hasErrors('cupoMaximo')}" th:errors="*{cupoMaximo}">
+</small>
+</div>
+<div>
+<label for="cuotaMensual">Cuota mensual ($)</label>
+<input id="cuotaMensual" type="number" th:field="*{cuotaMensual}" required min="0" step="0.01" max="99999999.99" th:attr="aria-invalid=${#fields.hasErrors('cuotaMensual')}">
+<small class="error-campo" th:if="${#fields.hasErrors('cuotaMensual')}" th:errors="*{cuotaMensual}">
+</small>
+</div>
+</div>
+<div class="acciones">
+<button>Guardar actividad</button>
+<a th:href="@{/secretaria/actividades}">Cancelar</a>
+</div>
+</form>
+</main>
+<footer th:replace="~{fragments/comunes :: pie}">
+</footer>
+</body>
+</html>

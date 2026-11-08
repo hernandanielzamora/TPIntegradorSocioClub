@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/comunes :: cabecera('Socios')}">
+</head>
+<body>
+<header th:replace="~{fragments/comunes :: encabezado}">
+</header>
+<main id="contenido">
+<div th:replace="~{fragments/comunes :: mensajes}">
+</div>
+<div class="titulo">
+<div>
+<p class="etiqueta">Secretaría / Socios</p>
+<h1>Socios</h1>
+</div>
+<a class="boton" th:href="@{/secretaria/socios/nuevo}">Nuevo socio</a>
+</div>
+<form class="filtros" method="get" th:action="@{/secretaria/socios}">
+<div>
+<label for="apellido">Buscar por apellido</label>
+<input id="apellido" name="apellido" th:value="${apellido}" maxlength="80">
+</div>
+<button>Buscar</button>
+<a th:href="@{/secretaria/socios}">Limpiar</a>
+</form>
+<p th:if="${pagina.empty}" class="vacio">No se encontraron socios con esa búsqueda.</p>
+<div class="tabla" th:unless="${pagina.empty}">
+<table>
+<caption>Datos personales y estado de cuota</caption>
+<thead>
+<tr>
+<th scope="col">Socio / DNI</th>
+<th scope="col">Nacimiento</th>
+<th scope="col">Contacto</th>
+<th scope="col">Cuota</th>
+<th scope="col">Acciones</th>
+</tr>
+</thead>
+<tbody>
+<tr th:each="s : ${pagina.content}">
+<td>
+<strong th:text="${s.datos.apellido + ', ' + s.datos.nombre}">
+</strong>
+<br>
+<span th:text="${s.datos.dni}">
+</span>
+</td>
+<td th:text="${s.datos.fechaNacimiento}">
+</td>
+<td>
+<span th:text="${s.datos.email}">
+</span>
+<br>
+<span th:text="${s.datos.telefono}">
+</span>
+</td>
+<td>
+<span class="estado" th:text="${s.datos.estadoCuota}">
+</span>
+</td>
+<td>
+<a th:href="@{/secretaria/socios/{id}/editar(id=${s.id})}" th:aria-label="${'Editar socio ' + s.datos.apellido}">Editar</a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<nav class="paginacion" aria-label="Paginación" th:if="${pagina.totalPages > 0}">
+<a th:if="${pagina.hasPrevious()}" th:href="@{/secretaria/socios(pagina=${pagina.number - 1},apellido=${apellido})}">Anterior</a>
+<span th:text="${'Página ' + (pagina.number + 1) + ' de ' + pagina.totalPages}">
+</span>
+<a th:if="${pagina.hasNext()}" th:href="@{/secretaria/socios(pagina=${pagina.number + 1},apellido=${apellido})}">Siguiente</a>
+</nav>
+</main>
+<footer th:replace="~{fragments/comunes :: pie}">
+</footer>
+</body>
+</html>

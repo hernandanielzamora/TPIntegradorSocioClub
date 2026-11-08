@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/comunes :: cabecera('Nueva inscripción')}">
+</head>
+<body>
+<header th:replace="~{fragments/comunes :: encabezado}">
+</header>
+<main id="contenido">
+<div th:replace="~{fragments/comunes :: mensajes}">
+</div>
+<p class="etiqueta">Secretaría / Inscripciones</p>
+<h1>Nueva inscripción</h1>
+<p>Seleccioná un socio y una actividad. Al confirmar se comprobarán las reglas de inscripción.</p>
+<form class="formulario" method="post" th:action="@{/secretaria/inscripciones}" th:object="${formulario}">
+<div th:replace="~{fragments/comunes :: errores}">
+</div>
+<div class="campos">
+<div>
+<label for="socioId">Socio</label>
+<select id="socioId" th:field="*{socioId}" required>
+<option value="">Seleccionar socio</option>
+<option th:each="s : ${socios}" th:value="${s.id}" th:text="${s.etiqueta}">
+</option>
+</select>
+<small th:errors="*{socioId}">
+</small>
+</div>
+<div>
+<label for="actividadId">Actividad</label>
+<select id="actividadId" th:field="*{actividadId}" required>
+<option value="">Seleccionar actividad</option>
+<option th:each="a : ${actividades}" th:value="${a.id}" th:text="${a.etiqueta}">
+</option>
+</select>
+<small th:errors="*{actividadId}">
+</small>
+</div>
+</div>
+<p class="ayuda" th:if="${socios.empty or actividades.empty}">Para inscribir, primero registrá al menos un socio y una actividad.</p>
+<div class="acciones">
+<button th:disabled="${socios.empty or actividades.empty}">Confirmar inscripción</button>
+<a th:href="@{/secretaria/inscripciones}">Cancelar</a>
+</div>
+</form>
+</main>
+<footer th:replace="~{fragments/comunes :: pie}">
+</footer>
+</body>
+</html>

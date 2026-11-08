@@ -1,7 +1,41 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="cabecera(titulo)">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title th:text="${titulo + ' | SocioClub'}">SocioClub</title>
+<link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
 <body>
-  <header th:fragment="encabezado"><p>SocioClub · Secretaría</p></header>
-  <footer th:fragment="pie"><p>Trabajo Práctico Integrador · Universidad Siglo 21</p></footer>
+<header th:fragment="encabezado">
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+<div class="marca">
+<a th:href="@{/secretaria}">SocioClub</a>
+<span>Secretaría · Gestión del club</span>
+</div>
+<nav aria-label="Navegación principal">
+<a th:href="@{/secretaria}">Panel</a>
+<a th:href="@{/secretaria/socios}">Socios</a>
+<a th:href="@{/secretaria/actividades}">Actividades</a>
+<a th:href="@{/secretaria/inscripciones}">Inscripciones</a>
+</nav>
+</header>
+<div th:fragment="mensajes">
+<p class="aviso exito" role="status" th:if="${exito}" th:text="${exito}">
+</p>
+<p class="aviso error" role="alert" th:if="${error}" th:text="${error}">
+</p>
+</div>
+<div th:fragment="errores" class="aviso error" role="alert" th:if="${#fields.hasAnyErrors()}">
+<strong>Revisá los datos antes de continuar</strong>
+<ul>
+<li th:each="e : ${#fields.allErrors()}" th:text="${e}">
+</li>
+</ul>
+</div>
+<footer th:fragment="pie">
+<p>SocioClub · Secretaría</p>
+<p>Trabajo Práctico Integrador · Universidad Siglo 21</p>
+</footer>
 </body>
 </html>

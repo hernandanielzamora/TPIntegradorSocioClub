@@ -64,3 +64,9 @@ Preparación para Cloudflare Pages (frontends), Render (Spring Boot y Thymeleaf)
 ## Resultado final de la etapa RN1–RN5 — 2026-11-08
 
 El usuario ejecutó las suites MySQL y verify exitosamente. Codex verificó XML: 36 aprobadas, 0 fallos, 0 errores, 0 omitidas, incluyendo las cuatro pruebas de integración del servicio (BAJA/historial y tres escenarios de concurrencia). Quedan superados los pendientes de ejecución MySQL de la matriz de esta etapa. RN1–RN5 implementadas y probadas a nivel servicio; RF integrales siguen requiriendo controladores e integración. No se implementaron consulta/baja de RN4 ni nuevos endpoints. Ver reglas-negocio.md para evidencia y límites.
+
+## Etapa MVC de Secretaría — 2026-11-08
+
+Se implementó el lado MVC de RF4–RF7 y la baja lógica RF9: ABM de actividades (sin eliminar historial), alta/edición/listado/búsqueda por apellido de socios, inscripción mediante RN1–RN5, consulta por actividad/estado y cupos. Los listados se paginan. Los filtros de edad del catálogo público/React y la API siguen fuera de esta etapa; no se declara cumplimiento integral de los RF que requieren esos componentes.
+
+Verify actual sin MySQL: 58 aprobadas, 0 fallos, 0 errores y 13 omitidas, BUILD SUCCESS. Los resultados anteriores se conservan como historia. Dos pruebas MySQL nuevas de baja/consulta y administración están compiladas pero pendientes de ejecución autenticada junto con las anteriores. Sin cambios de esquema, datos de desarrollo, frontends o despliegue. Ver modulo-mvc.md para rutas, validación, diseño, límites y revisión humana.

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/comunes :: cabecera('Inscripciones')}">
+</head>
+<body>
+<header th:replace="~{fragments/comunes :: encabezado}">
+</header>
+<main id="contenido">
+<div th:replace="~{fragments/comunes :: mensajes}">
+</div>
+<div class="titulo">
+<div>
+<p class="etiqueta">Secretaría / Inscripciones</p>
+<h1>Inscripciones</h1>
+</div>
+<a class="boton" th:href="@{/secretaria/inscripciones/nueva}">Nueva inscripción</a>
+</div>
+<form class="filtros" method="get" th:action="@{/secretaria/inscripciones}">
+<div>
+<label for="actividadId">Actividad</label>
+<select id="actividadId" name="actividadId">
+<option value="">Todas</option>
+<option th:each="a : ${actividades}" th:value="${a.id}" th:text="${a.etiqueta}" th:selected="${a.id == actividadId}">
+</option>
+</select>
+</div>
+<div>
+<label for="estado">Estado</label>
+<select id="estado" name="estado">
+<option value="">Todos / Historial</option>
+<option th:each="e : ${estadosInscripcion}" th:value="${e}" th:text="${e}" th:selected="${e == estado}">
+</option>
+</select>
+</div>
+<button>Filtrar</button>
+<a th:href="@{/secretaria/inscripciones}">Limpiar</a>
+</form>
+<p class="vacio" th:if="${pagina.empty}">No hay inscripciones para estos filtros.</p>
+<div class="tabla" th:unless="${pagina.empty}">
+<table>
+<caption>Inscripciones e historial</caption>
+<thead>
+<tr>
+<th scope="col">Socio</th>
+<th scope="col">Actividad</th>
+<th scope="col">Fecha</th>
+<th scope="col">Estado</th>
+<th scope="col">Acciones</th>
+</tr>
+</thead>
+<tbody>
+<tr th:each="i : ${pagina.content}">
+<td th:text="${i.socio}">
+</td>
+<td th:text="${i.actividad}">
+</td>
+<td th:text="${i.fecha}">
+</td>
+<td>
+<span class="estado" th:text="${i.estado}">
+</span>
+</td>
+<td>
+<form th:if="${i.estado.name() == 'ACTIVA'}" method="post" th:action="@{/secretaria/inscripciones/{id}/baja(id=${i.id})}">
+<button class="secundario" th:aria-label="${'Dar de baja inscripción de ' + i.socio + ' en ' + i.actividad}">Dar de baja</button>
+</form>
+<span th:if="${i.estado.name() == 'BAJA'}">Historial conservado</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<nav class="paginacion" aria-label="Paginación" th:if="${pagina.totalPages > 0}">
+<a th:if="${pagina.hasPrevious()}" th:href="@{/secretaria/inscripciones(pagina=${pagina.number - 1},actividadId=${actividadId},estado=${estado})}">Anterior</a>
+<span th:text="${'Página ' + (pagina.number + 1) + ' de ' + pagina.totalPages}">
+</span>
+<a th:if="${pagina.hasNext()}" th:href="@{/secretaria/inscripciones(pagina=${pagina.number + 1},actividadId=${actividadId},estado=${estado})}">Siguiente</a>
+</nav>
+</main>
+<footer th:replace="~{fragments/comunes :: pie}">
+</footer>
+</body>
+</html>
