@@ -123,3 +123,7 @@ Generado desde el contenido real del workspace el 2026-11-02. Se omiten del arbo
 ```
 
 El PDF original se conserva. README y los tres documentos iniciales se actualizaron; los demás archivos fuente de aplicación fueron creados durante Prompt 01. Antes del primer commit se agregó .gitattributes y se ajustaron exclusiones y documentación a pedido del usuario. El resultado de commit y publicación se verifica en el historial de Git; no se efectuaron despliegues.
+
+## Actualización del cierre
+
+Además del árbol histórico anterior: sitio-publico/tests/script.test.cjs y assets/deporte.svg; database/propuestas (002/003 NO ejecutadas); Docs/mejoras-futuras.md, sitio-publico.md, cierre-desarrollo.md y preparacion-informe-defensa.md. Se conservan backend, app-socios y sitio-publico como las tres aplicaciones. target/build/node_modules/.cache se excluyen de Git. El estado de desarrollo vigente es cierre-desarrollo.md, no los pendientes del inventario inicial.

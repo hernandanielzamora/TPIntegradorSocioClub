@@ -1,5 +1,20 @@
 # Arquitectura — SocioClub
 
+## Arquitectura vigente al cierre
+
+```mermaid
+flowchart LR
+  A[Sitio público HTML CSS JS] --> L[Catálogo inicial y validación local]
+  R[React Router y Axios] --> C[API REST con DTO]
+  M[Secretaría Thymeleaf] --> S[Servicios compartidos RN1 a RN5]
+  C --> S
+  S --> P[Repositorios JPA]
+  P --> D[(MySQL)]
+```
+
+El formulario público no escribe en MySQL; se limita a validación local explícita. React consulta datos reales y calcula RN6 a partir de ACTIVAS. MVC/REST reutilizan transacciones/bloqueos y no duplican reglas. Socio–Inscripcion–Actividad mantiene historial BAJA y vigencia independiente de deuda. Días/horario siguen siendo strings; no hay RN8 ni seguridad admin nueva. Migración001 aplicada por el usuario; propuestas002/003 fuera de migrations y nunca aplicadas. Arquitectura probada por suites y consultas descritas en cierre-desarrollo.md; recorrido completo visual/E2E pendiente. Los apartados siguientes conservan decisiones históricas, no requisitos actuales pendientes de implementación.
+## Antecedentes de arquitectura
+
 ## Modelo de persistencia — 2026-11-07
 
 Se implementaron Socio, Actividad e Inscripcion, EstadoCuota/EstadoInscripcion y tres JpaRepository. Incluyen consultas derivadas paginadas y JPQL para contar ACTIVAS. Ver [guía de defensa](guia-defensa-tecnica.md) para el diagrama y ejemplos reales.

@@ -1,4 +1,40 @@
 
+
+## Matriz vigente de los seis casos obligatorios
+
+Fecha del cierre: 2026-11-08. Los datos iniciales deben comprobarse en el catálogo elegido: los ejemplos históricos siguientes NO garantizan sus precondiciones hoy. Codex no ejecutó POST/PUT/DELETE contra las bases en esta etapa. Los resultados de unitarios/MockMvc/RTL son evidencia automática auténtica, no resultados E2E. El ensayo de baja de SOCIO confirmado por el usuario no sustituye estos casos de inscripción.
+
+| ID / objetivo | Datos iniciales a comprobar | Pasos manuales (solo con autorización para esos datos) | Esperado | Observado actualmente | Evidencia auténtica | Estado |
+| --- | --- | --- | --- | --- | --- | --- |
+| PS01: alta exitosa | Socio ACTIVO/AL_DIA, edad apta, <3 ACTIVAS, no duplicado; actividad con vacante | Consultar y capturar datos/cupo/ACTIVAS; ingresar DNI en React; abrir detalle; Inscribirme; consultar Mis actividades/RN6 y cupo por GET | POST 201; una ACTIVA nueva, cupo baja 1, cuota actualizada | Unitario y MockMvc exitosos, React mock de alta/refresco aprobado; recorrido real no ejecutado por Codex | InscripcionServiceTests.inscripcionValidaConCupoDisponible; ApiControllerTests.inscripcionValida201; integracionApi.test.js | Implementado, pendiente de validación |
+| PS02: RN1 sin cupo | Socio apto, sin duplicado ni máximo; ACTIVAS=cupo máximo | Capturar conteos, enviar POST /api/inscripciones desde Postman con IDs comprobados (el botón React se deshabilita sin cupo), volver a consultar | 409 regla RN1; ninguna fila nueva ni cambio de cupo | Unitario y respuesta MockMvc/React aprobados; caso real no ejecutado | rechazaCupoCompletoOYaExcedido, regla409ConCodigoDelAnexo(SIN_CUPO), test React RN1 | Implementado, pendiente de validación |
+| PS03: RN2 duplicado | Socio ACTIVO/AL_DIA, edad apta, inscripción ACTIVA previa misma actividad | Capturar ID previo; intentar alta de misma pareja; consultar filas y cupo | 409 regla RN2; conserva la ACTIVA original | Unitario/MockMvc/React aprobados; caso real no ejecutado | rechazaActivaDuplicada; regla409ConCodigoDelAnexo(INSCRIPCION_DUPLICADA) | Implementado, pendiente de validación |
+| PS04: RN3 edad | Socio ACTIVO/AL_DIA fuera del rango inclusivo; actividad existente | Calcular edad actual/registrar límites; intentar inscripción; consultar ausencia de alta | 409 regla RN3, ninguna ACTIVA nueva | Bordes/bisiesto y MockMvc/React aprobados; caso real no ejecutado | Tests de cumpleaños InscripcionServiceTests; regla409ConCodigoDelAnexo(EDAD_FUERA_DE_RANGO) | Implementado, pendiente de validación |
+| PS05: RN4 deuda | Socio ACTIVO/MOROSO (no INACTIVO) | Capturar estado de cuota; intentar alta; consultar lista; no regularizar ni cambiar estados automáticamente | 409 regla RN4; no alta; consulta/baja siguen permitidas | Unitario/MockMvc/React aprobados; caso real no ejecutado | rechazaSocioMoroso; regla409ConCodigoDelAnexo(SOCIO_MOROSO) | Implementado, pendiente de validación |
+| PS06: RN5 máximo | Socio ACTIVO/AL_DIA, edad apta, tres ACTIVAS distintas; destino nuevo con cupo | Capturar tres IDs, intentar cuarta actividad, verificar que conserva exactamente las tres y RN6 | 409 regla RN5; sin cuarta ACTIVA | Unitario/MockMvc/React aprobados; caso real no ejecutado | rechazaCuartaActividadOConteoYaExcedido; regla409ConCodigoDelAnexo(MAXIMO_ACTIVIDADES) | Implementado, pendiente de validación |
+
+La preparación manual puede necesitar datos adicionales: no concluir que el seed ya arma RN1 (Yoga está casi completa, no necesariamente llena). No usar al socio INACTIVO del ensayo para RN1–RN5: se rechaza antes por vigencia. No modificar cuota/edades/cupos ni borrar datos para alcanzar un escenario sin autorización separada. Documentar el orden de validaciones y evitar otra regla con prioridad anterior. Nunca limpiar socioclub_test ni ejecutar sus suites de vacío sobre el fixture actual.
+
+### Captura de datos, solo lectura
+
+Desde una conexión de Workbench al servidor previsto. Estas consultas no fueron ejecutadas por Codex en este cierre (sí se hicieron GET API de lectura). Guardar capturas fuera del repositorio si contienen datos personales; usar solo personas ficticias para demostrar:
+
+```sql
+SELECT DATABASE(),CURRENT_USER();
+SELECT id,dni,estado,estado_cuota,TIMESTAMPDIFF(YEAR,fecha_nacimiento,CURRENT_DATE) AS edad
+FROM socioclub.socio ORDER BY id;
+SELECT a.id,a.nombre,a.edad_minima,a.edad_maxima,a.cupo_maximo,
+       SUM(CASE WHEN i.estado='ACTIVA' THEN 1 ELSE 0 END) AS activas,
+       a.cupo_maximo-SUM(CASE WHEN i.estado='ACTIVA' THEN 1 ELSE 0 END) AS disponibles
+FROM socioclub.actividad a LEFT JOIN socioclub.inscripcion i ON i.actividad_id=a.id
+GROUP BY a.id,a.nombre,a.edad_minima,a.edad_maxima,a.cupo_maximo ORDER BY a.id;
+```
+
+Una vez que el operador seleccione IDs, registrar petición/respuesta (sin secretos), pantalla, datos anteriores/posteriores y fecha por caso. Completar “Observado” solo después de hacerlo. Una inscripción exitosa AGREGA una fila y ocupa una plaza; darla de baja conserva esa fila como BAJA. No restaurar fixtures o estados automáticamente al terminar. La colección Postman tiene requests y ejemplos, pero un ejemplo no es una ejecución. No correr el runner entero a ciegas: incluye operaciones de eliminación y escenarios sin preparar.
+
+## Antecedentes de escenarios preparados en etapas anteriores
+
+Las referencias siguientes a funcionalidades todavía no implementadas corresponden al estado inicial; se conservan para trazabilidad. Su “Sin ejecutar” describe pruebas manuales que continúan sin evidencia individual; los resultados automatizados vigentes están arriba.
 # Pruebas de sistema — SocioClub
 
 ## 1. Objetivo

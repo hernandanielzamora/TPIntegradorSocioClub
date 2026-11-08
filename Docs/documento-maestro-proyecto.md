@@ -1,5 +1,7 @@
 # Documento maestro — SocioClub
 
+> Estado vigente de cierre: ver [cierre-desarrollo.md](cierre-desarrollo.md) y la sección Prompt 22 al final. Los anuncios de etapas/propuestas anteriores son antecedentes. Se prioriza consigna; FE-ADMIN-01/RN8 NO implementadas y postergadas.
+
 > Etapa vigente: backend integrado en dev (08d7c40); integración React en feature/react-integracion-api, sin merge de React. Ver react-integracion-api.md y el cierre al final. Los estados anteriores se conservan como historial.
 
 > Cierre actualizado: el usuario confirmó la carga manual mediante SQL convencional y el ensayo correcto desde Secretaría en testing:8081. Los procedimientos/delimitadores fallidos se conservan al final como historial, NO como instrucciones vigentes. HTTP 409/codigo, idempotencia, conservación exacta, cupos finales y Postman siguen pendientes de evidencia específica. No repetir MySQL/verify que exige testing vacío: ahora contiene el fixture.
@@ -116,3 +118,13 @@ Codex preparó 002_cuenta_administrativa.sql y 003_actividad_horario.sql, sin ej
 ## Cierre obligatorio — decisión de alcance del usuario
 
 Se postergan FE-ADMIN-01/RN8, sin implementarlas ni ejecutar su SQL. Se conserva auditoría; archivos reubicados en database/propuestas y detalles en [mejoras-futuras.md](mejoras-futuras.md). La decisión de priorizar requisitos/entrega es humana; reubicación/documentación de Codex. Las aprobaciones de tests anteriores son antecedentes, no pruebas nuevas de este cierre. No se borra trabajo del equipo.
+
+## Cierre obligatorio — implementación y evidencia actuales (Prompt 22)
+
+React integrado en dev por merge bb7d51fd6bdada67d02f646503c02e6064b8090a, feature publicada en e09dffe. Rama de sitio creada desde ese dev: feature/sitio-publico-cierre. Conservados componentes/commits del equipo; se completó la Parte A pendiente con DOM/Actividad/filtros/formulario local, estilo existente e ilustración explícitamente no fotográfica. FE-ADMIN-01/RN8 se postergaron por decisión humana; SQL reubicado en database/propuestas, sin ejecutarlo ni agregar seguridad parcial.
+
+Pruebas ACTUALES de Codex: backend 111/0/0/0 sin MySQL, React 58 aprobadas/0 fallidas/0 omitidas y build exit 0; sitio 25 aprobadas/0 fallos/omisiones, sintaxis JS correcta y seis recursos HTTP 200 desde servidor temporal ya detenido. GET reales de backend/Secretaría/React/API/socio/ACTIVAS/detalle comprobados; API 400/404 y preflight CORS para localhost:3000 comprobados. No se ejecutaron escrituras HTTP, SQL, migraciones, limpieza o runner Postman. 201/204/409 son evidencia MockMvc; no nuevas respuestas de escritura real. Los 128 autenticados previos quedan como antecedente anterior al fixture, no resultado nuevo.
+
+El formulario público valida en navegador y comunica que no se envía/guarda: no inventar recepción MySQL. Requisitos/estados y ese límite en requerimientos.md; Parte A en sitio-publico.md. Los seis casos de sistema tienen esperado, observado automático auténtico y E2E pendiente en pruebas-sistema.md. Capturas y revisión móvil/consola/teclado reales siguen pendientes. Veredicto técnico: LISTO CON VALIDACIONES MANUALES PENDIENTES; no se certifica exposición pública ni se ocultaría una interpretación docente adicional de RF3.
+
+Material de entrega: cierre-desarrollo.md y preparacion-informe-defensa.md, estructura para PDF 8–12 páginas y futura guía integral, no un documento de estudio enorme ni capturas/PDF ficticios. AH-1–AH-3/IH-MIG-01 y propuesta de alternativa SQL son intervenciones reales con alcance operativo/diseño; no prueban automáticamente tres ediciones manuales de Java/React. Codex implementó este JS/tests/docs; no se atribuye al usuario como fuente manual. Los hashes finales efectivos del sitio se registrarán al ejecutar Git; no anticipar merge/push en este texto.
