@@ -9,7 +9,7 @@ Trabajo Práctico Integrador · Club Social y Deportivo Los Algarrobos
 
 **Grupo:** N — pendiente de confirmar. **Fecha de entrega:** pendiente. Fecha de elaboración documental: 8 de noviembre de 2026.
 
-**Versión de aplicación examinada:** dev `4570207cc4906fdc4863c3ba0c27741e0e32cfd9`.
+**Versión de aplicación examinada:** dev `874c6bb3e3346f2a55720c799d6da69300643750`.
 
 **Estado:** borrador académico revisable. Faltan datos de portada, capturas auténticas y validaciones manuales. No constituye certificación de producción ni entrega definitiva.
 
@@ -29,7 +29,7 @@ La solución tiene tres interfaces: sitio informativo HTML/CSS/JavaScript, Secre
 
 Se contrastaron el enunciado, las matrices de requisitos, los registros de incidentes y los archivos finales de dev. Las fuentes primarias de implementación son `database/schema.sql`, las entidades y servicios Java, los controladores, `app-socios/src/servicios/api.js` y `sitio-publico/js/script.js`. El historial Git permite localizar cambios; el nombre del autor de un commit no acredita que haya escrito personalmente todo su contenido cuando intervino Codex.
 
-Se distinguen implementación, prueba automática, confirmación humana, validación pendiente y propuesta futura. Los resultados de la etapa anterior se citan como antecedentes; en esta tarea documental no se ejecutaron SQL ni nuevas pruebas funcionales. El código prevalece sobre párrafos históricos de documentos que describen etapas anteriores.
+Se distinguen implementación, prueba automática, confirmación humana, validación pendiente y propuesta futura. Los resultados de la etapa anterior se citan como antecedentes; en esta tarea documental no se ejecutaron SQL ni nuevas pruebas funcionales. El código prevalece sobre párrafos históricos de documentos que describen etapas anteriores. La base actual incorpora el merge UI/UX 874c6bb: CSS y presentación Thymeleaf, sin cambios en servicios, API, JavaScript funcional ni SQL. Las pruebas citadas preceden a ese ajuste visual; su revisión visual y regresión posterior no se acreditan en este informe.
 
 Fuentes de lectura ampliada: `Docs/cierre-desarrollo.md`, `Docs/requerimientos.md`, `Docs/pruebas-sistema.md`, `Docs/bitacora-ia.md` y `Docs/registro-trabajo.md`. La guía integral complementaria explica archivos, recorridos y preguntas de defensa sin aumentar la extensión de este informe.
 

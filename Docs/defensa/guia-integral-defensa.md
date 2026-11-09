@@ -2,7 +2,7 @@
 
 Universidad Siglo 21 · Taller de Construcción de Software. Elaboración: 8 de noviembre de 2026. Destinatarios: Hernán, Mateo, Matías y Fernando; nombres completos restantes, grupo y fecha de entrega pendientes por decisión del usuario.
 
-Versión de aplicación estudiada: dev `4570207cc4906fdc4863c3ba0c27741e0e32cfd9`. Repositorio: https://github.com/hernandanielzamora/TPIntegradorSocioClub. Este documento fue generado por Codex a solicitud del usuario y requiere lectura del equipo. No acredita por sí mismo estudio, exposición o revisión humana realizados.
+Versión de aplicación estudiada: dev `874c6bb3e3346f2a55720c799d6da69300643750`. Repositorio: https://github.com/hernandanielzamora/TPIntegradorSocioClub. La versión incluye el ajuste UI/UX 76fce8e y su merge 874c6bb, revisados por diff: estilos, indicadores y presentación de templates, sin nuevas reglas/API/SQL. Los resultados de tests citados preceden a ese ajuste; su validación visual y regresión posterior siguen sin acreditarse aquí. Este documento fue generado por Codex a solicitud del usuario y requiere lectura del equipo. No acredita por sí mismo estudio, exposición o revisión humana realizados.
 
 ## Cómo estudiar y localizar las fuentes
 

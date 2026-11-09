@@ -1,6 +1,6 @@
 # Guion editable de presentación — SocioClub
 
-Versión: dev 4570207. Distribución propuesta para Hernán, Mateo, Matías y Fernando; no implica autoría histórica ni roles definitivos. Completar aportes personales solo con confirmación. Nombres completos, grupo y fecha siguen pendientes.
+Versión: dev 874c6bb, con UI/UX. Distribución propuesta para Hernán, Mateo, Matías y Fernando; no implica autoría histórica ni roles definitivos. Completar aportes personales solo con confirmación. Nombres completos, grupo y fecha siguen pendientes.
 
 ## Preparación antes del turno
 

@@ -1,6 +1,6 @@
 # Control documental — informe y defensa
 
-Revisión final: 9 de noviembre de 2026; trabajo iniciado el 8. Base: dev/origin/dev 4570207cc4906fdc4863c3ba0c27741e0e32cfd9, sincronizados al crear feature/documentacion-entrega-defensa. Solo documentación y recursos, sin cambios funcionales.
+Revisión final: 9 de noviembre de 2026; trabajo iniciado el 8. Base final autorizada: dev/origin/dev 874c6bb3e3346f2a55720c799d6da69300643750. La reconstrucción comenzó en 4570207; el usuario autorizó actualizarla al nuevo merge UI/UX y publicar feature/documentacion-entrega-defensa-revision. Solo documentación y recursos, sin cambios funcionales.
 
 ## Entregables existentes
 
@@ -52,3 +52,7 @@ El sistema sigue local, sin seguridad administrativa robusta, autorización ni C
 ## Git
 
 Publicación autorizada limitada a la rama documental, sin PR/merge ni cambios a main/dev. El hash y sincronización efectivos se comprueban después del commit y se informan al cierre; no se anticipan aquí. Revisar staging y diff --check antes de publicar, sin incluir herramientas .cache, logs o secretos.
+
+## Cambio concurrente de ramas y recuperación
+
+Durante el trabajo otra operación creó feature/mejora-ui-ux (76fce8e), desplazó la rama documental existente y fusionó UI/UX en dev/origin/dev (874c6bb). Codex no verificó nuevamente la rama justo antes de su commit y 06e6e8d quedó temporalmente en dev local. No se publicó. Se preservó en feature/documentacion-entrega-defensa-revision y se restauró únicamente dev local al padre 874c6bb mediante actualización de referencia con comprobación del hash previo, sin borrar trabajo ni alterar el merge externo. dev quedó coincidente con origin/dev. El usuario aprobó actualizar la documentación a 874c6bb y publicar la rama de revisión. No se atribuye a esta tarea la creación o integración de UI/UX, ni se reescribe su historia.

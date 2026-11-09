@@ -1,6 +1,6 @@
 # Recursos documentales y exportación
 
-Tres diagramas originales basados en el código de dev 4570207: arquitectura, modelo ER y secuencia de inscripción. SVG es la fuente vectorial; PNG se incorpora en Markdown/DOCX/PDF. Son diagramas explicativos, no capturas de ejecución.
+Tres diagramas originales basados en el código de dev 874c6bb: arquitectura, modelo ER y secuencia de inscripción. SVG es la fuente vectorial; PNG se incorpora en Markdown/DOCX/PDF. Son diagramas explicativos, no capturas de ejecución.
 
 El exportador `generar_documentos.py` solo lee documentos y escribe estos recursos y los entregables de Docs/entrega y Docs/defensa. No abre .env, ejecuta SQL, importa el backend ni modifica dependencias de las aplicaciones. Usa Arial/Consolas de Windows; las fuentes se incrustan en PDF. En otro sistema hay que adaptar su ruta.
 

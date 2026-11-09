@@ -149,7 +149,7 @@ def blocks(md):
 def footer(canvas,doc):
     canvas.setStrokeColor(colors.HexColor(GREEN));canvas.line(43,36,A4[0]-43,36)
     canvas.setFont('Body',8);canvas.setFillColor(colors.HexColor(GREEN))
-    canvas.drawString(43,23,'SocioClub · versión dev 4570207 · borrador académico')
+    canvas.drawString(43,23,'SocioClub · versión dev 874c6bb · borrador académico')
     canvas.drawRightString(A4[0]-43,23,str(doc.page))
 
 
@@ -170,7 +170,7 @@ def export(md_path,pdf_path,docx_path,report=False):
     normal.paragraph_format.space_after=Pt(7)
     for h in ['Title','Heading 1','Heading 2','Heading 3']:
         doc.styles[h].font.name='Arial';doc.styles[h].font.color.rgb=RGBColor.from_string('18533F')
-    f=sec.footer.paragraphs[0];f.text='SocioClub · dev 4570207 · borrador académico · '
+    f=sec.footer.paragraphs[0];f.text='SocioClub · dev 874c6bb · borrador académico · '
     fld=OxmlElement('w:fldSimple');fld.set(qn('w:instr'),'PAGE');f._p.append(fld)
     story=[];width=A4[0]-86
     for typ,value in blocks(md):
