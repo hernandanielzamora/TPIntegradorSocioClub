@@ -3,7 +3,7 @@
 <head th:replace="~{fragments/comunes :: cabecera('Inscripciones')}">
 </head>
 <body>
-<header th:replace="~{fragments/comunes :: encabezado}">
+<header th:replace="~{fragments/comunes :: encabezado('inscripciones')}">
 </header>
 <main id="contenido">
 <div th:replace="~{fragments/comunes :: mensajes}">
@@ -33,7 +33,7 @@
 </select>
 </div>
 <button>Filtrar</button>
-<a th:href="@{/secretaria/inscripciones}">Limpiar</a>
+<a class="enlace-secundario" th:href="@{/secretaria/inscripciones}">Limpiar</a>
 </form>
 <p class="vacio" th:if="${pagina.empty}">No hay inscripciones para estos filtros.</p>
 <div class="tabla" th:unless="${pagina.empty}">
@@ -50,21 +50,21 @@
 </thead>
 <tbody>
 <tr th:each="i : ${pagina.content}">
-<td th:text="${i.socio}">
+<td data-etiqueta="Socio" th:text="${i.socio}">
 </td>
-<td th:text="${i.actividad}">
+<td data-etiqueta="Actividad" th:text="${i.actividad}">
 </td>
-<td th:text="${i.fecha}">
+<td data-etiqueta="Fecha" th:text="${i.fecha}">
 </td>
-<td>
-<span class="estado" th:text="${i.estado}">
+<td data-etiqueta="Estado">
+<span class="estado" th:classappend="${'estado-' + i.estado}" th:text="${i.estado}">
 </span>
 </td>
-<td>
+<td data-etiqueta="Acciones" class="celda-acciones">
 <form th:if="${i.estado.name() == 'ACTIVA'}" method="post" th:action="@{/secretaria/inscripciones/{id}/baja(id=${i.id})}">
 <button class="secundario" th:aria-label="${'Dar de baja inscripción de ' + i.socio + ' en ' + i.actividad}">Dar de baja</button>
 </form>
-<span th:if="${i.estado.name() == 'BAJA'}">Historial conservado</span>
+<span class="texto-suave" th:if="${i.estado.name() == 'BAJA'}">Historial conservado</span>
 </td>
 </tr>
 </tbody>

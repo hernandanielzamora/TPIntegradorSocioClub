@@ -3,7 +3,7 @@
 <head th:replace="~{fragments/comunes :: cabecera('Socio')}">
 </head>
 <body>
-<header th:replace="~{fragments/comunes :: encabezado}">
+<header th:replace="~{fragments/comunes :: encabezado('socios')}">
 </header>
 <main id="contenido">
 <div th:replace="~{fragments/comunes :: mensajes}">
@@ -64,7 +64,7 @@
 </div>
 <div class="acciones">
 <button>Guardar socio</button>
-<a th:href="@{/secretaria/socios}">Cancelar</a>
+<a class="enlace-secundario" th:href="@{/secretaria/socios}">Cancelar</a>
 </div>
 </form>
 </main>

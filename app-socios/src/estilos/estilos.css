@@ -770,3 +770,71 @@ select:focus-visible {
     position: static;
   }
 }
+
+/* =========================================================
+   Mejoras de presentación (UI/UX). Solo estilos: los
+   componentes, el estado y las llamadas a la API no cambian.
+   ========================================================= */
+
+/* El precio y "/ mes" quedan siempre en la misma línea; si no entra
+   todo en una fila, el botón pasa debajo en vez de salirse de la tarjeta. */
+.precio {
+  white-space: nowrap;
+}
+
+.tarjeta-pie {
+  flex-wrap: wrap;
+}
+
+.tarjeta-pie .boton {
+  padding-inline: 1.15rem;
+  flex-shrink: 0;
+}
+
+/* Tarjetas del catálogo: leve elevación al pasar el mouse. */
+.tarjeta-actividad {
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.tarjeta-actividad:not(.sin-cupo):hover {
+  transform: translateY(-2px);
+  border-color: #bcd0bf;
+  box-shadow: 0 8px 24px rgba(24, 60, 46, 0.1);
+}
+
+/* Ingreso: tarjeta centrada en la pantalla con una franja de color arriba. */
+.pagina-ingreso {
+  min-height: 60vh;
+  align-items: center;
+  padding-block: 2rem;
+}
+
+.tarjeta-ingreso {
+  border-top: 4px solid var(--verde-medio);
+}
+
+/* Mensajes de carga ("Cargando…", "Recuperando identificación…"). */
+[role="status"]:not(.mensaje) {
+  color: var(--texto-suave);
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tarjeta-actividad,
+  .tarjeta-actividad:not(.sin-cupo):hover {
+    transition: none;
+    transform: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .tarjeta-actividad:not(.sin-cupo):hover {
+    transform: none;
+  }
+
+  .pagina-ingreso {
+    min-height: 0;
+    padding-top: 1rem;
+  }
+}

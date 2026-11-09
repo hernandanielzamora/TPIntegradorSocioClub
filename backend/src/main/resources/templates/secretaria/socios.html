@@ -3,7 +3,7 @@
 <head th:replace="~{fragments/comunes :: cabecera('Socios')}">
 </head>
 <body>
-<header th:replace="~{fragments/comunes :: encabezado}">
+<header th:replace="~{fragments/comunes :: encabezado('socios')}">
 </header>
 <main id="contenido">
 <div th:replace="~{fragments/comunes :: mensajes}">
@@ -21,7 +21,7 @@
 <input id="apellido" name="apellido" th:value="${apellido}" maxlength="80">
 </div>
 <button>Buscar</button>
-<a th:href="@{/secretaria/socios}">Limpiar</a>
+<a class="enlace-secundario" th:href="@{/secretaria/socios}">Limpiar</a>
 </form>
 <p th:if="${pagina.empty}" class="vacio">No se encontraron socios con esa búsqueda.</p>
 <div class="tabla" th:unless="${pagina.empty}">
@@ -39,30 +39,30 @@
 </thead>
 <tbody>
 <tr th:each="s : ${pagina.content}">
-<td>
+<td data-etiqueta="Socio / DNI">
 <strong th:text="${s.datos.apellido + ', ' + s.datos.nombre}">
 </strong>
 <br>
 <span th:text="${s.datos.dni}">
 </span>
 </td>
-<td th:text="${s.datos.fechaNacimiento}">
+<td data-etiqueta="Nacimiento" th:text="${s.datos.fechaNacimiento}">
 </td>
-<td>
+<td data-etiqueta="Contacto">
 <span th:text="${s.datos.email}">
 </span>
 <br>
 <span th:text="${s.datos.telefono}">
 </span>
 </td>
-<td>
-<span class="estado" th:text="${s.datos.estadoCuota}">
+<td data-etiqueta="Cuota">
+<span class="estado" th:classappend="${'estado-' + s.datos.estadoCuota}" th:text="${s.datos.estadoCuota}">
 </span>
 </td>
-<td th:text="${s.estadoSocio}"></td>
-<td>
-<a th:href="@{/secretaria/socios/{id}/editar(id=${s.id})}" th:aria-label="${'Editar socio ' + s.datos.apellido}">Editar</a>
-<a th:if="${s.estadoSocio.name() == 'ACTIVO'}" th:href="@{/secretaria/socios/{id}/baja(id=${s.id})}">Dar de baja</a>
+<td data-etiqueta="Vigencia"><span class="estado" th:classappend="${'estado-' + s.estadoSocio}" th:text="${s.estadoSocio}"></span></td>
+<td data-etiqueta="Acciones" class="celda-acciones">
+<a class="accion" th:href="@{/secretaria/socios/{id}/editar(id=${s.id})}" th:aria-label="${'Editar socio ' + s.datos.apellido}">Editar</a>
+<a class="accion accion-peligro" th:if="${s.estadoSocio.name() == 'ACTIVO'}" th:href="@{/secretaria/socios/{id}/baja(id=${s.id})}">Dar de baja</a>
 </td>
 </tr>
 </tbody>

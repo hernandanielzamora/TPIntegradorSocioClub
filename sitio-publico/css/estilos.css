@@ -458,3 +458,142 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="-1"]
   .filtros-catalogo > button { margin-top: 0; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* =========================================================
+   Mejoras de presentación (UI/UX). Solo estilos: el catálogo,
+   los filtros y la validación siguen funcionando igual.
+   ========================================================= */
+
+/* Filtros del catálogo dentro de una tarjeta clara */
+.filtros-catalogo {
+  padding: 1.25rem;
+  background: var(--blanco);
+  border: 1px solid #dce6dc;
+  border-radius: 0.9rem;
+  box-shadow: 0 2px 10px rgba(24, 60, 46, 0.05);
+}
+
+.filtros-catalogo input {
+  min-height: 3rem;
+}
+
+#resultado-catalogo {
+  color: var(--texto-suave);
+  font-weight: 600;
+}
+
+/* Tarjeta de actividad: datos en dos columnas y la cuota destacada */
+.tarjeta-actividad {
+  display: flex;
+  flex-direction: column;
+  padding: 1.4rem;
+  box-shadow: 0 2px 10px rgba(24, 60, 46, 0.05);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.tarjeta-actividad:hover {
+  transform: translateY(-2px);
+  border-color: #bcd0bf;
+  box-shadow: 0 8px 24px rgba(24, 60, 46, 0.1);
+}
+
+.tarjeta-actividad > .etiqueta {
+  align-self: flex-start;
+  margin: 0 0 0.6rem;
+  padding: 0.2rem 0.65rem;
+  background: var(--verde-claro);
+  border-radius: 999px;
+  letter-spacing: 0.06em;
+}
+
+.tarjeta-actividad h3 {
+  margin: 0 0 0.9rem;
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+
+.tarjeta-actividad dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.35rem 0;
+  margin: 0 0 1.1rem;
+  font-size: 0.95rem;
+}
+
+.tarjeta-actividad dt {
+  font-weight: 500;
+  color: var(--texto-suave);
+}
+
+.tarjeta-actividad dd {
+  margin: 0;
+  padding-left: 1rem;
+  font-weight: 600;
+  color: var(--verde-oscuro);
+}
+
+/* La última fila del detalle es la cuota mensual. */
+.tarjeta-actividad dt:last-of-type,
+.tarjeta-actividad dd:last-of-type {
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e3ebe3;
+}
+
+.tarjeta-actividad dt:last-of-type {
+  align-self: center;
+}
+
+.tarjeta-actividad dd:last-of-type {
+  font-size: 1.35rem;
+  font-weight: 800;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.tarjeta-actividad .boton {
+  margin-top: auto;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+}
+
+.estado-vacio {
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  color: var(--texto-suave);
+  background: var(--blanco);
+  border: 1px dashed #aabdaf;
+  border-radius: 0.9rem;
+}
+
+/* Celular: menú en una sola fila, más liviano que la lista vertical */
+@media (max-width: 40rem) {
+  .encabezado-contenido {
+    gap: 0.75rem;
+    min-height: 0;
+  }
+
+  .navegacion {
+    flex-direction: row;
+    gap: 0.25rem;
+  }
+
+  .navegacion a {
+    flex: 1 1 auto;
+    text-align: center;
+    padding: 0.55rem 0.5rem;
+    border-radius: 999px;
+  }
+
+  .tarjeta-actividad:hover {
+    transform: none;
+  }
+}
+
+/* Si algún campo quedó marcado con error, el mensaje final se muestra como error y no en verde. */
+.formulario-preinscripcion:has([aria-invalid="true"]) #resultado-preinscripcion:not(:empty) {
+  background: #fbece8;
+  border-left-color: #a83232;
+  color: #7c2c1f;
+}
