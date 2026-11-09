@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="600" height="350" preserveAspectRatio="xMinYMin meet" viewBox="0 0 600 350" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="600" height="350"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-350)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="5" y="245" width="180" height="90" rx="6" ry="0" style="stroke: rgb(9%,32%,24%); stroke-linecap: butt; stroke-width: 1; fill: rgb(93%,96%,94%); fill-rule: evenodd;"/>
+			<text x="59.0029296875" y="315" style="font-family: Bold; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,630) scale(1,-1)">Sitio público</text>
+			<text x="56.9384765625" y="296" style="font-family: Body; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,592) scale(1,-1)">HTML / CSS / JS</text>
+			<text x="33.583984375" y="280" style="font-family: Body; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,560) scale(1,-1)">Catálogo inicial y formulario</text>
+			<text x="49.69482421875" y="264" style="font-family: Body; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,528) scale(1,-1)">Solo validación local</text>
+			<rect x="205" y="245" width="180" height="90" rx="6" ry="0" style="stroke: rgb(9%,32%,24%); stroke-linecap: butt; stroke-width: 1; fill: rgb(93%,96%,94%); fill-rule: evenodd;"/>
+			<text x="265.978515625" y="315" style="font-family: Bold; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,630) scale(1,-1)">Secretaría</text>
+			<text x="256.37939453125" y="296" style="font-family: Body; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,592) scale(1,-1)">MVC / Thymeleaf</text>
+			<text x="254.1552734375" y="280" style="font-family: Body; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,560) scale(1,-1)">HTML del servidor</text>
+			<rect x="405" y="245" width="190" height="90" rx="6" ry="0" style="stroke: rgb(9%,32%,24%); stroke-linecap: butt; stroke-width: 1; fill: rgb(93%,96%,94%); fill-rule: evenodd;"/>
+			<text x="478.337890625" y="315" style="font-family: Bold; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,630) scale(1,-1)">Mi Club</text>
+			<text x="451.36962890625" y="296" style="font-family: Body; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,592) scale(1,-1)">React / Router / Axios</text>
+			<text x="458.3251953125" y="280" style="font-family: Body; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,560) scale(1,-1)">JSON sobre HTTP</text>
+			<rect x="205" y="125" width="390" height="85" rx="6" ry="0" style="stroke: rgb(9%,32%,24%); stroke-linecap: butt; stroke-width: 1; fill: rgb(93%,96%,94%); fill-rule: evenodd;"/>
+			<text x="338.9951171875" y="190" style="font-family: Bold; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,380) scale(1,-1)">Backend Spring Boot</text>
+			<text x="297.7490234375" y="171" style="font-family: Body; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,342) scale(1,-1)">Controller MVC / REST → Service compartido</text>
+			<text x="316.08154296875" y="155" style="font-family: Body; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,310) scale(1,-1)">Repository → JPA / Hibernate / JDBC</text>
+			<path d="M 295,245 L 295,210 Z" style="stroke: rgb(9%,32%,24%); stroke-linecap: butt; stroke-width: 1.4;"/>
+			<polygon points="295 210, 291 217, 299 217" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(9%,32%,24%); fill-rule: evenodd;"/>
+			<path d="M 500,245 L 500,210 Z" style="stroke: rgb(9%,32%,24%); stroke-linecap: butt; stroke-width: 1.4;"/>
+			<polygon points="500 210, 496 217, 504 217" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(9%,32%,24%); fill-rule: evenodd;"/>
+			<rect x="260" y="5" width="280" height="80" rx="6" ry="0" style="stroke: rgb(9%,32%,24%); stroke-linecap: butt; stroke-width: 1; fill: rgb(93%,96%,94%); fill-rule: evenodd;"/>
+			<text x="353.001953125" y="65" style="font-family: Bold; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,130) scale(1,-1)">MySQL / InnoDB</text>
+			<text x="353.59130859375" y="46" style="font-family: Body; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,92) scale(1,-1)">Desarrollo: socioclub</text>
+			<text x="326.62109375" y="30" style="font-family: Body; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,60) scale(1,-1)">Ensayo separado: socioclub_test</text>
+			<path d="M 400,125 L 400,85 Z" style="stroke: rgb(9%,32%,24%); stroke-linecap: butt; stroke-width: 1.4;"/>
+			<polygon points="400 85, 396 92, 404 92" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(9%,32%,24%); fill-rule: evenodd;"/>
+			<text x="7" y="130" style="font-family: Body; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,260) scale(1,-1)">El sitio no envía preinscripciones.</text>
+			<text x="7" y="112" style="font-family: Body; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,224) scale(1,-1)">CORS no es autenticación.</text>
+		</g>
+	</g>
+</svg>

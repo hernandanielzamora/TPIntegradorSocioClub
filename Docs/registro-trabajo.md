@@ -1,5 +1,13 @@
 # Registro de trabajo manual
 
+## Prompt 23 — documentación de entrega y defensa — 2026-11-08/09
+
+El usuario solicitó informe, guía integral y guion desde dev 4570207, en rama documental, y decidió dejar nombres completos restantes/grupo/fecha pendientes. Codex realizó reconstrucción técnica, redacción, diagramas y exportación; no se atribuye al equipo edición manual de esos archivos ni estudio ya realizado.
+
+Entregables: Docs/entrega/informe-tecnico-final.md/.docx y TPI_SocioClub_GrupoN.pdf, 11 páginas; Docs/defensa/guia-integral-defensa.md/.docx/.pdf, 32 páginas, veinte módulos y sesenta preguntas/repreguntas; guion y recursos. Ver entrega/control-calidad.md. Validación documental: dieciocho extractos reales, PDF visual/geométrico y DOCX ZIP/XML. Word gráfico y revisión humana final pendientes.
+
+Sin cambios en backend, React, sitio o SQL; sin nuevas pruebas funcionales ni operaciones de datos. .env ignorado, fuera del índice y no leído. Se precisó referencia interna D/C y criterio literal de ajustes humanos, sin garantizar valoración docente. Capturas, seis casos integrales y runner Postman pendientes. Solo se publicará feature/documentacion-entrega-defensa tras auditoría, sin merge/PR ni modificación de main/dev; hashes efectivos se informan al cierre.
+
 > Cierre actualizado: el usuario confirmó la carga manual mediante SQL convencional y el ensayo correcto desde Secretaría en testing:8081. Los procedimientos/delimitadores fallidos se conservan al final como historial, NO como instrucciones vigentes. HTTP 409/codigo, idempotencia, conservación exacta, cupos finales y Postman siguen pendientes de evidencia específica. No repetir MySQL/verify que exige testing vacío: ahora contiene el fixture.
 > Actualización vigente — 2026-11-08: el usuario confirmó respaldos independientes mediante mysqldump, migración manual de socioclub_test, Maven verify con 128 aprobadas/0 fallos/0 errores/0 omitidas y migración posterior autorizada de socioclub mediante Workbench. Codex corroboró los diez XML, sin ejecutar Maven ni SQL. No hay evidencia de restauración de prueba. Auditoría detallada de datos de desarrollo, arranque/HTTP posteriores y recorrido manual de baja siguen pendientes. Procedimiento vigente: [validacion-manual-baja-socios.md](validacion-manual-baja-socios.md). No volver a ejecutar la migración para seguir ese procedimiento.
 

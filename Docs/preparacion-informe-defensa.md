@@ -1,5 +1,7 @@
 # Inventario para informe y futura guía integral de defensa
 
+> Actualización 2026-11-09: existen [informe](entrega/informe-tecnico-final.md), [guía](defensa/guia-integral-defensa.md) y [guion](defensa/guion-presentacion.md), con DOCX/PDF. Informe PDF 11 páginas, guía 32; [control y pendientes](entrega/control-calidad.md). El inventario siguiente se conserva como preparación histórica. Faltan portada completa, capturas y validaciones manuales.
+
 No es todavía la guía de estudio extensa. Redactarla después del cierre con el hash final de dev, sin anticipar contribuciones o capturas.
 
 | Temas de la futura guía (22) | Fuentes verificables y material a reunir |

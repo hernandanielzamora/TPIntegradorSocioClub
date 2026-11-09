@@ -1,5 +1,15 @@
 # Bitácora de uso de IA
 
+## Prompt 23 — informe y guía integral — 2026-11-08/09
+
+Solicitud humana: informe 8–12 páginas, guía de veinte módulos y guion desde dev final, sin cambiar aplicación/base/main ni integrar. El usuario decidió dejar pendientes grupo, fecha y nombres completos restantes. Codex creó feature/documentacion-entrega-defensa desde dev/origin/dev 4570207 sincronizados; reconstruyó implementación con fuentes y original completo de catorce páginas.
+
+Resultado generado por Codex: informe MD/DOCX/PDF de 11 páginas, guía MD/DOCX/PDF de 32 páginas con sesenta preguntas/repreguntas, guion editable y tres diagramas SVG/PNG. Herramientas documentales aisladas, sin cambiar dependencias de aplicación. Dieciocho extractos cotejados con fuente; PDF renderizado/revisado en mosaico y tablas ampliadas; controles geométricos y DOCX ZIP/XML correctos. Word gráfico no se abrió. Evidencia y límites en entrega/control-calidad.md.
+
+Ajuste documental de Codex: aclaró inconsistencia interna Anexo D/C y que el original pide errores/ajustes detectados, sin exigir literalmente tres ediciones manuales de código. No promete aceptación de AH ni atribuye cambios automáticos a personas. Se distingue código final de párrafos históricos de API/React/migración. No consta lectura/corrección humana de los documentos finales todavía; la intervención humana de esta tarea fue solicitud y decisión de portada pendiente.
+
+No se ejecutaron SQL, Maven, tests funcionales ni runner. Se citan 128 históricos/111 sin MySQL/58 React/25 sitio sin sumar ni registrar nueva corrida. AH-1–AH-3/IH-MIG-01 mantienen alcance. Capturas y E2E pendientes: no se declara listo para entrega. Commit/push de rama documental solo tras auditoría; sin merge ni PR, con hash efectivo al finalizar.
+
 > Cierre actualizado: el usuario confirmó la carga manual mediante SQL convencional y el ensayo correcto desde Secretaría en testing:8081. Los procedimientos/delimitadores fallidos se conservan al final como historial, NO como instrucciones vigentes. HTTP 409/codigo, idempotencia, conservación exacta, cupos finales y Postman siguen pendientes de evidencia específica. No repetir MySQL/verify que exige testing vacío: ahora contiene el fixture.
 > Actualización vigente — 2026-11-08: el usuario confirmó respaldos independientes mediante mysqldump, migración manual de socioclub_test, Maven verify con 128 aprobadas/0 fallos/0 errores/0 omitidas y migración posterior autorizada de socioclub mediante Workbench. Codex corroboró los diez XML, sin ejecutar Maven ni SQL. No hay evidencia de restauración de prueba. Auditoría detallada de datos de desarrollo, arranque/HTTP posteriores y recorrido manual de baja siguen pendientes. Procedimiento vigente: [validacion-manual-baja-socios.md](validacion-manual-baja-socios.md). No volver a ejecutar la migración para seguir ese procedimiento.
 
