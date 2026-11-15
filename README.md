@@ -6,19 +6,17 @@ Sistema destinado al Club Social y Deportivo Los Algarrobos, Córdoba.
 
 ## Estado actual del proyecto
 
-**Candidato de entrega — NO LISTO POR UN REQUISITO BLOQUEANTE.** RF3 valida datos pero no recibe ni almacena preinscripciones; se necesita resolver la recepción persistente o una aclaración docente verificable. Ver [propuesta mínima](Docs/entrega/rf3-decision-pendiente.md).
+**LISTO PARA ENTREGAR en lo técnico, con salvedad académica de participación.** RF1–RF10 y RN1–RN7 implementados y verificados. RF3 guarda en MySQL y muestra solicitudes paginadas en **`/secretaria/preinscripciones`**, accesible desde el panel y el menú. [Contrato y migración RF3](Docs/preinscripciones.md).
 
-**Grupo 3:** Hernán Zamora, Matias Jure, Mateo Hernandez, Fernando Oliva y Joaquín Mazza. Datos confirmados por el usuario; se omite la fecha de entrega por su indicación.
+**Grupo 3:** Hernán Zamora, Matias Jure, Mateo Hernandez, Fernando Oliva y Joaquín Mazza. Sin fecha de entrega por indicación del usuario. El usuario confirmó que no hubo aportes de Fernando y Joaquín y pidió continuar; el historial solo acredita a los otros tres. No se crean commits ni autorías ficticias. Es una salvedad frente al requisito de participación de todos.
 
-El sitio público tiene un nuevo diseño responsivo en sus tres páginas, con ilustración original, catálogo dinámico, filtros y formulario accesible. Secretaría y React conservan la arquitectura MVC/REST/JPA/MySQL y Axios. No se implementaron RN8 ni un panel administrativo React.
+Pruebas nuevas: **136 backend (18 MySQL), 58 React y 29 sitio**, todas aprobadas; JAR backend y build React correctos. **Seis casos de sistema aprobados** con Playwright/Chrome y API/MySQL reales. **Newman ejecutó las 25 peticiones Postman: 34 aserciones aprobadas, cero fallos.** Hay 33 capturas reales de las tres interfaces, incluida cuota, bajas y solicitudes recibidas. [Resultados](Docs/entrega/verificaciones.json).
 
-Nuevas ejecuciones del cierre: **111 pruebas backend sin MySQL, 58 React y 25 del sitio aprobadas**, build React exitoso; diez capturas auténticas de Chrome sin desbordes ni excepciones JS detectadas en las vistas inspeccionadas. Postman: 22 requests y nueve contratos revisados, runner NO ejecutado. PS01–PS06 E2E NO ejecutados. No se ejecutó SQL ni se alteraron bases. Los 128 backend históricos no se presentan como una ejecución nueva.
+El usuario eligió una instancia MySQL nueva aislada en **127.0.0.1:3308**. Solo allí se ejecutaron esquema, seed, migración 004 y fixtures. Las bases originales y MySQL84 no se modificaron. Para usar el nuevo backend en una base anterior, respaldar y aplicar **004_preinscripcion.sql**; Hibernate solo valida y no crea la tabla automáticamente. En una base nueva basta schema.sql.
 
-Archivos reales: [PDF de 10 páginas](Docs/entrega/TPI_SocioClub_Grupo3.pdf), [DOCX editable](Docs/entrega/informe-tecnico-final.docx), [checklist](Docs/entrega/checklist-final.md), [matriz](Docs/entrega/matriz-auditoria.md) y [resultados](Docs/entrega/verificaciones.json). La [guía del paquete](Docs/entrega/README.md) explica su regeneración y los pasos futuros para main. ZIP y manifest se generan en entrega-final/, excluida de Git.
+Entregables: [PDF final de 12 páginas](Docs/entrega/TPI_SocioClub_Grupo3.pdf), [DOCX editable](Docs/entrega/informe-tecnico-final.docx), [checklist](Docs/entrega/checklist-final.md), [matriz](Docs/entrega/matriz-auditoria.md) y [guía del paquete](Docs/entrega/README.md). ZIP y manifest se generan en entrega-final/, excluida de Git. El repositorio es público y se comprobó acceso anónimo. **Entregar la rama dev**; main no se actualizó y requiere autorización expresa.
 
-Pendientes: RF3, runner Postman, seis casos E2E, capturas de Secretaría y React con API, acceso del docente y acreditación de contribuciones de los cinco integrantes. Git contiene tres autores identificados; no se atribuyen commits de los dos restantes. main permanece sin actualizar y requiere autorización expresa.
-
-Uso académico LOCAL: identificación por DNI sin autenticación robusta, sin autorización administrativa ni CSRF. No hubo despliegue. Los documentos anteriores conservan antecedentes; la auditoría vigente de este cierre está en Docs/entrega/.
+Uso académico LOCAL: identificación por DNI y Secretaría sin autenticación robusta; no se desplegó el sistema ni se implementaron RN8 o panel administrativo React. Los documentos anteriores conservan antecedentes; la auditoría actual está en Docs/entrega/.
 
 ## Propósito
 
@@ -126,7 +124,7 @@ Abrir en el navegador:
 
 [http://localhost:5500/index.html](http://localhost:5500/index.html)
 
-Catálogo estático inicial, filtros disciplina/edad y validación local del formulario completos. El formulario no envía ni guarda datos. Para tests del sitio, después de npm.cmd ci en app-socios: node --test sitio-publico/tests/script.test.cjs.
+Catálogo inicial y filtros disciplina/edad completos. El formulario carga IDs reales de la API y guarda las solicitudes en MySQL; Secretaría las muestra en /secretaria/preinscripciones. Para tests del sitio, después de npm.cmd ci en app-socios: node --test sitio-publico/tests/script.test.cjs.
 
 Alternativa sin servidor:
 
@@ -136,7 +134,7 @@ Start-Process .\sitio-publico\index.html
 
 ### 2. Base MySQL y backend
 
-Bases existentes: no volver a ejecutar schema/seed ni migraciones para arrancar. Instalaciones nuevas: seguir [mysql-local.md](Docs/mysql-local.md) y [plan de migración](Docs/plan-migracion-estado-socio.md). Desarrollo usa socioclub/socioclub_app y testing socioclub_test/socioclub_tests; nunca root desde Spring. .env se completa localmente desde la plantilla, permanece ignorado y no se carga solo.
+Bases existentes: respaldar y aplicar 004_preinscripcion.sql antes del nuevo backend; no repetir schema/seed ni migraciones ya aplicadas. Instalaciones nuevas: seguir [mysql-local.md](Docs/mysql-local.md) y [plan de migración](Docs/plan-migracion-estado-socio.md). Desarrollo usa socioclub/socioclub_app y testing socioclub_test/socioclub_tests; nunca root desde Spring. .env se completa localmente desde la plantilla, permanece ignorado y no se carga solo.
 
 Terminal independiente, desde la raíz:
 
@@ -154,10 +152,10 @@ Si el servicio MySQL está detenido, iniciarlo desde Servicios de Windows o Star
 La base de testing contiene el fixture manual: NO ejecutar verify/MySQL tests que exigen vacío ni limpiarla para que pase. Para regresión segura, desde backend y sin cargar .env:
 
 ```powershell
-.\mvnw.cmd -B '-Dtest=ApiControllerTests,ApiConsultaServiceTests,SecretariaControllerTests,SecretariaServiceTests,SocioBajaServiceTests,InscripcionServiceTests,IntegridadModeloTests,SocioClubApplicationTests' test
+.\mvnw.cmd -B '-Dtest=PreinscripcionControllerTests,ApiControllerTests,ApiConsultaServiceTests,SecretariaControllerTests,SecretariaServiceTests,SocioBajaServiceTests,InscripcionServiceTests,IntegridadModeloTests,SocioClubApplicationTests' test
 ```
 
-Son 111 casos sin MySQL. Surefire carga Mockito como agente explícito en Java 25; no depende del autoacoplamiento al proceso Java. Los 128/0/0/0 históricos corresponden a la ejecución autenticada del usuario antes del fixture; no se reemplazan por esta selección.
+Son 118 casos sin MySQL. El cierre completo ejecutó 136 con MySQL aislado, incluyendo 18 de persistencia/concurrencia. Surefire carga Mockito como agente explícito en Java 25; no depende del autoacoplamiento al proceso Java. Los 128/0/0/0 históricos corresponden a la ejecución autenticada del usuario antes del fixture; no se reemplazan por esta selección.
 
 ### 3. Aplicación React
 
@@ -180,7 +178,7 @@ npm.cmd test -- --watchAll=false --runInBand
 npm.cmd run build
 ```
 
-58 pruebas actuales con Axios simulado solo en tests; no son una prueba completa en navegador/MySQL. build y node_modules están ignorados. No hay despliegue. Detener cada servidor con Ctrl+C.
+58 pruebas con Axios simulado solo en tests. Además se ejecutaron seis casos de sistema con Playwright sobre Axios/API/MySQL reales; ver los resultados de cierre. build y node_modules están ignorados. No hay despliegue. Detener cada servidor con Ctrl+C.
 ## Validación histórica de inicialización y límites
 
 Las siguientes comprobaciones son históricas (Prompt 01). Ver el resultado actual en [validación del modelo](Docs/validacion-modelo-datos.md):
@@ -212,7 +210,7 @@ No se ejecutó `npm audit fix --force`. Queda pendiente evaluar las dependencias
 
 Una compilación exitosa no acredita la seguridad de las dependencias ni el funcionamiento de las reglas de negocio.
 
-## Organización de ramas y flujo de trabajo
+## Organización de ramas y flujo histórico de trabajo
 
 El repositorio utiliza tres tipos de ramas con responsabilidades diferentes:
 
@@ -222,7 +220,7 @@ El repositorio utiliza tres tipos de ramas con responsabilidades diferentes:
 | `dev` | Rama de integración del trabajo en desarrollo. |
 | `feature/*` | Ramas de trabajo para implementar tareas o funcionalidades específicas. |
 
-### Flujo de trabajo
+### Flujo histórico; excepción autorizada para el cierre
 
 1. Partir de la rama `dev` actualizada para iniciar una tarea.
 2. Crear una rama `feature/*` para trabajar de forma aislada.
@@ -233,7 +231,7 @@ El repositorio utiliza tres tipos de ramas con responsabilidades diferentes:
 7. Revisar los cambios y resolver las observaciones antes de integrar.
 8. Mantener `main` como rama principal estable; no utilizarla como rama de trabajo cotidiana.
 
-Los cambios de cada tarea deben limitarse a los archivos necesarios. La integración mediante Pull Request permite revisar el trabajo antes de incorporarlo a `dev`.
+Los cambios de cada tarea deben limitarse a los archivos necesarios. En este cierre el usuario indicó no abrir PR e integrar directamente los cambios seguros a dev tras las pruebas. main requiere autorización expresa.
 
 La existencia y el estado efectivo de cada rama o Pull Request deben comprobarse en GitHub. Esta sección documenta el flujo de trabajo previsto; no afirma que todas las tareas o integraciones ya se hayan realizado.
 
@@ -246,17 +244,20 @@ La carpeta `Docs/` reúne el enunciado, las decisiones técnicas, los registros 
 - [Matriz RF1–RF10 y RN1–RN7](Docs/requerimientos.md): trazabilidad actual, evidencia y límites explícitos.
 - [Bitácora de IA — Anexo C](Docs/bitacora-ia.md): prompts, resultados, revisiones y correcciones reales.
 - [Registro de trabajo manual](Docs/registro-trabajo.md): intervenciones del grupo, decisiones, validaciones y commits asociados.
-- [Pruebas de sistema](Docs/pruebas-sistema.md): seis escenarios previstos, todavía sin ejecutar.
+- [Pruebas de sistema](Docs/pruebas-sistema.md): seis escenarios ejecutados y aprobados con evidencia real.
 - [Preparación de alojamiento gratuito](Docs/alojamiento.md): documentación sobre Cloudflare Pages, Render y Aiven; sin despliegue.
 - [Inventario de archivos](Docs/estructura.md): árbol detallado del proyecto.
 - [Resultados de validación](Docs/validacion-inicial.md): comprobaciones registradas durante la inicialización.
 
-## Pendientes
+## Estado de cierre y salvedades
 
-- **Bloqueantes:** ninguno detectado en las pruebas disponibles; aclarar el límite docente de RF3 si exige recepción remota adicional.
-- **Validaciones manuales:** seis casos de sistema, Postman por escenarios, móvil/teclado/consola y recorrido de escrituras con datos aprobados. No ejecutar suites MySQL de vacío en la base poblada.
-- **Entrega y defensa:** integrantes/número de grupo/contribuciones confirmadas, capturas reales, informe 8–12 páginas y revisión de evidencia de ajustes humanos de código. No inventar aportes.
-- **Mejoras futuras:** FE-ADMIN-01/RN8, seguridad y eventual despliegue; no son requisitos de cierre local. SQL de propuestas no debe ejecutarse.
+- **Código y validaciones:** RF3 persistido; seis casos E2E, Newman, automatizadas y capturas completos. Ver Docs/entrega/verificaciones.json.
+- **Participación:** solo Hernán, Matias y Mateo tienen aportes; el usuario confirmó la ausencia de aportes de Fernando y Joaquín y pidió continuar. Se registra sin inventar autoría.
+- **main:** sin actualizar por falta de autorización expresa; entregar dev.
+- **Dependencias:** auditoría actual con 37 vulnerabilidades (16 bajas, 8 moderadas, 13 altas, ninguna crítica). Se conserva CRA por consigna; no se aplicó fix --force ni se presenta el demo local como despliegue seguro.
+- **Entorno original:** intacto; para usar este backend allí corresponde respaldar y aplicar 004. El cierre usa MySQL nuevo 3308 elegido por el usuario.
+- **Mejoras futuras:** FE-ADMIN-01/RN8, autenticación y despliegue postergados; SQL 002/003 no ejecutados.
+
 ### Alojamiento y despliegue
 
 El despliegue todavía no se realizó.
@@ -275,9 +276,7 @@ Las vistas Thymeleaf se alojarán junto con el backend, no como frontend estáti
 
 ## Estado de las pruebas
 
-Los escenarios de prueba de sistema están documentados, pero no ejecutados. Los resultados deben registrarse únicamente después de realizar cada prueba y observar el comportamiento real del sistema.
-
-Las pruebas unitarias/MVC/RTL actuales sí cubren reglas y contratos, pero no sustituyen los casos E2E manuales. Los resultados históricos de inicialización no se presentan como pruebas de esta etapa.
+136 backend (18 MySQL), 58 React y 29 sitio aprobados. Seis casos de sistema reales aprobados; Newman ejecutó 25 peticiones y 34 aserciones, sin fallos. Playwright produjo 33 capturas de las tres interfaces. No se mezclan estos resultados con los antecedentes de inicialización.
 
 ## Mejoras futuras postergadas
 

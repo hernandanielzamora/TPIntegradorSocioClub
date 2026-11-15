@@ -1,0 +1,11 @@
+{
+  "http": 201,
+  "id": 3,
+  "cupoAntes": 1,
+  "cupoDespues": 1,
+  "visibleSecretaria": true,
+  "datos": "Persona ficticia de ensayo, correo example.invalid",
+  "verificadoPorSql": true,
+  "sociosSinCambios": 21,
+  "filasInscripcionSinCambios": 19
+}

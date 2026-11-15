@@ -1,0 +1,13 @@
+{
+  "corsPublico": {
+    "http": 200,
+    "origen": "http://localhost:5500"
+  },
+  "repositorioPublico": true,
+  "consultaAnonimaGitHub": true,
+  "capturasAdicionales": [
+    "secretaria-bandeja-legible.png",
+    "secretaria-panel-legible.png",
+    "sitio-formulario-legible.png"
+  ]
+}

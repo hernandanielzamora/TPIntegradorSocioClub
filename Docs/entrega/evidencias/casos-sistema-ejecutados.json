@@ -1,0 +1,148 @@
+{
+  "browser": "157.0.8103.51",
+  "instancia": "MySQL aislado 3308, API real 8080",
+  "casos": [
+    {
+      "id": "PS01",
+      "dni": "30222333",
+      "socioId": 2,
+      "actividadId": 1,
+      "regla": null,
+      "precondicion": "10 años, AL_DIA, cero ACTIVAS; Fútbol con plazas",
+      "http": 201,
+      "respuesta": {
+        "id": 22,
+        "socioId": 2,
+        "actividadId": 1,
+        "fechaInscripcion": "2026-11-15",
+        "estado": "ACTIVA",
+        "actividad": {
+          "id": 1,
+          "nombre": "Fútbol infantil",
+          "disciplina": "Fútbol",
+          "profesor": "Diego Ferreyra",
+          "dias": "Lun y Mié",
+          "horario": "18:00",
+          "edadMinima": 6,
+          "edadMaxima": 12,
+          "cupoMaximo": 40,
+          "cuotaMensual": 18000,
+          "cupoDisponible": 38
+        }
+      },
+      "activasAntes": 0,
+      "activasDespues": 1,
+      "cupoAntes": 39,
+      "cupoDespues": 38,
+      "resultado": "APROBADO",
+      "canal": "Navegador React → Axios → REST → servicios → MySQL"
+    },
+    {
+      "id": "PS02",
+      "dni": "80000001",
+      "socioId": 22,
+      "actividadId": 8,
+      "regla": "RN1",
+      "precondicion": "Socio adulto apto, sin ACTIVAS; Yoga con 15 de 15",
+      "http": 409,
+      "respuesta": {
+        "error": "La actividad no tiene cupo disponible",
+        "regla": "RN1",
+        "detalles": [],
+        "codigo": null
+      },
+      "activasAntes": 0,
+      "activasDespues": 0,
+      "cupoAntes": 0,
+      "cupoDespues": 0,
+      "resultado": "APROBADO",
+      "canal": "Botón deshabilitado + petición HTTP real Playwright"
+    },
+    {
+      "id": "PS03",
+      "dni": "30333444",
+      "socioId": 3,
+      "actividadId": 1,
+      "regla": "RN2",
+      "precondicion": "Fútbol ACTIVA previa, edad 11 y cupo libre",
+      "http": 409,
+      "respuesta": {
+        "error": "El socio ya está inscripto en esta actividad",
+        "regla": "RN2",
+        "detalles": [],
+        "codigo": null
+      },
+      "activasAntes": 1,
+      "activasDespues": 1,
+      "cupoAntes": 38,
+      "cupoDespues": 38,
+      "resultado": "APROBADO",
+      "canal": "Navegador React → Axios → REST → servicios → MySQL"
+    },
+    {
+      "id": "PS04",
+      "dni": "30111222",
+      "socioId": 1,
+      "actividadId": 1,
+      "regla": "RN3",
+      "precondicion": "Adulto de 25 años; Fútbol admite 6–12",
+      "http": 409,
+      "respuesta": {
+        "error": "La edad debe estar entre 6 y 12 años inclusive",
+        "regla": "RN3",
+        "detalles": [],
+        "codigo": null
+      },
+      "activasAntes": 1,
+      "activasDespues": 1,
+      "cupoAntes": 38,
+      "cupoDespues": 38,
+      "resultado": "APROBADO",
+      "canal": "Navegador React → Axios → REST → servicios → MySQL"
+    },
+    {
+      "id": "PS05",
+      "dni": "30555666",
+      "socioId": 5,
+      "actividadId": 4,
+      "regla": "RN4",
+      "precondicion": "ACTIVO/MOROSO; Natación apta y con cupo",
+      "http": 409,
+      "respuesta": {
+        "error": "Debe regularizar su cuota en secretaría",
+        "regla": "RN4",
+        "detalles": [],
+        "codigo": null
+      },
+      "activasAntes": 0,
+      "activasDespues": 0,
+      "cupoAntes": 28,
+      "cupoDespues": 28,
+      "resultado": "APROBADO",
+      "canal": "Navegador React → Axios → REST → servicios → MySQL"
+    },
+    {
+      "id": "PS06",
+      "dni": "30666777",
+      "socioId": 6,
+      "actividadId": 6,
+      "regla": "RN5",
+      "precondicion": "Tres ACTIVAS distintas; Ajedrez apta y con cupo",
+      "http": 409,
+      "respuesta": {
+        "error": "Alcanzó el máximo de 3 actividades",
+        "regla": "RN5",
+        "detalles": [],
+        "codigo": null
+      },
+      "activasAntes": 3,
+      "activasDespues": 3,
+      "cupoAntes": 16,
+      "cupoDespues": 16,
+      "resultado": "APROBADO",
+      "canal": "Navegador React → Axios → REST → servicios → MySQL"
+    }
+  ],
+  "bajaPosterior": "HTTP 200 y ACTIVAS vacías; conserva historial BAJA",
+  "errors": []
+}

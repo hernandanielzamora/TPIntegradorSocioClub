@@ -1,19 +1,24 @@
-# Evidencia visual auténtica
+# Evidencias auténticas del cierre
 
-Las diez PNG se obtuvieron con Chrome headless real mediante CDP contra servidores locales temporales. Se capturaron archivos actuales y el build React real, sin simular API o sesiones. Los servidores de captura se cerraron. `verificacion-navegador.json` registra URLs y tamaños: sin excepciones JavaScript ni desbordes horizontales en esas vistas. Esto no es una prueba completa de accesibilidad ni un recorrido E2E con MySQL.
+**33 PNG reales**, capturadas con Playwright y Chrome instalado. No se simularon API, sesiones ni datos de respuesta. Las personas, DNI y contactos de ensayo son ficticios; correos bajo example.invalid. Las ilustraciones SVG del sitio son recursos visuales, no fotos de instalaciones.
 
-- Sitio: inicio, catálogo, filtro Fútbol, formulario, errores y tres vistas móviles de 390 × 844.
-- React: ingreso y error RN7 con DNI vacío.
-- **No disponibles:** Secretaría, React autenticado, Mis actividades y cuota. Backend/MySQL no estaban activos al inspeccionar este entorno.
+- Público: inicio, catálogo, filtro, tarjeta, formulario, errores RN7, recepción con referencia y versiones móviles.
+- Secretaría: panel, socios, actividades, inscripciones, preinscripciones y vista móvil. Las versiones *-legible.png son capturas de elementos reales para el informe.
+- React: ingreso, RN7, catálogo, detalle, ACTIVAS, cuota, baja confirmada y móvil.
+- Sistema: ps01-sistema.png a ps06-sistema.png, con mensajes y estado reales.
 
-## Cómo completar lo que falta
+## Registros comprobables
 
-No ejecutar seed, migraciones ni suites MySQL para obtener capturas. Utilizar la base existente configurada por el equipo, con personas ficticias.
+- verificacion-navegador.json: URLs/dimensiones finales, sin desbordes ni excepciones JS.
+- rf3-recepcion.json: HTTP 201, referencia, consulta SQL, aparición en Secretaría y cupos conservados.
+- migracion-rf3.json: migración 004 aplicada dos veces sobre seed aislado, conteos conservados.
+- casos-sistema-ejecutados.json: seis recorridos reales, HTTP, ACTIVAS/cupos previos y posteriores.
+- newman-resultados.json: 25 peticiones, 34 aserciones, cero fallos, detalle por petición.
+- escenarios.json: datos ficticios e IDs de esta instancia; no asumir que sirven en otra base.
+- cors-y-acceso.json: OPTIONS HTTP del sitio y repositorio público consultable anónimamente.
 
-1. Iniciar MySQL con el procedimiento habitual del equipo. Desde `backend`, cargar `.\scripts\load-env.ps1` y ejecutar `.\mvnw.cmd '-Dspring-boot.run.arguments=--server.port=8080' spring-boot:run`. Las claves permanecen en `.env` local ignorado.
-2. En el navegador abrir `http://localhost:8080/secretaria`. Capturar a 1440 × 1000 el panel, listado/búsqueda de socios, actividades con cupos e inscripciones. Guardar como `secretaria-panel.png`, `secretaria-socios.png`, `secretaria-actividades.png`, `secretaria-inscripciones.png`.
-3. Desde `app-socios`, definir `$env:PORT='3000'` y `$env:REACT_APP_API_URL='http://localhost:8080/api'`, ejecutar `npm.cmd start`. Abrir `http://localhost:3000`, ingresar un DNI ficticio verificado del seed y capturar `react-catalogo.png`, `react-mis-actividades.png` y `react-cuota.png`. El ingreso por DNI es académico, no autenticación robusta.
-4. Recorrer las pruebas PS01–PS06 únicamente con datos y escrituras autorizados; anotar IDs, precondiciones, respuesta y estado posterior. Guardar evidencias y completar `Docs/pruebas-sistema.md`.
-5. Agregar las capturas y resultados al contenido de `herramientas/generar_informe.py`, regenerar y revisar el PDF. Reemplazar el aviso de evidencia pendiente solo cuando existan las imágenes reales.
+El usuario eligió una instancia MySQL nueva en 127.0.0.1:3308. Sus bases de ensayo no son las bases del servicio original MySQL84, que siguió detenido. Se crearon cuentas con claves aleatorias privadas bajo .cache ignorada; ningún secreto aparece en el paquete. No se ejecutaron SQL 002/003.
 
-No publicar credenciales, datos de personas reales, ventanas de configuración privada ni tokens. Las ilustraciones SVG del sitio son recursos gráficos del proyecto, no fotografías de instalaciones.
+PS01 y PS03–PS06 recorrieron React/Axios/backend/MySQL. PS02 verificó botón sin cupo deshabilitado y un POST HTTP real con Playwright. Tras los seis se ejecutó baja React real. Newman se ejecutó después con socios adicionales propios para alta/baja, conservando los escenarios de reglas.
+
+Las capturas reflejan distintos momentos reales del recorrido. Tres solicitudes de Ana corresponden a repeticiones de captura tras corregir el menú móvil y el empaquetado; otra solicitud de Luz pertenece a Newman. No son inscripciones ni consumen cupo. La confirmación de referencia fotografiada es la #3.

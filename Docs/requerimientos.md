@@ -1,4 +1,4 @@
-> **Auditoría vigente de cierre:** [matriz completa](entrega/matriz-auditoria.md), [checklist](entrega/checklist-final.md) y [resultados nuevos](entrega/verificaciones.json). Las matrices siguientes conservan el historial de etapas; no deben interpretarse como el estado actual. RF3 continúa parcial y bloqueante.
+> **Cierre vigente RF3 — Grupo 3:** [entrega final](entrega/README.md), [preinscripciones persistentes](preinscripciones.md) y [resultados reales](entrega/verificaciones.json). 136 backend, 58 React, 29 sitio; seis casos E2E y Newman aprobados. Los estados pendientes del texto siguiente son historia de etapas anteriores. Salvedad de participación de dos integrantes confirmada y aceptada por el usuario.
 
 # Requerimientos y trazabilidad — SocioClub
 

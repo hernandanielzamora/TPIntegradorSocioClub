@@ -1,3 +1,24 @@
+# Resultados actuales de sistema — MySQL aislado
+
+Los seis casos siguientes se ejecutaron con Playwright/Chrome real contra API 8080 y MySQL NUEVO 3308. El usuario eligió aislamiento; no se inició ni modificó MySQL84. No se usaron mocks. La captura refleja la pantalla real; [JSON completo](entrega/evidencias/casos-sistema-ejecutados.json) conserva respuestas HTTP y estados previos/posteriores.
+
+| Caso | Datos y precondición | Pasos ejecutados | Esperado | Obtenido | Evidencia |
+| --- | --- | --- | --- | --- | --- |
+| PS01 | DNI ficticio 30222333, socio 2, actividad 1. 10 años, AL_DIA, cero ACTIVAS; Fútbol con plazas | Ingresar DNI en React; abrir detalle; Inscribirme; consultar ACTIVAS y cupo | 201 y una ACTIVA nueva | HTTP 201; ACTIVAS 0→1; cupo 39→38; APROBADO | [Captura](entrega/evidencias/ps01-sistema.png) |
+| PS02 | DNI ficticio 80000001, socio 22, actividad 8. Socio adulto apto, sin ACTIVAS; Yoga con 15 de 15 | Ingresar DNI; verificar botón deshabilitado; POST real con Playwright; consultar ACTIVAS/cupo | 409 RN1 sin alta | HTTP 409; ACTIVAS 0→0; cupo 0→0; APROBADO | [Captura](entrega/evidencias/ps02-sistema.png) |
+| PS03 | DNI ficticio 30333444, socio 3, actividad 1. Fútbol ACTIVA previa, edad 11 y cupo libre | Ingresar DNI en React; abrir detalle; Inscribirme; consultar ACTIVAS y cupo | 409 RN2 sin alta | HTTP 409; ACTIVAS 1→1; cupo 38→38; APROBADO | [Captura](entrega/evidencias/ps03-sistema.png) |
+| PS04 | DNI ficticio 30111222, socio 1, actividad 1. Adulto de 25 años; Fútbol admite 6–12 | Ingresar DNI en React; abrir detalle; Inscribirme; consultar ACTIVAS y cupo | 409 RN3 sin alta | HTTP 409; ACTIVAS 1→1; cupo 38→38; APROBADO | [Captura](entrega/evidencias/ps04-sistema.png) |
+| PS05 | DNI ficticio 30555666, socio 5, actividad 4. ACTIVO/MOROSO; Natación apta y con cupo | Ingresar DNI en React; abrir detalle; Inscribirme; consultar ACTIVAS y cupo | 409 RN4 sin alta | HTTP 409; ACTIVAS 0→0; cupo 28→28; APROBADO | [Captura](entrega/evidencias/ps05-sistema.png) |
+| PS06 | DNI ficticio 30666777, socio 6, actividad 6. Tres ACTIVAS distintas; Ajedrez apta y con cupo | Ingresar DNI en React; abrir detalle; Inscribirme; consultar ACTIVAS y cupo | 409 RN5 sin alta | HTTP 409; ACTIVAS 3→3; cupo 16→16; APROBADO | [Captura](entrega/evidencias/ps06-sistema.png) |
+
+Después de PS01 se comprobó Mis actividades y cuota $18.000; al terminar los seis casos se ejecutó la baja desde React con confirmación, HTTP 200 y ACTIVAS vacías. La fila quedó BAJA. RN6 se comprobó también con Agustín: $68.000 − 15 % = $57.800. RF3 recorrió formulario → POST 201 → SQL → bandeja, conservando cupos y socios.
+
+## Preparación usada exclusivamente en instancia nueva
+
+Se cargó schema.sql y seed.sql en una base nueva socioclub del servidor aislado 3308. Inicialmente había 21 socios, ocho actividades y Yoga con 14 de 15. Se agregaron tres socios ficticios con DNI 80000001–80000003; se ocupó la última plaza de Yoga con Juan y se creó una ACTIVA para el socio destinado a la baja Postman. Los IDs reales están en escenarios.json. No replicar estos pasos sobre las bases originales ni ejecutar las suites que exigen base vacía sobre un fixture poblado. socioclub_test de 3308 era otra base NUEVA, sin seed, usada para 18 pruebas MySQL.
+
+## Historia anterior (no representa pendientes actuales)
+
 
 
 ## Matriz vigente de los seis casos obligatorios

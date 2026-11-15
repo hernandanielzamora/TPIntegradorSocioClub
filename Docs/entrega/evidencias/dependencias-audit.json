@@ -1,0 +1,23 @@
+{
+  "herramienta": "npm audit --json, ejecución real",
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 16,
+      "moderate": 8,
+      "high": 13,
+      "critical": 0,
+      "total": 37
+    },
+    "dependencies": {
+      "prod": 1310,
+      "dev": 0,
+      "optional": 2,
+      "peer": 1,
+      "peerOptional": 0,
+      "total": 1312
+    }
+  },
+  "dependencias_modificadas": false,
+  "observacion": "Árbol actual con CRA exigido por la materia. No se ejecutó npm audit fix --force. Se conserva el uso académico local sin despliegue."
+}

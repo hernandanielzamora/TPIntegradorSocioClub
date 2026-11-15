@@ -1,5 +1,21 @@
 # Bitácora de uso de IA
 
+## Cierre RF3 y pruebas completas — 2026-11-15
+
+Solicitud real del usuario: guardar preinscripciones, mostrarlas en la Secretaría existente y ejecutar lo necesario para la entrega, utilizando Playwright instalado. El usuario eligió una instancia MySQL aislada; al consultar las contribuciones, confirmó que Fernando Oliva y Joaquín Mazza no realizaron aportes y pidió continuar. No se inventan autorías ni commits.
+
+Codex implementó Preinscripcion (cuarta entidad), DTOs, repositorio, servicio transaccional, POST /api/preinscripciones y pantalla paginada /secretaria/preinscripciones, enlazada desde menú y panel. El sitio carga IDs reales desde API, envía JSON, confirma solo 201, conserva datos ante error de red y bloquea el doble envío en curso. No crea socios ni consume plazas. La migración 004 es aditiva y schema.sql la incorpora para bases nuevas; 002/003 siguen sin ejecutar.
+
+Se inicializó MySQL 8.4 en un directorio nuevo .cache/mysql-entrega-aislado y puerto 3308, con cuentas y claves aleatorias guardadas solo en .cache ignorada. MySQL84 permaneció detenido y sus bases no se abrieron ni modificaron. En la nueva base de demostración se cargó schema previo, seed y 004 dos veces; conteos iguales. Otra base nueva socioclub_test sin seed permitió ejecutar 18 pruebas MySQL reales, incluidas concurrencia y recepción.
+
+Resultados nuevos ejecutados por Codex: 136 tests backend aprobados, cero fallos/errores/omisiones; 58 React aprobados; 29 del sitio aprobados; build React exitoso. Playwright/Chrome real obtuvo 33 PNG y ejecutó PS01–PS06: PS01 y PS03–PS06 desde React/Axios/REST/MySQL; PS02 verificó botón sin cupo y POST HTTP real. Se comprobó baja React, cupos/ACTIVAS posteriores y RN6 ($68.000 − 15 % = $57.800). RF3 recibió 201, fila SQL y bandeja visibles, sin modificar socios/inscripciones. Newman 6.2.3 ejecutó las 25 peticiones y 34 aserciones, sin fallos; los ejemplos response de la colección siguen siendo ilustrativos.
+
+Errores reales y correcciones automáticas: Playwright encontró desborde móvil del nuevo quinto enlace; Codex cambió el menú a wrap y evitó expansión de celdas, y repitió las capturas finales sin desbordes. Windows mantuvo un proceso Java hijo tras cerrar el launcher, bloqueando el JAR durante repackage. Las 136 pruebas habían aprobado, pero ese empaquetado falló. Se identificó y detuvo únicamente el hijo que ejecutaba el JAR propio, se inició directamente el JDK y se completó Maven package con BUILD SUCCESS, sin repetir tests por esa operación. Los intentos intermedios fallidos no se presentan como builds aprobados.
+
+Codex actualizó PDF/DOCX/MD con 12 páginas, enlace dev en portada, diagramas, tres interfaces y bitácora al final. Se verificó acceso anónimo al repositorio público. La salvedad académica de tres integrantes con aportes permanece explícita. No se atribuyen al equipo implementación automática, pruebas manuales inexistentes o correcciones de Codex. Los hashes, publicación y ZIP efectivos se registran en el manifiesto después de ejecutarse; main requiere autorización expresa y no se modifica.
+
+---
+
 ## Entrada de cierre — Prompt 24 — Grupo 3
 
 Solicitud real: leer el enunciado original, cerrar código e informe académico, crear ZIP verificable y mejorar el frontend. El usuario confirmó Grupo 3 e integrantes Hernán Zamora, Matias Jure, Mateo Hernandez, Fernando Oliva y Joaquín Mazza; pidió omitir fecha de entrega. No confirmó revisión humana de código en esta interacción.

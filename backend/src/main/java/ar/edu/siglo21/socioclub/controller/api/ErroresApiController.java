@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.*;
 
 /** Respuestas JSON seguras limitadas al controlador REST: no cambia los errores HTML de MVC. */
-@RestControllerAdvice(assignableTypes = ApiController.class)
+@RestControllerAdvice(assignableTypes = {ApiController.class, PreinscripcionApiController.class})
 public class ErroresApiController {
     @ExceptionHandler(SocioInactivoException.class)
     public ResponseEntity<ErrorResponse> inactivo() {

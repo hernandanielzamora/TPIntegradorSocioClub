@@ -1,34 +1,33 @@
 # Checklist final — Grupo 3
 
-**VEREDICTO: NO LISTO POR UN REQUISITO BLOQUEANTE.** Los archivos candidatos se generaron, pero RF3 no recibe solicitudes. También faltan validaciones y capturas; no se declara terminada la entrega académica.
+**LISTO PARA ENTREGAR en lo técnico, con salvedad académica de participación aceptada por el usuario.** El historial acredita aportes de Hernán, Matias y Mateo. El usuario confirmó que Fernando y Joaquín no realizaron aportes y pidió continuar; no se inventan autorías ni commits. No se estima calificación docente.
 
-| Categoría de la rúbrica | Evidencia disponible | Cumplimiento y riesgos | Pendientes reales |
-| --- | --- | --- | --- |
-| A · Público · 10 pts | Tres páginas rediseñadas; DOM, filtros, clase Actividad, validación; 25 tests y capturas reales | Parcial por RF3 | Autorizar solución persistente o aclaración docente verificable |
-| B · Spring/Thymeleaf/JPA · 25 pts | Capas compartidas, modelo y reglas; 111 tests sin MySQL | Código presente y regresión segura aprobada; no es E2E | Recorrido persistente actual y capturas Secretaría |
-| C · REST · 15 pts | Nueve contratos, 34 tests API incluidos, CORS permitido/ajeno y JSON Postman válido | Código y MockMvc aprobados; runner pendiente | Ejecutar escenarios Postman sobre datos aprobados |
-| D · React · 25 pts | Rutas, hooks, Context, Axios, props/PropTypes; 58 tests y build | Verificación automática aprobada; ingreso y RN7 en Chrome | Catálogo con API, Mis actividades y cuota, recorrido real |
-| E · Pruebas · 10 pts | Jest/RTL, Node, backend; seis casos documentados | Parcial: unitarios no sustituyen pruebas de sistema | Resultados y evidencias PS01–PS06 |
-| F · Documentación/IA · 15 pts | PDF de 10 páginas, DOCX, MD, diagramas, instalación y bitácora final | Parcial por capturas de Secretaría faltantes | Revisión del grupo y acceso docente; comprobar contribuciones de los cinco integrantes |
+| Categoría | Evidencia actual | Cumplimiento y límites |
+| --- | --- | --- |
+| A · Público · 10 pts | Tres HTML, clase JS/DOM, filtros, validación y recepción RF3; 29 tests | Implementado y probado; el catálogo inicial no representa vacantes actuales. |
+| B · Spring/JPA · 25 pts | Capas, cuatro entidades, ABM, paginación, reglas, bandeja y capturas | 136 pruebas backend, incluidas 18 MySQL; JAR empaquetado. |
+| C · REST · 15 pts | Nueve mínimos más baja de socio y RF3, DTO, HTTP y CORS | MockMvc y Newman real: 25 peticiones, 34 aserciones aprobadas. |
+| D · React · 25 pts | Rutas, contexto, Axios, props/hooks, 58 tests y build | Playwright comprobó ingreso, inscripción, rechazos, baja y cuota. |
+| E · Pruebas · 10 pts | PS01–PS06 reales con datos y resultados; Newman | Todos aprobados en nueva instancia aislada; no en bases originales. |
+| F · Docs/IA · 15 pts | PDF 12 páginas, DOCX/MD, diagramas, 33 PNG y bitácora final | Completo en documentación; salvedad de participación de solo tres integrantes. |
 
-No se estima una calificación docente.
+- [x] Enunciado original de 14 páginas leído y contrastado con A–F, RF/RN y anexos.
+- [x] Grupo 3, cinco nombres confirmados y ninguna fecha de entrega.
+- [x] RF3: formulario → POST 201 → fila SQL → bandeja paginada.
+- [x] Preinscribir no crea socios, no consume cupos ni expone contactos mediante GET público de API.
+- [x] Migración 004 aditiva ejecutada dos veces sin cambiar datos previos.
+- [x] 136 backend, 58 React, 29 sitio, build React y JAR aprobados.
+- [x] PS01–PS06 ejecutados; alta/baja React y RN6 con datos reales adicionales.
+- [x] Newman: 25 peticiones, 34 aserciones, cero fallos.
+- [x] Capturas auténticas de las tres interfaces; variantes móviles y desborde corregido.
+- [x] PDF 12 páginas, enlace clicable a dev en portada y bitácora al final; páginas renderizadas y revisadas.
+- [x] Repositorio público y acceso anónimo comprobado.
+- [x] Instancia nueva 3308 elegida por el usuario; MySQL84 y las bases originales intactos.
+- [x] Sin SQL 002/003, RN8, panel administrativo React ni despliegue público.
+- [x] Salvedad de participación comunicada y aceptada, sin falsificar historial.
 
-- [x] PDF original leído de nuevo: 14 páginas, incluidas A–F, RF/RN y anexos.
-- [x] Matriz requisito/archivo/implementado/probado/evidencia/observaciones.
-- [x] Integrantes: Hernán Zamora, Matias Jure, Mateo Hernandez, Fernando Oliva y Joaquín Mazza. Grupo 3. Sin fecha de entrega.
-- [x] PDF real de diez páginas, enlace clicable en portada, bitácora como último capítulo. Diez páginas renderizadas y revisadas; tablas sin cortes observados.
-- [x] PDF, DOCX editable y Markdown generados desde el mismo contenido.
-- [x] 111 backend, 58 React, 25 sitio; build React aprobado. Resultados actuales en verificaciones.json.
-- [x] Diez capturas reales, sin desbordes en las dimensiones inspeccionadas ni excepciones JavaScript detectadas.
-- [x] Colección de 22 requests y entorno válidos; nueve contratos cotejados.
-- [ ] RF3: recepción real de preinscripciones. Ver rf3-decision-pendiente.md.
-- [ ] Seis casos E2E ejecutados y resultados registrados.
-- [ ] Postman ejecutado y evidencias guardadas.
-- [ ] Capturas Secretaría y React con datos de API; instrucciones en evidencias/README.md.
-- [ ] Acceso del docente al repositorio comprobado. Si es privado, requiere invitación; no se cambiaron permisos.
-- [ ] Acreditar en Git las contribuciones de los cinco integrantes. Tres autores encontrados, sin inventar autoría de los restantes.
-- [ ] Integración a main: requiere aprobación expresa y candidata apta; no se modificó.
+**main no se actualizó:** requiere autorización expresa. La entrega utiliza dev y el manifiesto identifica el commit exacto. El ZIP conserva la versión anterior, excluye secretos/generados y se verifica mediante apertura, extracción y hashes. Los resultados efectivos y SHA-256 quedan en entrega-final/manifest-entrega.txt y verificacion-paquete.json.
 
-La comprobación efectiva del ZIP (tamaño, hash, contenido, extracción y commit) queda en `entrega-final/manifest-entrega.txt` y `verificacion-paquete.json`, generados junto al archivo. No se anticipa su éxito en esta checklist versionada.
+Sobre una base anterior se debe respaldar y aplicar 004 antes de iniciar esta versión. No se aplicó a las bases originales por elección del usuario. Una base nueva usa schema.sql y seed.sql una sola vez.
 
-Para el profesor: el PDF es el único archivo exigido en aula virtual; GitHub aporta el código consultable; el ZIP es complementario o se comparte si lo solicita. **Primero resolver los pendientes; estos archivos son candidatos.**
+Al aula virtual: PDF obligatorio. GitHub: rama dev. ZIP: complemento reconstruible. El uso sigue siendo académico y local, con identificación por DNI sin autenticación robusta.

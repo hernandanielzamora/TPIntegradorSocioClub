@@ -1,3 +1,5 @@
+> **PROPUESTA HISTÓRICA RESUELTA.** El usuario autorizó implementar la recepción y eligió MySQL aislado. RF3 ya está implementado y probado; ver [contrato actual](../preinscripciones.md). El texto siguiente conserva la decisión previa y no describe el estado vigente.
+
 # RF3: recepción de preinscripciones pendiente
 
 La consigna original, páginas 2–3, pide dejar y recibir una preinscripción. La Parte A detalla validación JavaScript; eso no convierte la validación local en recepción. El formulario actual no realiza ninguna petición ni guarda información. Por ese motivo RF3 se audita como **parcial y bloqueante para declarar el cierre integral**.

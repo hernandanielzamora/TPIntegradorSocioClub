@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 /** Mensajes públicos seguros: nunca mostrar SQL, contraseñas o stack traces en las vistas. */
-@ControllerAdvice(assignableTypes = SecretariaController.class)
+@ControllerAdvice(assignableTypes = {SecretariaController.class, PreinscripcionController.class})
 public class ErroresSecretariaController {
     @ExceptionHandler(RecursoNoEncontradoException.class)
     public String noEncontrado(RecursoNoEncontradoException e, Model model, HttpServletResponse respuesta) {

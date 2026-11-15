@@ -34,7 +34,7 @@ function filtrarActividades(disciplina, edadTexto) {
     (!edadIngresada || a.esAptaParaEdad(Number(edadIngresada)))), error: '' };
 }
 
-function validarPreinscripcion(datos) {
+function validarPreinscripcion(datos, opciones = actividades) {
   const errores = {};
   for (const campo of ['nombre', 'apellido']) {
     if (!String(datos[campo] ?? '').trim() || String(datos[campo]).trim().length > 80) errores[campo] = 'Completá este campo con hasta 80 caracteres.';
@@ -42,7 +42,7 @@ function validarPreinscripcion(datos) {
   if (!/^\d{7,8}$/.test(String(datos.dni ?? ''))) errores.dni = 'Ingresá 7 u 8 dígitos sin puntos ni espacios.';
   const email = String(datos.email ?? '').trim();
   if (email.length > 150 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errores.email = 'Ingresá un correo electrónico válido.';
-  if (!actividades.some((a) => a.id === datos.actividad)) errores.actividad = 'Seleccioná una actividad del catálogo.';
+  if (!opciones.some((a) => String(a.id) === datos.actividad)) errores.actividad = 'Seleccioná una actividad del catálogo.';
   return errores;
 }
 
@@ -78,10 +78,10 @@ function iniciarCatalogo() {
       const campos = [['Días y horario', `${a.dias} · ${a.horario} h`], ['Edades', `${a.edadMinima} a ${a.edadMaxima} años`],
         ['Profesor/a', a.profesor], ['Cupo máximo', `${a.cupoMaximo} personas`], ['Cuota mensual', moneda.format(a.cuotaMensual)]];
       for (const [titulo, valor] of campos) detalles.append(crearElemento('dt', titulo), crearElemento('dd', valor));
-      const enlace = crearElemento('a', 'Preparar preinscripción', 'boton boton-secundario');
+      const enlace = crearElemento('a', 'Preinscribirme', 'boton boton-secundario');
       // location se usa al llegar al formulario para preseleccionar esta actividad.
       enlace.href = `preinscripcion.html?actividad=${encodeURIComponent(a.id)}`;
-      enlace.setAttribute('aria-label', `Preparar preinscripción a ${a.nombre}`);
+      enlace.setAttribute('aria-label', `Preinscribirme a ${a.nombre}`);
       tarjeta.append(detalles, enlace); listado.append(tarjeta);
     }
   }
@@ -95,23 +95,54 @@ function iniciarFormulario() {
   const formulario = document.querySelector('.formulario-preinscripcion');
   if (!formulario) return;
   const selector = formulario.elements.namedItem('actividad');
-  for (const actividad of actividades) {
-    const opcion = crearElemento('option', actividad.nombre); opcion.value = actividad.id; selector.append(opcion);
-  }
+  const boton = document.getElementById('validar-preinscripcion');
+  const reintentar = document.getElementById('reintentar-catalogo');
+  const api = formulario.dataset.apiBase.replace(/\/$/, '');
+  let opciones = [], enviando = false, cargado = false;
   // Uso real de location: solo identificador de actividad, nunca datos personales en la URL.
   const elegida = new URLSearchParams(window.location.search).get('actividad');
-  if (elegida && actividades.some((a) => a.id === elegida)) selector.value = elegida;
-  else if (elegida) document.getElementById('error-actividad').textContent = 'La actividad del enlace no pertenece al catálogo; elegí una opción.';
   const campos = ['nombre', 'apellido', 'dni', 'email', 'actividad'];
   const resultado = document.getElementById('resultado-preinscripcion');
   function limpiarCampo(nombre) {
     document.getElementById(`error-${nombre}`).textContent = '';
     formulario.elements.namedItem(nombre).setAttribute('aria-invalid', 'false');
   }
-  formulario.addEventListener('submit', (evento) => {
-    evento.preventDefault(); // No hay endpoint de recepción: nunca enviar ni afirmar persistencia.
+  async function solicitar(ruta, opcionesPeticion = {}) {
+    const cancelacion = new AbortController();
+    const limite = setTimeout(() => cancelacion.abort(), 10000);
+    try { return await fetch(api + ruta, { ...opcionesPeticion, signal: cancelacion.signal }); }
+    finally { clearTimeout(limite); }
+  }
+  async function cargarActividades() {
+    cargado = false; boton.disabled = true; selector.disabled = true; reintentar.hidden = true;
+    resultado.textContent = 'Cargando actividades disponibles para solicitar…';
+    try {
+      const respuesta = await solicitar('/actividades');
+      if (!respuesta.ok) throw new Error('catalogo');
+      const datos = await respuesta.json();
+      if (!Array.isArray(datos) || datos.some(a => !Number.isSafeInteger(a.id) || a.id <= 0 || typeof a.nombre !== 'string')) throw new Error('catalogo');
+      opciones = datos;
+      selector.replaceChildren(crearElemento('option', 'Seleccioná una actividad'));
+      selector.firstElementChild.value = '';
+      for (const a of opciones) { const opcion = crearElemento('option', a.nombre); opcion.value = a.id; selector.append(opcion); }
+      const inicial = actividades.find(a => a.id === elegida);
+      const coincidencias = opciones.filter(a => a.nombre === inicial?.nombre);
+      if (elegida && coincidencias.length === 1) selector.value = String(coincidencias[0].id);
+      else if (elegida) document.getElementById('error-actividad').textContent = 'La actividad del enlace no pertenece al catálogo actual; elegí una opción.';
+      cargado = opciones.length > 0; boton.disabled = !cargado; selector.disabled = !cargado;
+      resultado.textContent = cargado ? '' : 'No hay actividades para solicitar en este momento.';
+    } catch {
+      opciones = []; resultado.textContent = 'No se pudieron cargar las actividades. Comprobá la conexión con el club e intentá nuevamente.';
+      reintentar.hidden = false;
+    }
+  }
+  reintentar.addEventListener('click', cargarActividades);
+  formulario.addEventListener('submit', async (evento) => {
+    evento.preventDefault();
+    if (enviando) return;
+    if (!cargado) { resultado.textContent = 'Esperá a que se carguen las actividades antes de enviar.'; return; }
     const datos = Object.fromEntries(campos.map((campo) => [campo, formulario.elements.namedItem(campo).value]));
-    const errores = validarPreinscripcion(datos);
+    const errores = validarPreinscripcion(datos, opciones);
     campos.forEach((campo) => {
       limpiarCampo(campo);
       if (errores[campo]) {
@@ -120,16 +151,47 @@ function iniciarFormulario() {
       }
     });
     const primero = campos.find((campo) => errores[campo]);
-    resultado.textContent = primero ? 'Revisá los campos indicados antes de continuar.' :
-      'Datos validados localmente. No se enviaron ni guardaron. Para confirmar la preinscripción, presentalos en Secretaría.';
-    if (primero) formulario.elements.namedItem(primero).focus();
-    else resultado.focus();
+    if (primero) {
+      resultado.textContent = 'Revisá los campos indicados antes de continuar.';
+      formulario.elements.namedItem(primero).focus(); return;
+    }
+    enviando = true; boton.disabled = true; boton.textContent = 'Enviando solicitud…';
+    formulario.querySelector('[type="reset"]').disabled = true;
+    resultado.textContent = 'Enviando tu preinscripción…';
+    try {
+      const respuesta = await solicitar('/preinscripciones', { method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ nombre: datos.nombre.trim(), apellido: datos.apellido.trim(), dni: datos.dni,
+          email: datos.email.trim(), actividadId: Number(datos.actividad) }) });
+      const recibido = await respuesta.json();
+      if (respuesta.status !== 201 || !Number.isSafeInteger(recibido.id) || recibido.id <= 0) {
+        if (!respuesta.ok && typeof recibido.error === 'string') {
+          resultado.textContent = recibido.error;
+          for (const detalle of recibido.detalles ?? []) {
+            const campo = detalle.campo === 'actividadId' ? 'actividad' : detalle.campo;
+            if (campos.includes(campo)) {
+              document.getElementById(`error-${campo}`).textContent = detalle.mensaje;
+              formulario.elements.namedItem(campo).setAttribute('aria-invalid', 'true');
+            }
+          }
+          return;
+        }
+        throw new Error('recepcion');
+      }
+      formulario.reset();
+      resultado.textContent = `Preinscripción recibida. Tu número de solicitud es #${recibido.id}. Secretaría tiene tus datos para contactarte. No reserva cupo ni confirma una inscripción.`;
+    } catch {
+      resultado.textContent = 'No pudimos confirmar la recepción. No vuelvas a enviar sin consultar antes en Secretaría; la conexión pudo interrumpirse después del guardado.';
+    } finally {
+      enviando = false; boton.disabled = !cargado; boton.textContent = 'Enviar preinscripción';
+      formulario.querySelector('[type="reset"]').disabled = false; resultado.focus();
+    }
   });
   for (const evento of ['input', 'change']) formulario.addEventListener(evento, (e) => {
     if (campos.includes(e.target.name)) { limpiarCampo(e.target.name); resultado.textContent = ''; }
   });
   formulario.addEventListener('reset', () => { campos.forEach(limpiarCampo); resultado.textContent = ''; });
-  document.getElementById('validar-preinscripcion').disabled = false;
+  cargarActividades();
 }
 let sitioIniciado = false;
 function iniciarSitio() {

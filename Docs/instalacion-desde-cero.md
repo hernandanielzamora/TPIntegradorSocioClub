@@ -1,3 +1,5 @@
+> **Actualización RF3:** schema.sql incluye preinscripcion. Si se actualiza una base anterior, respaldar y aplicar database/migrations/004_preinscripcion.sql antes de iniciar el backend. No volver a ejecutar seed sobre una base poblada. El formulario apunta a http://localhost:8080/api mediante data-api-base en preinscripcion.html; Secretaría muestra solicitudes en /secretaria/preinscripciones. Los resultados completos actuales están en Docs/entrega/verificaciones.json.
+
 # Instalación desde cero — Windows
 
 Guía para continuar SocioClub desde otra computadora. Estado al 2026-11-08: modelo JPA, repositorios, scripts y pruebas implementados; persistencia real y arranque completo pendientes de confirmación. React conserva datos locales. No hay servicios RN1–RN5 ni API REST.

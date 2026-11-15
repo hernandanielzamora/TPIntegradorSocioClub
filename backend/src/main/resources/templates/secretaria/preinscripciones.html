@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/comunes :: cabecera('Preinscripciones')}"></head>
+<body>
+<header th:replace="~{fragments/comunes :: encabezado('preinscripciones')}"></header>
+<main id="contenido">
+<p class="etiqueta">Solicitudes del sitio público</p>
+<h1>Preinscripciones recibidas</h1>
+<p>Consultá los datos de contacto y la actividad solicitada. Una preinscripción no reserva cupo ni da de alta un socio.</p>
+<p th:text="${pagina.totalElements + ' solicitudes recibidas'}" role="status"></p>
+<p class="aviso" th:if="${pagina.empty}">Todavía no se recibieron solicitudes.</p>
+<div class="tabla" th:unless="${pagina.empty}">
+<table>
+<caption>Solicitudes más recientes primero</caption>
+<thead><tr><th scope="col">Referencia</th><th scope="col">Persona / DNI</th><th scope="col">Contacto</th><th scope="col">Actividad</th><th scope="col">Recepción</th></tr></thead>
+<tbody><tr th:each="p : ${pagina.content}">
+<td data-etiqueta="Referencia" th:text="${'#' + p.id}"></td>
+<td data-etiqueta="Persona / DNI"><strong th:text="${p.apellido + ', ' + p.nombre}"></strong><br><span th:text="${p.dni}"></span></td>
+<td data-etiqueta="Contacto" th:text="${p.email}"></td>
+<td data-etiqueta="Actividad" th:text="${p.actividad}"></td>
+<td data-etiqueta="Recepción" th:text="${#temporals.format(p.fechaRecepcion, 'dd/MM/yyyy HH:mm')}"></td>
+</tr></tbody>
+</table>
+</div>
+<nav class="paginacion" aria-label="Paginación" th:if="${pagina.totalPages > 0}">
+<a th:if="${pagina.hasPrevious()}" th:href="@{/secretaria/preinscripciones(pagina=${pagina.number - 1})}">Anterior</a>
+<span th:text="${'Página ' + (pagina.number + 1) + ' de ' + pagina.totalPages}"></span>
+<a th:if="${pagina.hasNext()}" th:href="@{/secretaria/preinscripciones(pagina=${pagina.number + 1})}">Siguiente</a>
+</nav>
+</main>
+<footer th:replace="~{fragments/comunes :: pie}"></footer>
+</body>
+</html>

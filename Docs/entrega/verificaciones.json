@@ -1,14 +1,22 @@
 {
   "backend": {
-    "tests": 111,
+    "tests": 136,
     "failures": 0,
     "errors": 0,
     "skipped": 0
   },
+  "mysql_tests": 18,
   "clases_backend": [
     {
       "clase": "ar.edu.siglo21.socioclub.controller.api.ApiControllerTests",
       "tests": 34,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "clase": "ar.edu.siglo21.socioclub.controller.api.PreinscripcionControllerTests",
+      "tests": 7,
       "failures": 0,
       "errors": 0,
       "skipped": 0
@@ -23,6 +31,27 @@
     {
       "clase": "ar.edu.siglo21.socioclub.model.IntegridadModeloTests",
       "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "clase": "ar.edu.siglo21.socioclub.repository.InscripcionServiceMySqlTests",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "clase": "ar.edu.siglo21.socioclub.repository.PersistenciaMySqlTests",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "clase": "ar.edu.siglo21.socioclub.repository.PreinscripcionMySqlTests",
+      "tests": 1,
       "failures": 0,
       "errors": 0,
       "skipped": 0
@@ -67,40 +96,54 @@
     "tests": 58,
     "suites": 5,
     "fallos": 0,
-    "fuente": "ejecución Jest real, .cache/final-react.txt"
+    "fuente": "Jest real, .cache/rf3-react.txt"
   },
   "sitio": {
-    "tests": 25,
+    "tests": 29,
     "fallos": 0,
-    "fuente": ".cache/final-sitio.txt"
+    "fuente": ".cache/rf3-sitio.txt"
   },
-  "build_react": "Compilación real finalizada con salida 0; build/index.html comprobado",
+  "build_backend": "Maven package BUILD SUCCESS; 136 tests aprobados previamente, empaquetado final sin repetir tests",
+  "build_react": "Compiled successfully, salida 0",
   "postman": {
     "json_valido": true,
-    "requests": 22,
+    "requests": 25,
     "contratos_obligatorios": 9,
-    "runner_ejecutado": false
+    "runner_ejecutado": true,
+    "runner": "Newman real 6.2.3",
+    "aserciones": 34,
+    "fallos": 0
   },
-  "cors": "Origen permitido y ajeno comprobados por ApiControllerTests; no HTTP nuevo con MySQL",
+  "cors": "MockMvc permitido/ajeno y OPTIONS HTTP real desde sitio público; CORS React comprobado por recorridos reales",
   "e2e": {
-    "PS01": "No ejecutado",
-    "PS02": "No ejecutado",
-    "PS03": "No ejecutado",
-    "PS04": "No ejecutado",
-    "PS05": "No ejecutado",
-    "PS06": "No ejecutado"
+    "PS01": "APROBADO",
+    "PS02": "APROBADO",
+    "PS03": "APROBADO",
+    "PS04": "APROBADO",
+    "PS05": "APROBADO",
+    "PS06": "APROBADO"
+  },
+  "rf3": {
+    "http": 201,
+    "id": 3,
+    "cupoAntes": 1,
+    "cupoDespues": 1,
+    "visibleSecretaria": true,
+    "datos": "Persona ficticia de ensayo, correo example.invalid",
+    "verificadoPorSql": true,
+    "sociosSinCambios": 21,
+    "filasInscripcionSinCambios": 19
   },
   "navegador": {
-    "capturas": 10,
-    "desbordes": 0,
-    "excepciones_js": 0
+    "capturas_png": 33,
+    "desbordes_finales": 0,
+    "excepciones_js": 0,
+    "herramienta": "Playwright / Chrome real 157.0.8103.51"
   },
-  "sql_ejecutado": false,
-  "limitaciones": [
-    "RF3 sin recepción",
-    "Capturas de Secretaría y React con API pendientes",
-    "Postman runner y E2E pendientes",
-    "Acceso del docente a GitHub por confirmar",
-    "main requiere autorización expresa"
-  ]
+  "pdf_paginas": 12,
+  "sql_ejecutado": "Solo instancia nueva aislada 3308, elegida por el usuario",
+  "bases_originales_modificadas": false,
+  "repositorio_publico": true,
+  "salvedad_academica": "Solo Hernán, Matias y Mateo tienen aportes. El usuario confirmó ausencia de aportes de Fernando y Joaquín y pidió continuar sin inventar autoría.",
+  "main": "No modificada; requiere autorización expresa"
 }

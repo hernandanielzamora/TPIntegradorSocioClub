@@ -1,0 +1,390 @@
+{
+  "runner": "Newman real 6.2.3",
+  "backend": "http://localhost:8080 · MySQL aislado 3308",
+  "stats": {
+    "iterations": {
+      "total": 1,
+      "pending": 0,
+      "failed": 0
+    },
+    "items": {
+      "total": 25,
+      "pending": 0,
+      "failed": 0
+    },
+    "scripts": {
+      "total": 25,
+      "pending": 0,
+      "failed": 0
+    },
+    "prerequests": {
+      "total": 25,
+      "pending": 0,
+      "failed": 0
+    },
+    "requests": {
+      "total": 25,
+      "pending": 0,
+      "failed": 0
+    },
+    "tests": {
+      "total": 25,
+      "pending": 0,
+      "failed": 0
+    },
+    "assertions": {
+      "total": 34,
+      "pending": 0,
+      "failed": 0
+    },
+    "testScripts": {
+      "total": 25,
+      "pending": 0,
+      "failed": 0
+    },
+    "prerequestScripts": {
+      "total": 0,
+      "pending": 0,
+      "failed": 0
+    }
+  },
+  "failures": [],
+  "requests": [
+    {
+      "nombre": "Listar actividades",
+      "metodo": "GET",
+      "ruta": "http://localhost:8080/api/actividades",
+      "http": 200,
+      "aserciones": [
+        {
+          "nombre": "HTTP 200",
+          "aprobada": true
+        }
+      ]
+    },
+    {
+      "nombre": "Filtrar disciplina",
+      "metodo": "GET",
+      "ruta": "http://localhost:8080/api/actividades?disciplina=Bienestar",
+      "http": 200,
+      "aserciones": [
+        {
+          "nombre": "HTTP 200",
+          "aprobada": true
+        }
+      ]
+    },
+    {
+      "nombre": "Detalle de actividad",
+      "metodo": "GET",
+      "ruta": "http://localhost:8080/api/actividades/4",
+      "http": 200,
+      "aserciones": [
+        {
+          "nombre": "HTTP 200",
+          "aprobada": true
+        }
+      ]
+    },
+    {
+      "nombre": "Socio por DNI",
+      "metodo": "GET",
+      "ruta": "http://localhost:8080/api/socios/dni/30111222",
+      "http": 200,
+      "aserciones": [
+        {
+          "nombre": "HTTP 200",
+          "aprobada": true
+        }
+      ]
+    },
+    {
+      "nombre": "Inscripciones ACTIVAS del socio",
+      "metodo": "GET",
+      "ruta": "http://localhost:8080/api/socios/23/inscripciones",
+      "http": 200,
+      "aserciones": [
+        {
+          "nombre": "HTTP 200",
+          "aprobada": true
+        }
+      ]
+    },
+    {
+      "nombre": "Crear actividad de ensayo",
+      "metodo": "POST",
+      "ruta": "http://localhost:8080/api/actividades",
+      "http": 201,
+      "aserciones": [
+        {
+          "nombre": "HTTP 201",
+          "aprobada": true
+        }
+      ]
+    },
+    {
+      "nombre": "Editar actividad creada",
+      "metodo": "PUT",
+      "ruta": "http://localhost:8080/api/actividades/9",
+      "http": 200,
+      "aserciones": [
+        {
+          "nombre": "HTTP 200",
+          "aprobada": true
+        }
+      ]
+    },
+    {
+      "nombre": "Eliminar actividad creada sin inscripciones",
+      "metodo": "DELETE",
+      "ruta": "http://localhost:8080/api/actividades/9",
+      "http": 204,
+      "aserciones": [
+        {
+          "nombre": "HTTP 204",
+          "aprobada": true
+        }
+      ]
+    },
+    {
+      "nombre": "Inscripción válida (requiere socio apto y cupo)",
+      "metodo": "POST",
+      "ruta": "http://localhost:8080/api/inscripciones",
+      "http": 201,
+      "aserciones": [
+        {
+          "nombre": "HTTP 201",
+          "aprobada": true
+        }
+      ]
+    },
+    {
+      "nombre": "Baja lógica de inscripción creada",
+      "metodo": "PUT",
+      "ruta": "http://localhost:8080/api/inscripciones/23/baja",
+      "http": 200,
+      "aserciones": [
+        {
+          "nombre": "HTTP 200",
+          "aprobada": true
+        }
+      ]
+    },
+    {
+      "nombre": "DNI inválido",
+      "metodo": "GET",
+      "ruta": "http://localhost:8080/api/socios/dni/123",
+      "http": 400,
+      "aserciones": [
+        {
+          "nombre": "HTTP 400",
+          "aprobada": true
+        }
+      ]
+    },
+    {
+      "nombre": "Actividad inexistente",
+      "metodo": "GET",
+      "ruta": "http://localhost:8080/api/actividades/999999999",
+      "http": 404,
+      "aserciones": [
+        {
+          "nombre": "HTTP 404",
+          "aprobada": true
+        }
+      ]
+    },
+    {
+      "nombre": "Request incompleto",
+      "metodo": "POST",
+      "ruta": "http://localhost:8080/api/inscripciones",
+      "http": 400,
+      "aserciones": [
+        {
+          "nombre": "HTTP 400",
+          "aprobada": true
+        }
+      ]
+    },
+    {
+      "nombre": "RN1 - preparar escenario antes de enviar",
+      "metodo": "POST",
+      "ruta": "http://localhost:8080/api/inscripciones",
+      "http": 409,
+      "aserciones": [
+        {
+          "nombre": "HTTP 409",
+          "aprobada": true
+        },
+        {
+          "nombre": "Regla RN1",
+          "aprobada": true
+        }
+      ]
+    },
+    {
+      "nombre": "RN2 - preparar escenario antes de enviar",
+      "metodo": "POST",
+      "ruta": "http://localhost:8080/api/inscripciones",
+      "http": 409,
+      "aserciones": [
+        {
+          "nombre": "HTTP 409",
+          "aprobada": true
+        },
+        {
+          "nombre": "Regla RN2",
+          "aprobada": true
+        }
+      ]
+    },
+    {
+      "nombre": "RN3 - preparar escenario antes de enviar",
+      "metodo": "POST",
+      "ruta": "http://localhost:8080/api/inscripciones",
+      "http": 409,
+      "aserciones": [
+        {
+          "nombre": "HTTP 409",
+          "aprobada": true
+        },
+        {
+          "nombre": "Regla RN3",
+          "aprobada": true
+        }
+      ]
+    },
+    {
+      "nombre": "RN4 - preparar escenario antes de enviar",
+      "metodo": "POST",
+      "ruta": "http://localhost:8080/api/inscripciones",
+      "http": 409,
+      "aserciones": [
+        {
+          "nombre": "HTTP 409",
+          "aprobada": true
+        },
+        {
+          "nombre": "Regla RN4",
+          "aprobada": true
+        }
+      ]
+    },
+    {
+      "nombre": "RN5 - preparar escenario antes de enviar",
+      "metodo": "POST",
+      "ruta": "http://localhost:8080/api/inscripciones",
+      "http": 409,
+      "aserciones": [
+        {
+          "nombre": "HTTP 409",
+          "aprobada": true
+        },
+        {
+          "nombre": "Regla RN5",
+          "aprobada": true
+        }
+      ]
+    },
+    {
+      "nombre": "Dar de baja socio y ACTIVAS",
+      "metodo": "PUT",
+      "ruta": "http://localhost:8080/api/socios/24/baja",
+      "http": 200,
+      "aserciones": [
+        {
+          "nombre": "HTTP 200",
+          "aprobada": true
+        },
+        {
+          "nombre": "Socio INACTIVO",
+          "aprobada": true
+        }
+      ]
+    },
+    {
+      "nombre": "Repetir baja idempotente",
+      "metodo": "PUT",
+      "ruta": "http://localhost:8080/api/socios/24/baja",
+      "http": 200,
+      "aserciones": [
+        {
+          "nombre": "HTTP 200",
+          "aprobada": true
+        },
+        {
+          "nombre": "Socio INACTIVO",
+          "aprobada": true
+        }
+      ]
+    },
+    {
+      "nombre": "Baja socio inexistente",
+      "metodo": "PUT",
+      "ruta": "http://localhost:8080/api/socios/999999999/baja",
+      "http": 404,
+      "aserciones": [
+        {
+          "nombre": "HTTP 404",
+          "aprobada": true
+        }
+      ]
+    },
+    {
+      "nombre": "Rechazar nueva inscripción de INACTIVO",
+      "metodo": "POST",
+      "ruta": "http://localhost:8080/api/inscripciones",
+      "http": 409,
+      "aserciones": [
+        {
+          "nombre": "HTTP 409",
+          "aprobada": true
+        },
+        {
+          "nombre": "Código independiente de RN",
+          "aprobada": true
+        }
+      ]
+    },
+    {
+      "nombre": "Recibir preinscripción",
+      "metodo": "POST",
+      "ruta": "http://localhost:8080/api/preinscripciones",
+      "http": 201,
+      "aserciones": [
+        {
+          "nombre": "HTTP 201",
+          "aprobada": true
+        },
+        {
+          "nombre": "Referencia persistida",
+          "aprobada": true
+        }
+      ]
+    },
+    {
+      "nombre": "Rechazar DNI inválido",
+      "metodo": "POST",
+      "ruta": "http://localhost:8080/api/preinscripciones",
+      "http": 400,
+      "aserciones": [
+        {
+          "nombre": "HTTP 400",
+          "aprobada": true
+        }
+      ]
+    },
+    {
+      "nombre": "Rechazar actividad inexistente",
+      "metodo": "POST",
+      "ruta": "http://localhost:8080/api/preinscripciones",
+      "http": 404,
+      "aserciones": [
+        {
+          "nombre": "HTTP 404",
+          "aprobada": true
+        }
+      ]
+    }
+  ]
+}

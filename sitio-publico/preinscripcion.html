@@ -32,17 +32,16 @@
           <p class="etiqueta">Club Social y Deportivo Los Algarrobos</p>
           <h1 id="titulo-preinscripcion">Dá el primer paso.<br><em>Sumate al club.</em></h1>
           <p class="descripcion-preinscripcion">
-            Completá tus datos para preparar tu solicitud de preinscripción
+            Completá tus datos para enviar tu solicitud de preinscripción
             a una actividad del club.
           </p>
         </div>
 
-        <div class="preinscripcion-grid"><aside class="pasos-formulario" aria-label="Cómo preinscribirte"><p class="etiqueta">Tu preinscripción</p><h2>Nos vemos<br>en el club.</h2><ol><li><strong>Elegí tu actividad</strong><span>Encontrá una propuesta para vos en nuestro catálogo.</span></li><li><strong>Prepará tus datos</strong><span>Completá el formulario y revisá que estén correctos.</span></li><li><strong>Confirmá en Secretaría</strong><span>La solicitud se recibe en el club. Este formulario solo valida tus datos.</span></li></ol><a href="actividades.html">Volver a las actividades →</a></aside><div class="formulario-tarjeta">
-          <form class="formulario-preinscripcion" method="post" novalidate>
+        <div class="preinscripcion-grid"><aside class="pasos-formulario" aria-label="Cómo preinscribirte"><p class="etiqueta">Tu preinscripción</p><h2>Nos vemos<br>en el club.</h2><ol><li><strong>Elegí tu actividad</strong><span>Encontrá una propuesta para vos en nuestro catálogo.</span></li><li><strong>Completá tus datos</strong><span>Completá el formulario y revisá que estén correctos.</span></li><li><strong>Recibí tu referencia</strong><span>Al enviar, guardamos tu solicitud. Secretaría podrá contactarte para continuar.</span></li></ol><a href="actividades.html">Volver a las actividades →</a></aside><div class="formulario-tarjeta">
+          <form class="formulario-preinscripcion" method="post" data-api-base="http://localhost:8080/api" novalidate>
             <p class="aviso-formulario">
-              Este formulario valida tus datos en el navegador, pero no envía una solicitud al club.
-              No reemplaza la inscripción de un socio desde Mi Club o Secretaría ni
-              guarda información.
+              Tu solicitud se guarda en el club para que Secretaría pueda contactarte.
+              La preinscripción no reserva cupo ni reemplaza la inscripción de un socio desde Mi Club o Secretaría.
             </p>
 
             <div class="campo-formulario">
@@ -111,11 +110,12 @@
             </div>
 
             <button id="validar-preinscripcion" class="boton boton-principal" type="submit" disabled>
-              Validar datos de preinscripción
+              Enviar preinscripción
             </button>
             <button class="boton boton-secundario" type="reset">Limpiar datos</button>
+            <button class="boton boton-secundario" type="button" id="reintentar-catalogo" hidden>Reintentar carga</button>
             <p id="resultado-preinscripcion" role="status" aria-live="polite" tabindex="-1"></p>
-            <noscript><p>Activá JavaScript para validar. No se enviarán tus datos.</p></noscript>
+            <noscript><p>Activá JavaScript para cargar las actividades y enviar tu solicitud.</p></noscript>
           </form>
         </div></div>
       </div>

@@ -1,0 +1,71 @@
+{
+  "sistema": [
+    {
+      "id": "PS01",
+      "dni": "30222333",
+      "socioId": 2,
+      "actividadId": 1,
+      "regla": null,
+      "precondicion": "10 años, AL_DIA, cero ACTIVAS; Fútbol con plazas"
+    },
+    {
+      "id": "PS02",
+      "dni": "80000001",
+      "socioId": 22,
+      "actividadId": 8,
+      "regla": "RN1",
+      "precondicion": "Socio adulto apto, sin ACTIVAS; Yoga con 15 de 15"
+    },
+    {
+      "id": "PS03",
+      "dni": "30333444",
+      "socioId": 3,
+      "actividadId": 1,
+      "regla": "RN2",
+      "precondicion": "Fútbol ACTIVA previa, edad 11 y cupo libre"
+    },
+    {
+      "id": "PS04",
+      "dni": "30111222",
+      "socioId": 1,
+      "actividadId": 1,
+      "regla": "RN3",
+      "precondicion": "Adulto de 25 años; Fútbol admite 6–12"
+    },
+    {
+      "id": "PS05",
+      "dni": "30555666",
+      "socioId": 5,
+      "actividadId": 4,
+      "regla": "RN4",
+      "precondicion": "ACTIVO/MOROSO; Natación apta y con cupo"
+    },
+    {
+      "id": "PS06",
+      "dni": "30666777",
+      "socioId": 6,
+      "actividadId": 6,
+      "regla": "RN5",
+      "precondicion": "Tres ACTIVAS distintas; Ajedrez apta y con cupo"
+    }
+  ],
+  "postman": {
+    "baseUrl": "http://localhost:8080",
+    "dni": "30111222",
+    "socioId": "23",
+    "actividadId": "4",
+    "socioBajaId": "24",
+    "rn1SocioId": "22",
+    "rn1ActividadId": "8",
+    "rn2SocioId": "3",
+    "rn2ActividadId": "1",
+    "rn3SocioId": "1",
+    "rn3ActividadId": "1",
+    "rn4SocioId": "5",
+    "rn4ActividadId": "4",
+    "rn5SocioId": "6",
+    "rn5ActividadId": "6"
+  },
+  "aislamiento": "Solo instancia NUEVA 3308, sin tocar MySQL84 ni sus bases",
+  "cambios_fixture": "Tres socios sintéticos nuevos, última plaza de Yoga ocupada y una ACTIVA para baja de socio"
+}

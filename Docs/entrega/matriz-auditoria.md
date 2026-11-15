@@ -1,44 +1,38 @@
-# Matriz de auditoría del cierre — Grupo 3
+# Matriz de auditoría final — Grupo 3
 
-Fuente primaria: PDF original `Docs/Enunciado/TPIntegradorSocioClubEnunciado.pdf`, 14 páginas, leído nuevamente en este cierre. Base: `origin/dev` 874c6bb. Resultados nuevos en [verificaciones.json](verificaciones.json); los documentos anteriores conservan antecedentes históricos.
+Fuente: PDF original de la consigna, 14 páginas. Estado RF3 actualizado con pruebas reales en MySQL nuevo aislado 3308. Originales y MySQL84 sin cambios. No se estima calificación docente.
 
 | Requisito | Archivo responsable | Implementado | Probado | Evidencia | Observaciones |
 | --- | --- | --- | --- | --- | --- |
-| RF1 catálogo completo | sitio-publico/js/script.js | Sí, ocho actividades iniciales | Sí, Node/DOM | 25 tests, sitio-catalogo.png | No son vacantes MySQL actuales |
-| RF2 disciplina y edad | sitio-publico/js/script.js | Sí | Sí, combinado y bordes | Tests Node, sitio-filtros.png | React filtra por disciplina según Parte D |
-| RF3 recibir preinscripciones | sitio-publico/preinscripcion.html; js/script.js | **Parcial: solo valida** | Validación sí; recepción no existe | Tests y captura de formulario | **A: bloqueante**; propuesta en rf3-decision-pendiente.md |
-| RF4 ABM de actividades | backend/.../service/ActividadService.java; controller/mvc/SecretariaController.java | Sí | Unitarios y MockMvc | SecretariaServiceTests, SecretariaControllerTests | B: recorrido persistente actual pendiente |
-| RF5 socios, búsqueda y paginación | backend/.../service/SocioService.java; repository/SocioRepository.java; templates/secretaria/socios.html | Sí | Unitarios y MVC | Selección backend nueva | B: recorrido manual actual pendiente |
-| RF6 inscripciones | backend/.../service/InscripcionService.java | Sí | Unitarios, API y React mock | 20 tests servicio, API/RTL | B: PS01–PS06 pendientes |
-| RF7 inscriptos y cupo | backend/.../service/ConsultaSecretariaService.java; ApiConsultaService.java | Sí | Servicio y MVC/API | Selección backend nueva | Cupo cuenta solo ACTIVAS |
-| RF8 DNI y ACTIVAS | app-socios/src/paginas/Ingreso.js; contexto/SocioContext.js; servicios/api.js | Sí | RTL y API; ingreso real | react-ingreso.png; 58 tests | B: falta recorrido con MySQL |
-| RF9 baja lógica | backend/.../service/InscripcionService.java; app-socios/src/paginas/MisActividades.js | Sí | Unitarios/MockMvc/RTL | Selección nueva | No ejecutar baja real sin datos autorizados |
-| RF10 cuota estimada | app-socios/src/componentes/ResumenCuota.js; utils/calcularCuotaMensual.js | Sí | Jest/RTL | 58 tests | B: falta captura con socio identificado |
-| RN1 cupo | backend/.../service/InscripcionService.java | Sí | Unitario/API/RTL | InscripcionServiceTests; ApiControllerTests | E2E RN1 pendiente |
-| RN2 duplicados | Mismo servicio | Sí | Unitario/API/RTL | Misma selección | E2E RN2 pendiente |
-| RN3 edad inclusiva actual | Mismo servicio | Sí | Bordes, cumpleaños, bisiesto | 20 tests servicio | E2E RN3 pendiente |
-| RN4 MOROSO | Mismo servicio | Sí | Unitario/API/RTL | 409 y regla en MockMvc | Consulta y baja siguen permitidas |
-| RN5 máximo tres ACTIVAS | Mismo servicio | Sí | Unitario/API/RTL | Prueba cuarta actividad | Concurrencia MySQL no repetida |
-| RN6 bonificaciones | app-socios/src/utils/calcularCuotaMensual.js | Sí | Jest, 0–3 y centavos | 58 tests React | 10 % con dos, 15 % con tres |
-| RN7 DNI | sitio-publico/js/script.js; app-socios/src/utils/esDniValido.js | Sí | Node/Jest y Chrome | react-error-dni.png | No confundir validación con recepción |
-| A: tres HTML semánticos, externos, media query | sitio-publico/*.html; css/estilos.css | Sí | DOM y Chrome | 25 tests; 8 capturas públicas | Ilustración original y alt; ubicación general del caso |
-| A: clase, método, eventos, objeto navegador | sitio-publico/js/script.js | Sí | Node/jsdom | Actividad, esAptaParaEdad, location | Sin framework nuevo |
-| B: capas, JPA y relaciones | backend/src/main/java/ar/edu/siglo21/socioclub/ | Sí | 111 tests sin MySQL | Ocho suites seleccionadas | No vuelve a ejecutar suites de base vacía |
-| C: nueve endpoints Anexo A | backend/.../controller/api/ApiController.java | Sí | MockMvc y contrato estático | 34 tests API; auditar.py | PUT baja de socio es adicional existente |
-| C: DTO, HTTP y errores JSON | dto/ApiDtos.java; controller/api/ErroresApiController.java | Sí | MockMvc | 200/201/204/400/404/409 | No confirma escritura MySQL nueva |
-| C: CORS | backend/.../config/WebConfig.java | Sí | OPTIONS MockMvc permitido/ajeno | ApiControllerTests | HTTP backend real no repetido |
-| C/E: Postman | postman/SocioClub.postman_collection.json | Sí: 22 requests | JSON y nueve contratos; runner no | verificaciones.json | **B: ejecución real pendiente** |
-| D: rutas, componentes, props, hooks, contexto | app-socios/src/App.js; componentes/; contexto/ | Sí | Jest/RTL y build | 58 tests y build exitoso | Sin panel admin React ni RN8 |
-| Modelo y seed | database/schema.sql; seed.sql; migrations/001_estado_socio.sql | Sí | Lectura estática y tests de modelo | 21 socios, 2 MOROSOS, 8 actividades; Yoga 14/15 en script | No ejecución SQL, sin conteos nuevos de base |
-| E: seis casos de sistema | Docs/pruebas-sistema.md | Procedimientos sí | **E2E no ejecutados** | PS01–PS06 preparados | **B: evidencia real pendiente** |
-| F: PDF 8–12, link y bitácora final | Docs/entrega/TPI_SocioClub_Grupo3.pdf | Sí: 10 páginas | Parser y revisión de las 10 páginas renderizadas | Generador y PDF real | Capturas de Secretaría faltantes impiden cumplimiento visual completo |
-| F: cinco integrantes y grupo | README.md; informe | Sí, confirmación humana | Contrastado con mensaje del usuario | Grupo 3 y cinco nombres | Sin fecha de entrega por solicitud |
-| F: capturas tres interfaces | Docs/entrega/evidencias/ | Parcial: público y React ingreso | Chrome real, 10 PNG | verificacion-navegador.json | **C: Secretaría y React con API pendientes** |
-| F: bitácora de IA | Docs/bitacora-ia.md; último capítulo del PDF | Sí, antecedentes reales | Lectura de AH-1/2/3 y 1064 | Mínimo cinco intervenciones sintetizadas | Ajustes humanos operativos; aceptación docente sin garantizar |
-| Git, commits de integrantes | git log / shortlog | Tres autores registrados | Historial leído | Hernán, Matias, Mateo | C: no inventar commits de Fernando/Joaquín |
-| Acceso del docente | Repositorio GitHub | Por confirmar | No se cambiaron permisos | Requiere consulta del profesor | C: si privado, invitar al docente |
-| Paquete limpio | herramientas/empaquetar.py | Se genera tras commit | ZIP, extracción, hashes y PDF | entrega-final/manifest-entrega.txt | Candidato, no constancia de cumplimiento total |
+| RF1 | sitio-publico/js/script.js | Sí | Node + Chrome | 29 tests; catálogo real capturado | Ocho actividades iniciales, no vacantes en vivo |
+| RF2 | sitio-publico/js/script.js | Sí | Filtros combinados y bordes | Node + sitio-filtros.png | React filtra disciplina según Parte D |
+| RF3 | PreinscripcionService.java; preinscripcion.html | Sí | 201 + SQL + bandeja | rf3-recepcion.json; Newman; Playwright | No crea socio ni consume cupo; migración 004 |
+| RF4 | ActividadService.java; SecretariaController.java | Sí | Unitarios/MVC/API | 136 backend; ABM Newman | FK conserva historial y solicitudes |
+| RF5 | SocioService.java; SocioRepository.java; socios.html | Sí | MVC y Chrome | Backend + secretaria-socios.png | Búsqueda y paginación implementadas |
+| RF6 | InscripcionService.java; Detalle.js | Sí | Sistema real | PS01–PS06 APROBADOS | RN1–RN5 compartidas entre MVC/REST |
+| RF7 | ConsultaSecretariaService.java; ApiConsultaService.java | Sí | API y sistema | Cupos previos/posteriores y capturas | Solo cuentan ACTIVAS |
+| RF8 | Ingreso.js; SocioContext.js; api.js | Sí | Playwright real | Ingreso de seis DNI ficticios | Identificación académica, no autenticación robusta |
+| RF9 | InscripcionService.java; MisActividades.js | Sí | Baja real desde React | HTTP 200, lista vacía y fila BAJA | Conserva historial |
+| RF10 | ResumenCuota.js; calcularCuotaMensual.js | Sí | Jest y Chrome | Subtotal 68000, total 57800 | Precios y descuentos comprobados |
+| RN1 | InscripcionService.java | Sí | Unitarios + sistema + Newman | casos-sistema-ejecutados.json | Cupo completo, 409 sin alta |
+| RN2 | InscripcionService.java | Sí | Unitarios + sistema + Newman | casos-sistema-ejecutados.json | Duplicado, 409 sin alta |
+| RN3 | InscripcionService.java | Sí | Unitarios + sistema + Newman | casos-sistema-ejecutados.json | Edad fuera de rango, 409 sin alta |
+| RN4 | InscripcionService.java | Sí | Unitarios + sistema + Newman | casos-sistema-ejecutados.json | MOROSO, 409 sin alta |
+| RN5 | InscripcionService.java | Sí | Unitarios + sistema + Newman | casos-sistema-ejecutados.json | Tres ACTIVAS, cuarta rechazada |
+| RN6 | calcularCuotaMensual.js; ResumenCuota.js | Sí | Jest + Chrome | react-cuota.png | 0–3 actividades, descuentos y centavos |
+| RN7 | script.js; esDniValido.js; PreinscripcionDtos.java | Sí | Node/Jest/Chrome/API | RN7 público y React; HTTP 400 | 7 u 8 dígitos sin puntos |
+| A: conceptos HTML/CSS/JS | sitio-publico/ | Sí | 29 tests y Playwright | Clase, DOM, eventos, location, alt y media queries | Tres páginas, CSS/JS externos, accesibilidad |
+| B: capas, entidades y repositorios | backend/src/main/ | Sí | 136 tests, 18 MySQL | Doce clases de pruebas completas | JPA, @Query, Pageable y fragmentos |
+| C: Anexo A, DTO, HTTP y CORS | ApiController.java; ApiDtos.java; WebConfig.java | Sí | MockMvc + Newman + OPTIONS real | Nueve contratos; 25 requests/34 aserciones | RF3 y baja de socio adicionales, no mínimos inventados |
+| D: React exigido | app-socios/src/ | Sí | 58 tests y build; Chrome real | Cuatro rutas, hooks, contexto, Axios, PropTypes | Sin RN8 ni panel admin React |
+| Datos y SQL | schema.sql; seed.sql; migrations/004_preinscripcion.sql | Sí | MySQL aislado | Seed nuevo, 21 socios, 2 MOROSOS, ocho actividades | 004 idempotente probada; originales intactos; 002/003 no ejecutados |
+| E: seis casos de sistema | Docs/pruebas-sistema.md | Sí | Seis aprobados | JSON + seis capturas | Canal UI salvo POST de RN1 con botón deshabilitado |
+| F: informe y capturas | Docs/entrega/ | Sí | PDF 12 páginas; revisión renderizada | Tres interfaces; 33 PNG; link dev y bitácora final | DOCX y Markdown reales |
+| F: bitácora IA | Docs/bitacora-ia.md; capítulo final | Sí | Hechos y autoría revisados | AH-1/AH-2/AH-3, 1064 y cierre real | No atribuir a humanos código de Codex |
+| Historial de cinco integrantes | Git log / shortlog | Parcial | Todos los refs revisados | Solo Hernán, Matias y Mateo con aportes | Usuario confirmó ausencia de aportes de Fernando/Joaquín y pidió continuar |
+| Acceso docente | GitHub /tree/dev | Sí | Consulta anónima API GitHub | Repositorio público | No se cambiaron permisos; main sin actualizar |
+| Paquete | herramientas/empaquetar.py | Se genera tras commit | ZIP/extracción/SHA | entrega-final/manifest-entrega.txt | Preserva entrega anterior y excluye secretos/generados |
 
-Las rutas `backend/...` abrevian `backend/src/main/java/ar/edu/siglo21/socioclub/`. Las pruebas de servicios usan dobles y MockMvc; no son pruebas del sistema persistido.
+Los nombres Java corresponden a backend/src/main/java/ar/edu/siglo21/socioclub/; las vistas a backend/src/main/resources/templates/secretaria/; los componentes React a app-socios/src/.
 
-Clasificación: **A** obligatorio bloqueante: RF3; **B** validación: E2E/Postman/MySQL y recorrido; **C** documentación/presentación: capturas, acceso docente y contribuciones faltantes; **D** opcional: RN8, administración React, despliegue y seguridad futura. No se trabaja en D.
+**A — Obligatorio bloqueante técnico:** ninguno en los recorridos ejecutados. **B — Validaciones:** completadas las automatizadas, Postman/Newman, seis casos, RF3 SQL y capturas. **C — Presentación:** PDF/DOCX/ZIP y salvedad académica de participación explícita; main requiere autorización expresa y la entrega apunta a dev. **D — Opcional:** RN8, panel administrativo React, despliegue y autenticación robusta no implementados ni agregados en este cierre.

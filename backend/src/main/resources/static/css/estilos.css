@@ -788,7 +788,7 @@ td form {
 
   .encabezado nav {
     width: 100%;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: space-between;
     gap: 0.15rem;
   }
@@ -906,7 +906,8 @@ td form {
 
   td {
     display: grid;
-    grid-template-columns: 7.5rem 1fr;
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    overflow-wrap: anywhere;
     gap: 0.1rem 0.75rem;
     padding: 0.55rem 1rem;
   }

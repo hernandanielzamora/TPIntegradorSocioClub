@@ -1,0 +1,17 @@
+{
+  "instancia": "MySQL 8.4 aislado, 127.0.0.1:3308",
+  "servicio_original": "MySQL84 no iniciado ni modificado",
+  "migracion": "004_preinscripcion.sql ejecutada dos veces sobre seed nuevo aislado",
+  "conteos_antes": {
+    "socio": 21,
+    "actividad": 8,
+    "inscripcion": 19
+  },
+  "conteos_despues": {
+    "socio": 21,
+    "actividad": 8,
+    "inscripcion": 19
+  },
+  "datos_conservados": true,
+  "base_tests": "socioclub_test NUEVA en instancia aislada, sin seed"
+}

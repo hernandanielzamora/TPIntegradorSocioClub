@@ -1,4 +1,4 @@
-> **Cierre posterior — Grupo 3:** ver [entrega candidata](entrega/README.md). Veredicto actual: NO LISTO POR UN REQUISITO BLOQUEANTE (RF3 sin recepción). Los estados y resultados siguientes corresponden a etapas anteriores.
+> **Cierre vigente RF3 — Grupo 3:** [entrega final](entrega/README.md), [preinscripciones persistentes](preinscripciones.md) y [resultados reales](entrega/verificaciones.json). 136 backend, 58 React, 29 sitio; seis casos E2E y Newman aprobados. Los estados pendientes del texto siguiente son historia de etapas anteriores. Salvedad de participación de dos integrantes confirmada y aceptada por el usuario.
 
 # Cierre de desarrollo obligatorio — Prompt 22
 

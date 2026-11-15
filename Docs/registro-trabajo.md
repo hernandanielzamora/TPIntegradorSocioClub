@@ -1,5 +1,9 @@
 # Registro de trabajo manual
 
+## Decisiones humanas del cierre RF3 — 2026-11-15
+
+El usuario pidió implementar persistencia de preinscripciones y su visualización en Secretaría, completar verificaciones y usar Playwright instalado. Eligió expresamente una instancia aislada para las pruebas. Consultado por el historial, respondió que Fernando y Joaquín no tienen aportes y pidió seguir como está. Se conserva esa salvedad sin fabricar commits. Estas son decisiones comunicadas; la programación, correcciones, SQL de la instancia nueva, pruebas y documentos fueron ejecutados por Codex. No consta revisión manual de fuentes por el grupo en esta interacción. No se recibió autorización expresa para actualizar main.
+
 ## Confirmación administrativa del cierre — Grupo 3
 
 El usuario confirmó que el grupo es el 3 y sus integrantes son Hernán Zamora, Matias Jure, Mateo Hernandez, Fernando Oliva y Joaquín Mazza. Solicitó no incluir fecha de entrega y mejorar el frontend. Estas son decisiones humanas comunicadas; implementación, pruebas, capturas y documentos de este cierre fueron ejecutados por Codex. No se atribuye revisión manual de fuentes ni commits a los cinco integrantes por esta confirmación. El cierre autorizado permite integrar cambios seguros a dev; main requiere autorización expresa que no se recibió. El manifiesto del paquete y el historial Git identifican los commits efectivos.

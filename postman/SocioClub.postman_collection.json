@@ -2,7 +2,7 @@
   "info": {
     "name": "SocioClub - API REST Anexo A",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": "Nueve endpoints; incluye filtros, ejemplos y casos inválidos. IDs son ejemplos: revisar variables y requisitos de escenarios. Las escrituras modifican datos del backend elegido. Casos RN deben ejecutarse individualmente con fixtures deliberadas; no se ha ejecutado esta colección. Mejora voluntaria: décima ruta de baja lógica de socios preparada en código, pendiente de migración autorizada. No ejecutar hasta revisar/aplicar la migración en la base elegida; socioBajaId debe ser un socio ficticio seleccionado deliberadamente. No existe reactivación."
+    "description": "SocioClub: nueve endpoints del Anexo A, baja lógica adicional de socio y recepción RF3. Ejecutar escrituras solo con escenarios y datos aprobados. El cierre registra ejecución real con Newman sobre MySQL aislado; los ejemplos response siguen siendo ilustrativos."
   },
   "variable": [
     {
@@ -1196,7 +1196,7 @@
       ]
     },
     {
-      "name": "Mejora voluntaria: baja socio (solo tras migración y con datos elegidos)",
+      "name": "Baja lógica de socio (escenario controlado)",
       "item": [
         {
           "name": "Dar de baja socio y ACTIVAS",
@@ -1416,6 +1416,138 @@
                 }
               ],
               "body": "{\n  \"error\": \"El socio está inactivo y no puede realizar nuevas inscripciones\",\n  \"regla\": null,\n  \"detalles\": [],\n  \"codigo\": \"SOCIO_INACTIVO\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Preinscripciones públicas RF3",
+      "item": [
+        {
+          "name": "Recibir preinscripción",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nombre\": \"Luz\", \"apellido\": \"Entrega\", \"dni\": \"87654322\", \"email\": \"luz@example.invalid\", \"actividadId\": {{actividadId}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/preinscripciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "preinscripciones"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Referencia persistida\", function () { pm.expect(pm.response.json().id).to.be.a(\"number\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Rechazar DNI inválido",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nombre\": \"Luz\", \"apellido\": \"Entrega\", \"dni\": \"87.654.322\", \"email\": \"luz@example.invalid\", \"actividadId\": {{actividadId}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/preinscripciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "preinscripciones"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Rechazar actividad inexistente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nombre\": \"Luz\", \"apellido\": \"Entrega\", \"dni\": \"87654322\", \"email\": \"luz@example.invalid\", \"actividadId\": 999999999}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/preinscripciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "preinscripciones"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });"
+                ]
+              }
             }
           ]
         }
