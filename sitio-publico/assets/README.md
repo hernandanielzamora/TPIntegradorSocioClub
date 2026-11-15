@@ -1,5 +1,5 @@
 # Recursos del sitio
 
-Carpeta reservada para imágenes y otros recursos del club, con procedencia y permisos confirmados. En la etapa inicial no se incorporaron imágenes; el cierre agrega la ilustración original explícita descrita abajo.
+`encuentro.svg` es una composición vectorial original creada con código por Codex para el rediseño de Los Algarrobos. Representa una cancha, pelotas y movimiento. No es una fotografía ni una evidencia de instalaciones reales. Tiene texto alternativo en la portada. No utiliza imágenes externas, tipografías descargadas ni recursos con licencia de terceros.
 
-Cierre Parte A: deporte.svg es una ilustración vectorial original de Codex (cancha y pelota), no una foto ni evidencia de instalaciones reales; aparece identificada como ilustración y con alt en index.html. No se usaron imágenes externas sin procedencia.
+`deporte.svg` es la ilustración original de la etapa anterior; se conserva como recurso histórico. Las capturas de `Docs/entrega/evidencias/` proceden de Chrome real y se identifican separadamente de estas ilustraciones.

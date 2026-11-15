@@ -1,5 +1,21 @@
 # Bitácora de uso de IA
 
+## Entrada de cierre — Prompt 24 — Grupo 3
+
+Solicitud real: leer el enunciado original, cerrar código e informe académico, crear ZIP verificable y mejorar el frontend. El usuario confirmó Grupo 3 e integrantes Hernán Zamora, Matias Jure, Mateo Hernandez, Fernando Oliva y Joaquín Mazza; pidió omitir fecha de entrega. No confirmó revisión humana de código en esta interacción.
+
+Codex leyó las 14 páginas del PDF y actualizó referencias remotas. Creó feature/entrega-final desde origin/dev (874c6bb), conservando main. Rediseñó las tres páginas públicas con CSS externo, portada vectorial original, tarjetas por disciplina y guía de formulario; preservó catálogo DOM, filtros, RN7 y el aviso de validación local. No agregó tecnologías de aplicación ni implementó RN8.
+
+Errores y ajustes automáticos reales: la primera selección backend ejecutó 111 casos con 105 errores por fallo de self-attach de Mockito en Java 25. Codex configuró el agente explícito en Surefire y repitió la misma selección: 111 aprobadas, cero fallos/errores/omisiones, sin MySQL. El primer test del CSS exigía una media query literal anterior: 24 aprobados y uno fallido; Codex ajustó la comprobación para verificar el breakpoint nuevo y la grilla de una columna, conservando las comprobaciones de foco y errores. Nueva corrida: 25 aprobados. React: 58 aprobados, build final directo exitoso. El intento previo de build no produjo un index utilizable, por lo que se repitió y solo se acredita el resultado final.
+
+Chrome real produjo diez PNG del sitio y del ingreso/error React, sin desbordes horizontales ni excepciones JS detectadas en las vistas revisadas. No se simuló API ni sesión para capturar Secretaría o cuota. Backend/MySQL no estaban activos al comprobar los puertos; las capturas faltantes, Postman runner y PS01–PS06 siguen pendientes. Los nueve contratos y los 22 requests Postman se cotejaron sin afirmar ejecución de runner.
+
+Se generaron PDF real de 10 páginas, DOCX y Markdown; diez páginas renderizadas y revisadas visualmente, con enlace clicable en portada, diagramas y bitácora como último capítulo. El ZIP y sus controles se registran solo tras generarse en entrega-final/manifest-entrega.txt. El esquema no se modificó: RF3 requiere recepción persistente y se documentó propuesta mínima con una migración pendiente de autorización. Se declara NO LISTO POR UN REQUISITO BLOQUEANTE. No se transforma la validación local en recepción ficticia.
+
+Esta entrada y los cambios fueron ejecutados por Codex. Las intervenciones humanas anteriores AH-1, AH-2, AH-3 y la alternativa SQL conservan su autoría y alcance operativo/diseño; no se convierten en ediciones manuales de código. El estado Git y los hashes efectivos se verifican al publicar; no se anticipa una publicación ni se modifica main.
+
+---
+
 > Cierre actualizado: el usuario confirmó la carga manual mediante SQL convencional y el ensayo correcto desde Secretaría en testing:8081. Los procedimientos/delimitadores fallidos se conservan al final como historial, NO como instrucciones vigentes. HTTP 409/codigo, idempotencia, conservación exacta, cupos finales y Postman siguen pendientes de evidencia específica. No repetir MySQL/verify que exige testing vacío: ahora contiene el fixture.
 > Actualización vigente — 2026-11-08: el usuario confirmó respaldos independientes mediante mysqldump, migración manual de socioclub_test, Maven verify con 128 aprobadas/0 fallos/0 errores/0 omitidas y migración posterior autorizada de socioclub mediante Workbench. Codex corroboró los diez XML, sin ejecutar Maven ni SQL. No hay evidencia de restauración de prueba. Auditoría detallada de datos de desarrollo, arranque/HTTP posteriores y recorrido manual de baja siguen pendientes. Procedimiento vigente: [validacion-manual-baja-socios.md](validacion-manual-baja-socios.md). No volver a ejecutar la migración para seguir ese procedimiento.
 

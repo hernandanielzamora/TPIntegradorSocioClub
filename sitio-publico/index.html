@@ -9,11 +9,12 @@
   <script src="js/script.js" defer></script>
 </head>
 <body>
+  <a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
   <header class="encabezado">
     <div class="contenedor encabezado-contenido">
       <a class="marca" href="index.html" aria-label="Club Social y Deportivo Los Algarrobos - Inicio">
-        <span class="marca-nombre">Club Social y Deportivo</span>
-        <span class="marca-destacado">Los Algarrobos</span>
+        <span class="marca-nombre">Club social y deportivo · Córdoba</span>
+        <span class="marca-destacado">Los Algarrobos<span class="marca-punto" aria-hidden="true">.</span></span>
       </a>
 
       <nav class="navegacion" aria-label="Navegación principal">
@@ -25,27 +26,16 @@
   </header>
 
   <main id="contenido">
-    <section class="portada">
-      <div class="contenedor portada-contenido">
-        <p class="etiqueta">Club Social y Deportivo Los Algarrobos</p>
-        <h1>Un lugar para compartir y disfrutar del deporte</h1>
-        <p class="portada-descripcion">
-          Te damos la bienvenida a nuestro espacio. Conocé las actividades
-          del club y encontrá la información necesaria para realizar tu
-          preinscripción.
-        </p>
-
-        <div class="portada-acciones">
-          <a class="boton boton-principal" href="actividades.html">
-            Ver actividades
-          </a>
-          <a class="boton boton-secundario" href="preinscripcion.html">
-            Ir a preinscripción
-          </a>
-        </div>
-      </div>
+    <section class="portada" aria-labelledby="titulo-inicio">
+      <div class="contenedor portada-grid"><div class="portada-contenido">
+        <p class="etiqueta">De tu barrio. De tu equipo. De vos.</p>
+        <h1 id="titulo-inicio">Tu próximo<br>gran momento<br><em>empieza acá.</em></h1>
+        <p class="portada-descripcion">Una cancha para encontrarnos. Un espacio para movernos.<br>Descubrí todo lo que podés hacer en Los Algarrobos.</p>
+        <div class="portada-acciones"><a class="boton boton-principal" href="actividades.html">Encontrá tu actividad ↗</a><a class="enlace-portada" href="#titulo-club">Conocé el club ↓</a></div>
+        <p class="portada-nota">● Deporte y comunidad en la zona norte de Córdoba</p>
+      </div><figure class="portada-visual"><img src="assets/encuentro.svg" width="600" height="620" alt="Composición ilustrada de una cancha, una pelota y formas en movimiento"><figcaption><span>HAY UN LUGAR PARA VOS</span><strong>Vení a ser parte.</strong><span>8 disciplinas · Todas las edades</span></figcaption><span class="sello-deporte" aria-hidden="true">JUGÁ.<br>COMPARTÍ.<br>DISFRUTÁ.</span></figure></div>
     </section>
-
+    <div class="franja-disciplinas" aria-label="Disciplinas del club"><div class="contenedor">Fútbol <span>✳</span> Vóley <span>✳</span> Básquet <span>✳</span> Natación <span>✳</span> Patín <span>✳</span> Ajedrez <span>✳</span> Funcional <span>✳</span> Yoga</div></div>
     <section class="seccion-club" aria-labelledby="titulo-club">
       <div class="contenedor">
         <div class="seccion-encabezado">
@@ -53,33 +43,20 @@
           <h2 id="titulo-club">Nuestro club</h2>
         </div>
 
-        <article class="tarjeta-club">
-          <h3>Club Social y Deportivo Los Algarrobos</h3>
-          <p>
-            Este sitio reúne información sobre las actividades deportivas
-            y las opciones de preinscripción disponibles para quienes
-            quieran acercarse al club.
-          </p>
-          <p>
-            Como presenta la consigna, la gestión de inscripciones comenzó en cuadernos y planillas. SocioClub reúne esa información para acompañar la actividad del club. Los datos de fundación y dirección exacta se
-            publicarán cuando se cuente con información
-            confirmada.
-          </p>
-          <figure><img class="ilustracion-club" src="assets/deporte.svg" width="640" height="280" alt="Ilustración de una cancha y una pelota como símbolos de las actividades deportivas"><figcaption>Ilustración del proyecto; no representa instalaciones reales.</figcaption></figure>
-        </article>
+        <article class="tarjeta-club"><div><p class="etiqueta">Mucho más que hacer deporte</p><h3>Un club de barrio.<br>Un montón de encuentros.</h3><p>Los Algarrobos reúne a chicos, jóvenes y adultos de la zona norte de Córdoba alrededor del deporte y la recreación.</p><p>En el caso que inspira SocioClub, las inscripciones comenzaron en cuadernos y planillas. Hoy reunimos las propuestas en un mismo lugar para que sea más fácil encontrar tu próxima actividad.</p><a class="enlace-texto" href="actividades.html">Conocé nuestras propuestas →</a></div><div class="club-cifras"><div><strong>08</strong><span>disciplinas para elegir</span></div><div><strong>01</strong><span>comunidad para compartir</span></div><p>Un proyecto académico inspirado en el Club Social y Deportivo Los Algarrobos.</p></div></article>
       </div>
     </section>
 
     <section class="seccion-accesos" aria-labelledby="titulo-accesos">
       <div class="contenedor">
         <div class="seccion-encabezado">
-          <p class="etiqueta">Encontrá lo que buscás</p>
-          <h2 id="titulo-accesos">Explorá el sitio</h2>
+          <p class="etiqueta">Sumate a la comunidad</p>
+          <h2 id="titulo-accesos">El primer paso es elegir.</h2>
         </div>
 
         <div class="accesos-grid">
           <article class="tarjeta-acceso">
-            <h3>Actividades</h3>
+            <span class="numero-acceso">01 / EXPLORÁ</span><h3>Hay una actividad para vos.</h3>
             <p>
               Consultá las actividades del club y conocé las propuestas
               disponibles.
@@ -89,7 +66,7 @@
         </article>
 
           <article class="tarjeta-acceso">
-            <h3>Preinscripción</h3>
+            <span class="numero-acceso">02 / ACERCATE</span><h3>Prepará tu próximo paso.</h3>
             <p>
               Accedé a la sección de preinscripción para conocer el
               procedimiento disponible.
@@ -106,8 +83,7 @@
         <div>
           <h2>Ubicación y atención</h2>
           <p>
-            El club del caso académico se ubica en la zona norte de Córdoba. Consultá en Secretaría por la dirección y la recepción de solicitudes; no se publica una dirección inventada. Las solicitudes no se guardan
-            desde este sitio público.
+            Zona norte de Córdoba. Consultá en Secretaría la dirección y los horarios de atención. El formulario público permite preparar tus datos; para confirmar tu solicitud, acercate al club.
           </p>
         </div>
       </div>

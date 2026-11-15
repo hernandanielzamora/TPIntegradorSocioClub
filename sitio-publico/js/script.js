@@ -70,7 +70,10 @@ function iniciarCatalogo() {
     if (!error && datos.length === 0) listado.append(crearElemento('p', 'No hay actividades para esa combinación de filtros.', 'estado-vacio'));
     for (const a of datos) {
       const tarjeta = crearElemento('article', undefined, 'tarjeta-actividad');
-      tarjeta.append(crearElemento('p', a.disciplina, 'etiqueta'), crearElemento('h3', a.nombre));
+      tarjeta.dataset.disciplina = a.id;
+      const visual = crearElemento('div', String(actividades.indexOf(a) + 1).padStart(2, '0'), 'actividad-visual');
+      visual.setAttribute('aria-hidden', 'true');
+      tarjeta.append(visual, crearElemento('p', a.disciplina, 'etiqueta'), crearElemento('h3', a.nombre));
       const detalles = crearElemento('dl');
       const campos = [['Días y horario', `${a.dias} · ${a.horario} h`], ['Edades', `${a.edadMinima} a ${a.edadMaxima} años`],
         ['Profesor/a', a.profesor], ['Cupo máximo', `${a.cupoMaximo} personas`], ['Cuota mensual', moneda.format(a.cuotaMensual)]];

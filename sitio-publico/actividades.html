@@ -9,11 +9,12 @@
   <script src="js/script.js" defer></script>
 </head>
 <body>
+  <a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
 <header class="encabezado">
     <div class="contenedor encabezado-contenido">
       <a class="marca" href="index.html" aria-label="Club Social y Deportivo Los Algarrobos - Inicio">
-        <span class="marca-nombre">Club Social y Deportivo</span>
-        <span class="marca-destacado">Los Algarrobos</span>
+        <span class="marca-nombre">Club social y deportivo · Córdoba</span>
+        <span class="marca-destacado">Los Algarrobos<span class="marca-punto" aria-hidden="true">.</span></span>
       </a>
 
       <nav class="navegacion" aria-label="Navegación principal">
@@ -27,8 +28,8 @@
     <section class="seccion-catalogo contenedor" aria-labelledby="titulo-catalogo">
       <div class="seccion-encabezado">
         <p class="etiqueta">Deporte y recreación</p>
-        <h1 id="titulo-catalogo">Actividades</h1>
-        <p>Buscá una propuesta para tu edad y disciplina. Edades mínimas y máximas inclusivas.</p>
+        <h1 id="titulo-catalogo">Encontrá lo que<br><em>te mueve.</em></h1>
+        <p>Ocho propuestas. Muchas formas de disfrutar. Elegí tu disciplina y encontrá las actividades para tu edad.</p>
       </div>
       <form class="filtros-catalogo" aria-label="Filtrar actividades">
         <div class="campo-formulario">
@@ -43,7 +44,7 @@
         </div>
         <button class="boton boton-secundario" type="button" id="limpiar-filtros">Limpiar filtros</button>
       </form>
-      <h2>Propuestas deportivas y recreativas</h2>
+      <h2 class="titulo-resultados">Tu próxima actividad está acá</h2>
       <p id="resultado-catalogo" role="status" aria-live="polite"></p>
       <div id="catalogo-actividades" class="catalogo-grid"></div>
       <noscript><p>Activá JavaScript para ver el catálogo y sus filtros.</p></noscript>

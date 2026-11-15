@@ -1,3 +1,5 @@
+> **Auditoría vigente de cierre:** [matriz completa](entrega/matriz-auditoria.md), [checklist](entrega/checklist-final.md) y [resultados nuevos](entrega/verificaciones.json). Las matrices siguientes conservan el historial de etapas; no deben interpretarse como el estado actual. RF3 continúa parcial y bloqueante.
+
 # Requerimientos y trazabilidad — SocioClub
 
 ## Matriz vigente de cierre — Prompt 22

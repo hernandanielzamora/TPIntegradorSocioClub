@@ -1,0 +1,106 @@
+{
+  "backend": {
+    "tests": 111,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "clases_backend": [
+    {
+      "clase": "ar.edu.siglo21.socioclub.controller.api.ApiControllerTests",
+      "tests": 34,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "clase": "ar.edu.siglo21.socioclub.controller.mvc.SecretariaControllerTests",
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "clase": "ar.edu.siglo21.socioclub.model.IntegridadModeloTests",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "clase": "ar.edu.siglo21.socioclub.service.ApiConsultaServiceTests",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "clase": "ar.edu.siglo21.socioclub.service.InscripcionServiceTests",
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "clase": "ar.edu.siglo21.socioclub.service.SecretariaServiceTests",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "clase": "ar.edu.siglo21.socioclub.service.SocioBajaServiceTests",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "clase": "ar.edu.siglo21.socioclub.SocioClubApplicationTests",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "react": {
+    "tests": 58,
+    "suites": 5,
+    "fallos": 0,
+    "fuente": "ejecución Jest real, .cache/final-react.txt"
+  },
+  "sitio": {
+    "tests": 25,
+    "fallos": 0,
+    "fuente": ".cache/final-sitio.txt"
+  },
+  "build_react": "Compilación real finalizada con salida 0; build/index.html comprobado",
+  "postman": {
+    "json_valido": true,
+    "requests": 22,
+    "contratos_obligatorios": 9,
+    "runner_ejecutado": false
+  },
+  "cors": "Origen permitido y ajeno comprobados por ApiControllerTests; no HTTP nuevo con MySQL",
+  "e2e": {
+    "PS01": "No ejecutado",
+    "PS02": "No ejecutado",
+    "PS03": "No ejecutado",
+    "PS04": "No ejecutado",
+    "PS05": "No ejecutado",
+    "PS06": "No ejecutado"
+  },
+  "navegador": {
+    "capturas": 10,
+    "desbordes": 0,
+    "excepciones_js": 0
+  },
+  "sql_ejecutado": false,
+  "limitaciones": [
+    "RF3 sin recepción",
+    "Capturas de Secretaría y React con API pendientes",
+    "Postman runner y E2E pendientes",
+    "Acceso del docente a GitHub por confirmar",
+    "main requiere autorización expresa"
+  ]
+}

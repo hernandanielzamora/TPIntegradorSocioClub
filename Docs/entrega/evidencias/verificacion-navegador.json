@@ -1,0 +1,96 @@
+{
+  "browser": "Chrome headless real, CDP",
+  "checks": [
+    {
+      "name": "sitio-inicio",
+      "url": "http://localhost:5500/index.html",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "title": "Inicio | Club Social y Deportivo Los Algarrobos",
+      "cards": 0
+    },
+    {
+      "name": "sitio-catalogo",
+      "url": "http://localhost:5500/actividades.html",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "title": "Actividades | Club Social y Deportivo Los Algarrobos",
+      "cards": 8
+    },
+    {
+      "name": "sitio-filtros",
+      "url": "http://localhost:5500/actividades.html",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "title": "Actividades | Club Social y Deportivo Los Algarrobos",
+      "cards": 1
+    },
+    {
+      "name": "sitio-formulario",
+      "url": "http://localhost:5500/preinscripcion.html",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "title": "Preinscripción | Club Social y Deportivo Los Algarrobos",
+      "cards": 0
+    },
+    {
+      "name": "sitio-error",
+      "url": "http://localhost:5500/preinscripcion.html",
+      "width": 1440,
+      "height": 1100,
+      "overflow": false,
+      "title": "Preinscripción | Club Social y Deportivo Los Algarrobos",
+      "cards": 0
+    },
+    {
+      "name": "sitio-movil",
+      "url": "http://localhost:5500/index.html",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "title": "Inicio | Club Social y Deportivo Los Algarrobos",
+      "cards": 0
+    },
+    {
+      "name": "catalogo-movil",
+      "url": "http://localhost:5500/actividades.html",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "title": "Actividades | Club Social y Deportivo Los Algarrobos",
+      "cards": 8
+    },
+    {
+      "name": "formulario-movil",
+      "url": "http://localhost:5500/preinscripcion.html",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "title": "Preinscripción | Club Social y Deportivo Los Algarrobos",
+      "cards": 0
+    },
+    {
+      "name": "react-ingreso",
+      "url": "http://localhost:3000/",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "title": "Mi Club | SocioClub",
+      "cards": 0
+    },
+    {
+      "name": "react-error-dni",
+      "url": "http://localhost:3000/",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "title": "Mi Club | SocioClub",
+      "cards": 0
+    }
+  ],
+  "errors": []
+}

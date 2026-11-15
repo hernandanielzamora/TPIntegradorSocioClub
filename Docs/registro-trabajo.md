@@ -1,5 +1,9 @@
 # Registro de trabajo manual
 
+## Confirmación administrativa del cierre — Grupo 3
+
+El usuario confirmó que el grupo es el 3 y sus integrantes son Hernán Zamora, Matias Jure, Mateo Hernandez, Fernando Oliva y Joaquín Mazza. Solicitó no incluir fecha de entrega y mejorar el frontend. Estas son decisiones humanas comunicadas; implementación, pruebas, capturas y documentos de este cierre fueron ejecutados por Codex. No se atribuye revisión manual de fuentes ni commits a los cinco integrantes por esta confirmación. El cierre autorizado permite integrar cambios seguros a dev; main requiere autorización expresa que no se recibió. El manifiesto del paquete y el historial Git identifican los commits efectivos.
+
 > Cierre actualizado: el usuario confirmó la carga manual mediante SQL convencional y el ensayo correcto desde Secretaría en testing:8081. Los procedimientos/delimitadores fallidos se conservan al final como historial, NO como instrucciones vigentes. HTTP 409/codigo, idempotencia, conservación exacta, cupos finales y Postman siguen pendientes de evidencia específica. No repetir MySQL/verify que exige testing vacío: ahora contiene el fixture.
 > Actualización vigente — 2026-11-08: el usuario confirmó respaldos independientes mediante mysqldump, migración manual de socioclub_test, Maven verify con 128 aprobadas/0 fallos/0 errores/0 omitidas y migración posterior autorizada de socioclub mediante Workbench. Codex corroboró los diez XML, sin ejecutar Maven ni SQL. No hay evidencia de restauración de prueba. Auditoría detallada de datos de desarrollo, arranque/HTTP posteriores y recorrido manual de baja siguen pendientes. Procedimiento vigente: [validacion-manual-baja-socios.md](validacion-manual-baja-socios.md). No volver a ejecutar la migración para seguir ese procedimiento.
 

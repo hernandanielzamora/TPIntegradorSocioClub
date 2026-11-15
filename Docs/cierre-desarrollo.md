@@ -1,3 +1,5 @@
+> **Cierre posterior — Grupo 3:** ver [entrega candidata](entrega/README.md). Veredicto actual: NO LISTO POR UN REQUISITO BLOQUEANTE (RF3 sin recepción). Los estados y resultados siguientes corresponden a etapas anteriores.
+
 # Cierre de desarrollo obligatorio — Prompt 22
 
 Veredicto técnico: **LISTO CON VALIDACIONES MANUALES PENDIENTES**. No se exige FE-ADMIN-01/RN8: son mejoras futuras NO IMPLEMENTADAS, con SQL conservado en database/propuestas. No hay despliegue ni seguridad administrativa robusta. Estado de integración y hashes efectivos se registran al finalizar en registro-trabajo.md; no inferirlos de esta descripción.

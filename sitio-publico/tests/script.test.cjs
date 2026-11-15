@@ -116,5 +116,7 @@ test('errores se limpian al corregir o reiniciar sin insertar HTML del usuario',
 });
 test('CSS tiene cobertura responsiva y selectores exigidos; revisión visual sigue pendiente',()=>{
   const css=fs.readFileSync(path.join(raiz,'css/estilos.css'),'utf8');
-  for(const fragmento of ['@media (max-width: 40rem)','#resultado-catalogo','[aria-invalid="true"]','grid-template-columns: 1fr','focus-visible']) assert.ok(css.includes(fragmento));
+  for(const fragmento of ['@media','#resultado-catalogo','[aria-invalid="true"]','focus-visible']) assert.ok(css.includes(fragmento));
+  assert.match(css, /@media\s*\(max-width:\s*(?:700px|40rem)\)/);
+  assert.match(css, /\.catalogo-grid\s*\{\s*grid-template-columns:\s*1fr\s*;?\s*\}/);
 });

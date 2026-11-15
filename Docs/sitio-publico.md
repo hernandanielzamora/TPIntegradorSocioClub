@@ -1,3 +1,5 @@
+> **Cierre posterior — Grupo 3:** ver [entrega candidata](entrega/README.md). Veredicto actual: NO LISTO POR UN REQUISITO BLOQUEANTE (RF3 sin recepción). Los estados y resultados siguientes corresponden a etapas anteriores.
+
 # Sitio público — cierre de la Parte A
 
 Se conservaron la portada, marca, paleta, navegación y formulario existentes. Se completó actividades.html y script.js, se ampliaron estilos y se agregó una ilustración SVG original identificada como tal (no foto de instalaciones). Referencia: enunciado original, Parte A/página 6 y ocho actividades de sección 3.3/página 4. Los datos institucionales se limitan al caso: club barrial de zona norte de Córdoba y gestión anterior en cuadernos/planillas; no se inventan fecha de fundación o domicilio.

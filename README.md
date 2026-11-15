@@ -6,20 +6,27 @@ Sistema destinado al Club Social y Deportivo Los Algarrobos, Córdoba.
 
 ## Estado actual del proyecto
 
-**Cierre obligatorio: LISTO CON VALIDACIONES MANUALES PENDIENTES.** Sitio público con tres páginas, catálogo DOM/filtros y formulario validado localmente; backend MVC/REST/JPA/MySQL y React con Axios real. RN1–RN7 implementadas. Se conserva la baja lógica adicional de socios. FE-ADMIN-01/RN8 están NO IMPLEMENTADAS y postergadas en [mejoras futuras](Docs/mejoras-futuras.md), sin migraciones ejecutadas.
+**Candidato de entrega — NO LISTO POR UN REQUISITO BLOQUEANTE.** RF3 valida datos pero no recibe ni almacena preinscripciones; se necesita resolver la recepción persistente o una aclaración docente verificable. Ver [propuesta mínima](Docs/entrega/rf3-decision-pendiente.md).
 
-Esta ejecución: **111 pruebas backend sin MySQL, 58 React y 25 sitio aprobadas**, sin fallos/omisiones; React build exitoso. HTTP real de solo lectura y CORS comprobados. Los 128 tests autenticados históricos del usuario no se repitieron: socioclub_test contiene fixtures manuales y no debe limpiarse ni recibir suites de vacío. No confundir los mocks de pruebas con el consumo real de la app.
+**Grupo 3:** Hernán Zamora, Matias Jure, Mateo Hernandez, Fernando Oliva y Joaquín Mazza. Datos confirmados por el usuario; se omite la fecha de entrega por su indicación.
 
-Ver [cierre y límites](Docs/cierre-desarrollo.md), [trazabilidad](Docs/requerimientos.md), [casos de sistema](Docs/pruebas-sistema.md), [Parte A](Docs/sitio-publico.md) y [material para informe/defensa](Docs/preparacion-informe-defensa.md). Pendientes: recorridos visuales/escrituras autorizadas, seis casos E2E, capturas reales e informe. RF3 valida en navegador pero NO envía ni guarda una preinscripción en MySQL; confirmar ese alcance docente si se exige recepción remota adicional.
+El sitio público tiene un nuevo diseño responsivo en sus tres páginas, con ilustración original, catálogo dinámico, filtros y formulario accesible. Secretaría y React conservan la arquitectura MVC/REST/JPA/MySQL y Axios. No se implementaron RN8 ni un panel administrativo React.
 
-Uso académico LOCAL: sin autenticación administrativa/autorización robusta ni CSRF. No exponer públicamente. No hubo despliegue. Los hashes/merges reales están en [registro de trabajo](Docs/registro-trabajo.md) y Git; main permanece fuera de alcance.
+Nuevas ejecuciones del cierre: **111 pruebas backend sin MySQL, 58 React y 25 del sitio aprobadas**, build React exitoso; diez capturas auténticas de Chrome sin desbordes ni excepciones JS detectadas en las vistas inspeccionadas. Postman: 22 requests y nueve contratos revisados, runner NO ejecutado. PS01–PS06 E2E NO ejecutados. No se ejecutó SQL ni se alteraron bases. Los 128 backend históricos no se presentan como una ejecución nueva.
+
+Archivos reales: [PDF de 10 páginas](Docs/entrega/TPI_SocioClub_Grupo3.pdf), [DOCX editable](Docs/entrega/informe-tecnico-final.docx), [checklist](Docs/entrega/checklist-final.md), [matriz](Docs/entrega/matriz-auditoria.md) y [resultados](Docs/entrega/verificaciones.json). La [guía del paquete](Docs/entrega/README.md) explica su regeneración y los pasos futuros para main. ZIP y manifest se generan en entrega-final/, excluida de Git.
+
+Pendientes: RF3, runner Postman, seis casos E2E, capturas de Secretaría y React con API, acceso del docente y acreditación de contribuciones de los cinco integrantes. Git contiene tres autores identificados; no se atribuyen commits de los dos restantes. main permanece sin actualizar y requiere autorización expresa.
+
+Uso académico LOCAL: identificación por DNI sin autenticación robusta, sin autorización administrativa ni CSRF. No hubo despliegue. Los documentos anteriores conservan antecedentes; la auditoría vigente de este cierre está en Docs/entrega/.
+
 ## Propósito
 
 SocioClub es un proyecto académico que busca desarrollar un sistema para gestionar las actividades y los socios de un club deportivo.
 
 El trabajo integrador contempla un sitio público, un backend con Spring Boot, una aplicación para socios con React, una API REST, persistencia MySQL y documentación técnica.
 
-La implementación se realizará por etapas, siguiendo los requisitos funcionales y las reglas de negocio del enunciado.
+La implementación integra las etapas de la materia; el cierre vigente distingue funcionalidad implementada y evidencia pendiente.
 
 ## Estructura del proyecto
 
@@ -150,7 +157,7 @@ La base de testing contiene el fixture manual: NO ejecutar verify/MySQL tests qu
 .\mvnw.cmd -B '-Dtest=ApiControllerTests,ApiConsultaServiceTests,SecretariaControllerTests,SecretariaServiceTests,SocioBajaServiceTests,InscripcionServiceTests,IntegridadModeloTests,SocioClubApplicationTests' test
 ```
 
-Son 111 casos sin MySQL. Los 128/0/0/0 históricos corresponden a la ejecución autenticada del usuario antes del fixture; no se reemplazan por esta selección.
+Son 111 casos sin MySQL. Surefire carga Mockito como agente explícito en Java 25; no depende del autoacoplamiento al proceso Java. Los 128/0/0/0 históricos corresponden a la ejecución autenticada del usuario antes del fixture; no se reemplazan por esta selección.
 
 ### 3. Aplicación React
 

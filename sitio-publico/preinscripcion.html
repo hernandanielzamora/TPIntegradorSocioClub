@@ -9,11 +9,12 @@
   <script src="js/script.js" defer></script>
 </head>
 <body>
+  <a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
   <header class="encabezado">
     <div class="contenedor encabezado-contenido">
       <a class="marca" href="index.html" aria-label="Club Social y Deportivo Los Algarrobos - Inicio">
-        <span class="marca-nombre">Club Social y Deportivo</span>
-        <span class="marca-destacado">Los Algarrobos</span>
+        <span class="marca-nombre">Club social y deportivo · Córdoba</span>
+        <span class="marca-destacado">Los Algarrobos<span class="marca-punto" aria-hidden="true">.</span></span>
       </a>
 
       <nav class="navegacion" aria-label="Navegación principal">
@@ -29,14 +30,14 @@
       <div class="contenedor">
         <div class="seccion-encabezado">
           <p class="etiqueta">Club Social y Deportivo Los Algarrobos</p>
-          <h1 id="titulo-preinscripcion">Preinscripción</h1>
+          <h1 id="titulo-preinscripcion">Dá el primer paso.<br><em>Sumate al club.</em></h1>
           <p class="descripcion-preinscripcion">
             Completá tus datos para preparar tu solicitud de preinscripción
             a una actividad del club.
           </p>
         </div>
 
-        <div class="formulario-tarjeta">
+        <div class="preinscripcion-grid"><aside class="pasos-formulario" aria-label="Cómo preinscribirte"><p class="etiqueta">Tu preinscripción</p><h2>Nos vemos<br>en el club.</h2><ol><li><strong>Elegí tu actividad</strong><span>Encontrá una propuesta para vos en nuestro catálogo.</span></li><li><strong>Prepará tus datos</strong><span>Completá el formulario y revisá que estén correctos.</span></li><li><strong>Confirmá en Secretaría</strong><span>La solicitud se recibe en el club. Este formulario solo valida tus datos.</span></li></ol><a href="actividades.html">Volver a las actividades →</a></aside><div class="formulario-tarjeta">
           <form class="formulario-preinscripcion" method="post" novalidate>
             <p class="aviso-formulario">
               Este formulario valida tus datos en el navegador, pero no envía una solicitud al club.
@@ -116,7 +117,7 @@
             <p id="resultado-preinscripcion" role="status" aria-live="polite" tabindex="-1"></p>
             <noscript><p>Activá JavaScript para validar. No se enviarán tus datos.</p></noscript>
           </form>
-        </div>
+        </div></div>
       </div>
     </section>
   </main>

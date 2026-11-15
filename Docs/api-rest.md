@@ -1,3 +1,5 @@
+> **Cierre posterior — Grupo 3:** ver [entrega candidata](entrega/README.md). Veredicto actual: NO LISTO POR UN REQUISITO BLOQUEANTE (RF3 sin recepción). Los estados y resultados siguientes corresponden a etapas anteriores.
+
 # API REST — SocioClub — 2026-11-08
 
 > Cierre actualizado: el usuario confirmó la carga manual mediante SQL convencional y el ensayo correcto desde Secretaría en testing:8081. Los procedimientos/delimitadores fallidos se conservan al final como historial, NO como instrucciones vigentes. HTTP 409/codigo, idempotencia, conservación exacta, cupos finales y Postman siguen pendientes de evidencia específica. No repetir MySQL/verify que exige testing vacío: ahora contiene el fixture.

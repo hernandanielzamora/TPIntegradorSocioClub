@@ -1,3 +1,5 @@
+> **Cierre posterior — Grupo 3:** ver [entrega candidata](entrega/README.md). Veredicto actual: NO LISTO POR UN REQUISITO BLOQUEANTE (RF3 sin recepción). Los estados y resultados siguientes corresponden a etapas anteriores.
+
 # Documento maestro — SocioClub
 
 > Estado vigente de cierre: ver [cierre-desarrollo.md](cierre-desarrollo.md) y la sección Prompt 22 al final. Los anuncios de etapas/propuestas anteriores son antecedentes. Se prioriza consigna; FE-ADMIN-01/RN8 NO implementadas y postergadas.
